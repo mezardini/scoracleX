@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Scoracle - Fixture Details</title>
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
+
+    <link href="https://github.com/mezardini/scoracle_fullstack/blob/master/scoracle.svg" rel="icon" />
+    <link rel="stylesheet" href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/scoracle/2.css" />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="2.css">
+
+    <style>
+        .scoreline-list {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .scoreline-badge {
+            background-color: #f8f9fa;
+            color: #212529;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #dee2e6;
+            font-family: inherit;
+        }
+
+        .codeCopy.text-dark pre {
+            white-space: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <!--Header Section-->
+    <section class="bg-gradient pt-5 pb-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex flex-row align-items-center justify-content-between">
+                    <div class="heading-brand">Scoracle</div>
+                    <a href="{% url 'home' %}" class="btn btn-dark">Back</a>
+                </div>
+            </div>
+
+            <div class="row mt-5" style="margin-top: 5%">
+                <div class="col-md-9 mx-auto">
+                    <div class="code-window">
+                        <div class="text-center codeCopy text-dark px-4 py-5"
+                            style="font-family: 'Source Sans Pro', sans-serif;">
+                            <h4 class="font-weight-bold mb-1">{{ fixture.home_team }} {{ fixture.home_team_score }} vs
+                                {{ fixture.away_team }} {{ fixture.away_team_score }}</h4>
+                            <p class="text-muted mb-4">{{ fixture.league|title }}</p>
+
+                            <div class="row mb-4">
+                                <div class="col-md-6 mb-3 mb-md-0">
+                                    <div class="p-4 border rounded bg-light">
+                                        <div class="font-weight-bold text-dark" style="font-size: 2rem;">
+                                            {{fixture.over_2_goals_probability }}%</div>
+                                        <div class="text-dark text-uppercase font-weight-bold mt-2"
+                                            style="font-size: 1.1rem;">Over 1.5 Goals Probability</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="p-4 border rounded bg-light">
+                                        <div class="font-weight-bold text-dark" style="font-size: 2rem;">
+                                            {{fixture.over_3_goals_probability }}%</div>
+                                        <div class="text-dark text-uppercase font-weight-bold mt-2"
+                                            style="font-size: 1.1rem;">Over 2.5 Goals Probability</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <h5 class="mt-4 mb-2 font-weight-bold">Top Predicted Scorelines</h5>
+                            <p class="text-muted small mb-3">Predicted Home vs Away goals</p>
+
+                            <ul class="scoreline-list">
+                                {% for scoreline in scorelines %}
+                                <li class="scoreline-badge">{{ scoreline.0 }} - {{ scoreline.1 }}</li>
+                                {% empty %}
+                                <li class="text-muted">{{fixture.predicted_scorelines}}.</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!--footer-->
+    <footer class="py-5 bg-light">
+        <div class="container">
+            <div class="row my-2">
+                <div class="col-md-4 mx-auto text-muted text-center small-xl">
+                    &copy; 2026 Scoracle - All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Scoracle - AI Powered Football Predictor</title>
+    <meta name="description" content="Scoracle - AI Powered Football Predictor. Get accurate football predictions and match analysis for various leagues. 
+      Enhance your betting decisions with our intelligent predictions based on statistical analysis." />
+
+    <!--Google font-->
+    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
+
+    <link href="https://github.com/mezardini/scoracle_fullstack/blob/master/scoracle.svg" rel="icon" />
+    <!-- Bootstrap CSS / Color Scheme -->
+    <link rel="stylesheet"
+        href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/scoracle/2.css" />
+    <link rel="stylesheet" href="css/fontawesome.css" />
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="2.css">
+
+</head>
+
+<body>
+    <!--Header Section-->
+    <section class="bg-gradient pt-5 pb-6">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 d-flex flex-row align-items-center justify-content-between">
+                    <div class="heading-brand">Scoracle</div>
+
+                    <a href="" class="btn btn-dark">Try It</a>
+                </div>
+            </div>
+
+            <div class="row mt-5" style="margin-top: 5%">
+                <div class="col-md-9 mx-auto">
+                    <div class="code-window">
+                        <!-- <div class="text-center">
+                            <h6>
+                                Predictions
+                                <button onclick="copyCode()" class="btn btn-success">
+                                    <i class="far fa-copy"></i>
+                                </button>
+                            </h6>
+                        </div> -->
+                        <pre class="text-center codeCopy">
+                    <ul class="list-group" style="margin: 0;">
+                        {% for fixture in fixtures %}
+                        <a href="{% url 'fixture_details' fixture.fixture_id %}" class="list-group-item list-group-item-action text-dark text-left">
+                          <div class="row align-items-center">
+                            <div class="col-12 col-sm-8 font-weight-bold mb-1 mb-sm-0">{{ fixture.home_team }} {{ fixture.home_team_score }} vs {{ fixture.away_team }} {{ fixture.away_team_score }}</div>
+                            <div class="col-12 col-sm-4 text-sm-right text-muted">{{ fixture.league }}</div>
+                          </div>
+                        </a>
+                        {% endfor %}
+                    </ul>
+                  </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </section>
+
+
+    <!--footer-->
+    <footer class="py-5 bg-light">
+        <div class="container">
+            <div class="row my-2">
+                <div class="col-md-4 mx-auto text-muted text-center small-xl">
+                    &copy; 2026 Scoracle - All Rights Reserved
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
+
+    <script>
+        function copyCode() {
+            var code = document.querySelector(".codeCopy");
+            var range = document.createRange();
+            range.selectNode(code);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+    <script>
+        // Retrieve the result data from localStorage
+        const resultData = JSON.parse(localStorage.getItem('resultData'));
+        if (resultData && resultData.length > 0) {
+            const listBody = document.getElementById('resultData');
+            listBody.innerHTML = ''; // clear out placeholder data
+            resultData.forEach(prediction => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center text-dark text-left';
+
+                const over25 = prediction['over_2.5_prob'] || prediction.over_2_5_prob || prediction.over25 || '';
+                const over15 = prediction['over_1.5_prob'] || prediction.over_1_5_prob || prediction.over15 || '';
+
+                li.innerHTML = `${prediction.prediction} ` +
+                    `<div>` +
+                    (over15 ? `<span class="badge badge-info badge-pill mr-1">O 1.5: ${over15}</span>` : '') +
+                    (over25 ? `<span class="badge badge-success badge-pill">O 2.5: ${over25}</span>` : '') +
+                    `</div>`;
+
+                listBody.appendChild(li);
+            });
+        } else {
+            document.getElementById('resultData').innerHTML = '<li class="list-group-item text-center text-dark">No predictions available</li>';
+        }
+    </script>
+
+</body>
+
+</html>
