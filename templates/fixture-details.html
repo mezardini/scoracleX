@@ -96,7 +96,7 @@
                                 {% for scoreline in scorelines %}
                                 <li class="scoreline-badge">{{ scoreline.0 }} - {{ scoreline.1 }}</li>
                                 {% empty %}
-                                <li class="text-muted">{{fixture.predicted_scorelines}}.</li>
+                                <li class="font-weight-bold">{{fixture.predicted_scorelines}}.</li>
                                 {% endfor %}
                             </ul>
                         </div>
