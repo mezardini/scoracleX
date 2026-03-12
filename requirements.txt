@@ -1,6 +1,7 @@
 boto3==1.26.59
 django-storages==1.13.2
 gunicorn
+setuptools>=40.0
 asgiref==3.5.0
 certifi==2022.5.18.1
 charset-normalizer==2.0.12
