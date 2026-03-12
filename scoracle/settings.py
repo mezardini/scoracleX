@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+
 from pathlib import Path
 import os
 import environ
@@ -89,16 +90,24 @@ WSGI_APPLICATION = "scoracle.wsgi.application"
 #     }
 # }
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('NAME'),
         'PASSWORD': env('PASSWORD'),
         'HOST': env('HOST'),
-        'PORT': 5432,
+        'PORT': 6543,
         'USER': env('USER'),
+        'OPTIONS': {
+            'sslmode': 'require',
+            'connect_timeout': 10,
+            'options': '-c statement_timeout=30000',  # 30 seconds
+        },
+        'CONN_MAX_AGE': 600,
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
