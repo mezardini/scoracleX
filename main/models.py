@@ -77,3 +77,8 @@ class Fixture(models.Model):
 
     def __str__(self):
         return f"{self.home_team} {self.home_team_score} vs {self.away_team_score} {self.away_team} on {self.date.strftime('%Y-%m-%d %H:%M')}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['home_team', 'away_team', 'league']),
+        ]
