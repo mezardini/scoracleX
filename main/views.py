@@ -413,7 +413,7 @@ class AllLeaguesPrediction(View):
         errors = []
 
         # Run all leagues in parallel (10 threads)
-        with ThreadPoolExecutor(max_workers=10) as executor:
+        with ThreadPoolExecutor(max_workers=30) as executor:
             future_to_league = {
                 executor.submit(get_league_prediction, request, league): league
                 for league in self.leagues
