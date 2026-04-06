@@ -2,127 +2,532 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Scoracle - AI Powered Football Predictor</title>
-    <meta name="description" content="Scoracle - AI Powered Football Predictor. Get accurate football predictions and match analysis for various leagues. 
-      Enhance your betting decisions with our intelligent predictions based on statistical analysis." />
-
-    <!--Google font-->
+    <meta name="description" content="Scoracle - AI Powered Football Predictor." />
+    
     <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
-
-    <link href="https://github.com/mezardini/scoracle_fullstack/blob/master/scoracle.svg" rel="icon" />
-    <!-- Bootstrap CSS / Color Scheme -->
-    <link rel="stylesheet"
-        href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/scoracle/2.css" />
+    <link rel="stylesheet" href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/scoracle/2.css" />
     <link rel="stylesheet" href="css/fontawesome.css" />
     <link rel="stylesheet" href="css/fontawesome.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="2.css">
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+
+    <style>
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .search-wrapper {
+            flex: 1;
+            min-width: 180px;
+            position: relative;
+        }
+
+        .search-wrapper .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.55);
+            font-size: 13px;
+            pointer-events: none;
+        }
+
+        .search-wrapper input[type="text"] {
+            width: 100%;
+            padding: 8px 12px 8px 34px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            border-radius: 6px;
+            font-family: 'K2D', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: background 0.2s, border-color 0.2s;
+            height: 38px;
+        }
+
+        .search-wrapper input[type="text"]::placeholder {
+            color: rgba(14, 1, 1, 0.5);
+        }
+
+        .search-wrapper input[type="text"]:focus {
+            background: rgba(255, 255, 255, 0.18);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .date-pill-group {
+            display: flex;
+            align-items: stretch;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            flex-shrink: 0;
+            height: 38px;
+        }
+
+        .date-pill {
+            padding: 0 14px;
+            font-family: 'K2D', sans-serif;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            border: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            background: transparent;
+            white-space: nowrap;
+            transition: background 0.15s, color 0.15s;
+            user-select: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .date-pill:last-child {
+            border-right: none;
+        }
+
+        .date-pill:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+        }
+
+        .date-pill.active {
+            background: rgba(255, 255, 255, 0.22);
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .date-pill.cal-btn {
+            padding: 0 12px;
+            font-size: 16px;
+        }
+
+        #calendarInput {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none; /* Prevents it from blocking other clicks */
+        }
+
+        .date-pill.cal-btn {
+            position: relative;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #no-results {
+            display: none;
+            color: rgba(255, 255, 255, 0.65);
+            text-align: center;
+            padding: 1rem 0;
+            font-family: 'K2D', sans-serif;
+            font-size: 14px;
+        }
+        .date-pill.cal-btn.active {
+            background: #212529; /* Dark background when a date is picked */
+            color: #fff !important;
+        }
+
+        /* Make the calendar text look clean */
+        .date-pill.cal-btn span {
+            font-family: 'K2D', sans-serif;
+            font-weight: 600;
+        }
+    </style>
+    <style>
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            align-items: center;
+            background: #ffffff;
+            /* Pure white background */
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            /* Adds depth */
+        }
+    
+        .search-wrapper {
+            flex: 1;
+            min-width: 220px;
+            position: relative;
+        }
+    
+        .search-wrapper .search-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+            /* Darker icon for white BG */
+            font-size: 14px;
+            pointer-events: none;
+        }
+    
+        .search-wrapper input[type="text"] {
+            width: 100%;
+            padding: 10px 12px 10px 40px;
+            background: #f8f9fa;
+            /* Light grey input */
+            border: 2px solid #e9ecef;
+            color: #212529;
+            /* Dark text */
+            border-radius: 8px;
+            font-family: 'K2D', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s ease;
+            height: 42px;
+        }
+    
+        .search-wrapper input[type="text"]:focus {
+            background: #fff;
+            border-color: #007bff;
+            /* Highlight color on focus */
+            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
+        }
+    
+        .date-pill-group {
+            display: flex;
+            align-items: stretch;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            overflow: hidden;
+            height: 42px;
+        }
+    
+        .date-pill {
+            padding: 0 16px;
+            font-family: 'K2D', sans-serif;
+            font-size: 14px;
+            color: #495057;
+            /* High contrast text */
+            cursor: pointer;
+            border: none;
+            border-right: 2px solid #e9ecef;
+            background: transparent;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+    
+        .date-pill:last-child {
+            border-right: none;
+        }
+    
+        .date-pill:hover {
+            background: #e9ecef;
+            color: #000;
+        }
+    
+        .date-pill.active {
+            background: #212529;
+            /* Dark active state for pop */
+            color: #ffffff !important;
+            font-weight: 600;
+        }
+    
+        .date-pill.cal-btn {
+            padding: 0 15px;
+            font-size: 18px;
+            filter: grayscale(1);
+            /* Keeps the emoji looking professional */
+        }
+    
+        #no-results {
+            display: none;
+            color: #495057;
+            text-align: center;
+            padding: 2rem 0;
+            font-family: 'K2D', sans-serif;
+            background: #fff;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 
 <body>
-    <!--Header Section-->
     <section class="bg-gradient pt-5 pb-6">
         <div class="container">
             <div class="row">
                 <div class="col-12 d-flex flex-row align-items-center justify-content-between">
                     <div class="heading-brand">Scoracle</div>
-
                     <a href="" class="btn btn-dark">Try It</a>
                 </div>
             </div>
 
             <div class="row mt-5" style="margin-top: 5%">
                 <div class="col-md-9 mx-auto">
-                    <div class="code-window">
-                        <!-- <div class="text-center">
-                            <h6>
-                                Predictions
-                                <button onclick="copyCode()" class="btn btn-success">
-                                    <i class="far fa-copy"></i>
-                                </button>
-                            </h6>
-                        </div> -->
-                        <pre class="text-center codeCopy">
-                    <ul class="list-group" style="margin: 0;">
-                        {% for fixture in fixtures %}
-                        <a href="{% url 'fixture_details' fixture.fixture_id %}" class="list-group-item list-group-item-action text-dark text-left">
-                          <div class="row align-items-center">
-                            <div class="col-12 col-sm-8 font-weight-bold mb-1 mb-sm-0">{{ fixture.home_team }} {{ fixture.home_team_score }} vs {{ fixture.away_team }} {{ fixture.away_team_score }}</div>
-                            <div class="col-12 col-sm-4 text-sm-right text-muted">{{ fixture.league }}</div>
-                          </div>
-                        </a>
-                        {% endfor %}
-                    </ul>
-                  </pre>
+
+                    <div class="filter-bar">
+                        <div class="search-wrapper">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="searchInput" placeholder="Search teams or league..."
+                                autocomplete="off" />
+                        </div>
+                        <div class="date-pill-group" id="datePillGroup"></div>
+                        <input type="date" id="calendarInput" />
                     </div>
+
+                    <div class="code-window">
+                        <ul class="list-group" style="margin: 0;" id="fixtureList">
+                            {% for fixture in fixtures %}
+                            <a href="{% url 'fixture_details' fixture.fixture_id %}"
+                                class="list-group-item list-group-item-action text-dark text-left fixture-item"
+                                data-date="{{ fixture.date|date:'Y-m-d' }}"
+                                data-search="{{ fixture.home_team }} {{ fixture.away_team }} {{ fixture.league }}">
+                        
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-sm-8 font-weight-bold mb-1 mb-sm-0">
+                                        {{ fixture.home_team }} {{ fixture.home_team_score }} vs {{ fixture.away_team }} {{ fixture.away_team_score }}
+                                        
+                                    </div>
+                                    <div class="col-12 col-sm-4 text-sm-right text-muted">{{ fixture.league }}</div>
+                                </div>
+                            </a>
+                            {% endfor %}
+                        </ul>
+                        <div id="no-results">No fixtures match your filters.</div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-
     </section>
 
-
-    <!--footer-->
     <footer class="py-5 bg-light">
         <div class="container">
-            <div class="row my-2">
-                <div class="col-md-4 mx-auto text-muted text-center small-xl">
-                    &copy; 2026 Scoracle - All Rights Reserved
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="mb-3">
+                        <a href="#" class="text-muted mx-2" data-toggle="modal" data-target="#termsModal">Terms of Use</a>
+                        <a href="#" class="text-muted mx-2" data-toggle="modal" data-target="#privacyModal">Privacy
+                            Policy</a>
+                        <a href="#" class="text-muted mx-2" data-toggle="modal"
+                            data-target="#disclaimerModal">Disclaimer</a>
+                    </div>
+                    <p class="text-muted small-xl">&copy; 2026 Scoracle - All Rights Reserved</p>
+                    <p class="text-danger" style="font-size: 11px; font-weight: bold;">
+                        18+ | Please Gamble Responsibly
+                    </p>
                 </div>
             </div>
         </div>
     </footer>
+    
+    {% include 'modals/legals.html' %}
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.7.3/feather.min.js"></script>
 
     <script>
-        function copyCode() {
-            var code = document.querySelector(".codeCopy");
-            var range = document.createRange();
-            range.selectNode(code);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
+        // ── Date helpers ──────────────────────────────────────────
+        function toYMD(d) {
+            const y = d.getFullYear();
+            const m = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return y + '-' + m + '-' + day;
         }
-    </script>
-    <script>
-        // Retrieve the result data from localStorage
-        const resultData = JSON.parse(localStorage.getItem('resultData'));
-        if (resultData && resultData.length > 0) {
-            const listBody = document.getElementById('resultData');
-            listBody.innerHTML = ''; // clear out placeholder data
-            resultData.forEach(prediction => {
-                const li = document.createElement('li');
-                li.className = 'list-group-item d-flex justify-content-between align-items-center text-dark text-left';
 
-                const over25 = prediction['over_2.5_prob'] || prediction.over_2_5_prob || prediction.over25 || '';
-                const over15 = prediction['over_1.5_prob'] || prediction.over_1_5_prob || prediction.over15 || '';
+        function labelForDate(ymd) {
+            const now = new Date();
+            const today = toYMD(now);
+            const yesterday = toYMD(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+            if (ymd === today) return 'Today';
+            if (ymd === yesterday) return 'Yesterday';
+            const d = new Date(ymd + 'T00:00:00');
+            return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+        }
 
-                li.innerHTML = `${prediction.prediction} ` +
-                    `<div>` +
-                    (over15 ? `<span class="badge badge-info badge-pill mr-1">O 1.5: ${over15}</span>` : '') +
-                    (over25 ? `<span class="badge badge-success badge-pill">O 2.5: ${over25}</span>` : '') +
-                    `</div>`;
+        // ── State ─────────────────────────────────────────────────
+        const todayYMD = toYMD(new Date());
+        let activeDate = todayYMD;
+        let searchQuery = '';
 
-                listBody.appendChild(li);
+        // ── Elements ──────────────────────────────────────────────
+        const pillGroup = document.getElementById('datePillGroup');
+        const calInput = document.getElementById('calendarInput');
+        const searchInput = document.getElementById('searchInput');
+        const pillEls = {};
+
+        // 1. Set max date to today so future dates are disabled
+        calInput.max = todayYMD;
+
+        // 2. Build 3-day pill dates: [2 days ago, yesterday, today]
+        const pillDates = [];
+        for (let i = 2; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            pillDates.push(toYMD(d));
+        }
+
+        pillDates.forEach(function (ymd) {
+            const btn = document.createElement('button');
+            btn.className = 'date-pill' + (ymd === activeDate ? ' active' : '');
+            btn.textContent = labelForDate(ymd);
+            btn.dataset.date = ymd;
+            btn.addEventListener('click', function () { setActiveDate(ymd, false); });
+            pillGroup.appendChild(btn);
+            pillEls[ymd] = btn;
+        });
+
+        // 3. Setup Calendar Button
+        const calBtn = document.createElement('button');
+        calBtn.className = 'date-pill cal-btn';
+        calBtn.title = 'Pick an earlier date';
+        calBtn.innerHTML = '&#128197;';
+
+        calBtn.addEventListener('click', function () {
+            // Modern browsers support showPicker()
+            if ('showPicker' in calInput) {
+                calInput.showPicker();
+            } else {
+                calInput.click();
+            }
+        });
+        pillGroup.appendChild(calBtn);
+
+        // 4. Handle Calendar Selection
+        calInput.addEventListener('change', function () {
+            if (this.value) {
+                setActiveDate(this.value, true);
+            }
+        });
+
+        // ── Set active date & Fetch ───────────────────────────────
+        function setActiveDate(ymd, fromCal) {
+            activeDate = ymd;
+
+            // Reset UI Highlights
+            document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
+            calBtn.innerHTML = '&#128197;';
+
+            if (fromCal) {
+                calBtn.classList.add('active');
+                const shortDate = new Date(ymd).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                calBtn.innerHTML = `&#128197; <span style="font-size:12px; margin-left:4px; font-weight:bold;">${shortDate}</span>`;
+            } else if (pillEls[ymd]) {
+                pillEls[ymd].classList.add('active');
+            }
+
+            // AJAX Fetch from your refactored Django View
+            fetch(`/api/fixtures/?date=${ymd}`)
+                .then(response => response.json())
+                .then(data => {
+                    const listGroup = document.getElementById('fixtureList');
+                    listGroup.innerHTML = '';
+
+                    if (data.length === 0) {
+                        document.getElementById('no-results').style.display = 'block';
+                        return;
+                    }
+
+                    document.getElementById('no-results').style.display = 'none';
+
+                    data.forEach(fixture => {
+                        const item = `
+                            <a href="/fixture/${fixture.fixture_id}/" 
+                               class="list-group-item list-group-item-action text-dark text-left fixture-item"
+                               data-search="${fixture.home_team} ${fixture.away_team} ${fixture.league}">
+                                <div class="row align-items-center">
+                                    <div class="col-12 col-sm-8 font-weight-bold">
+                                        ${fixture.home_team} ${fixture.home_team_score ?? ''} vs 
+                                        ${fixture.away_team} ${fixture.away_team_score ?? ''}
+                                    </div>
+                                    <div class="col-12 col-sm-4 text-sm-right text-muted" style="text-transform: uppercase; font-size: 0.8rem;">
+                                        ${fixture.league}
+                                    </div>
+                                </div>
+                            </a>`;
+                        listGroup.innerHTML += item;
+                    });
+
+                    applyFilters();
+                })
+                .catch(err => console.error('Error fetching fixtures:', err));
+        }
+
+        // ── Search & Filter ───────────────────────────────────────
+        searchInput.addEventListener('input', function () {
+            applyFilters();
+        });
+
+        function applyFilters() {
+            const query = searchInput.value.toLowerCase().trim();
+            const items = document.querySelectorAll('.fixture-item');
+            let visible = 0;
+
+            items.forEach(function (item) {
+                const itemSearch = (item.getAttribute('data-search') || '').toLowerCase();
+                if (!query || itemSearch.includes(query)) {
+                    item.style.display = '';
+                    visible++;
+                } else {
+                    item.style.display = 'none';
+                }
             });
-        } else {
-            document.getElementById('resultData').innerHTML = '<li class="list-group-item text-center text-dark">No predictions available</li>';
+
+            document.getElementById('no-results').style.display = (visible === 0) ? 'block' : 'none';
         }
+
+        // Initialize the view
+        applyFilters();
+    </script>
+
+    <script>
+        var resultData = JSON.parse(localStorage.getItem('resultData'));
+        if (resultData && resultData.length > 0) {
+            var listBody = document.getElementById('resultData');
+            if (listBody) {
+                listBody.innerHTML = '';
+                resultData.forEach(function (prediction) {
+                    var li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center text-dark text-left';
+                    var over25 = prediction['over_2.5_prob'] || prediction.over_2_5_prob || prediction.over25 || '';
+                    var over15 = prediction['over_1.5_prob'] || prediction.over_1_5_prob || prediction.over15 || '';
+                    li.innerHTML = prediction.prediction + ' <div>' +
+                        (over15 ? '<span class="badge badge-info badge-pill mr-1">O 1.5: ' + over15 + '</span>' : '') +
+                        (over25 ? '<span class="badge badge-success badge-pill">O 2.5: ' + over25 + '</span>' : '') +
+                        '</div>';
+                    listBody.appendChild(li);
+                });
+            }
+        } else {
+            var lb = document.getElementById('resultData');
+            if (lb) lb.innerHTML = '<li class="list-group-item text-center text-dark">No predictions available</li>';
+        }
+
+        // Ensure this is at the bottom of your first <script> tag
+            document.addEventListener('DOMContentLoaded', function () {
+                applyFilters();
+            });
     </script>
 
 </body>

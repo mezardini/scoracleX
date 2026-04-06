@@ -1,3 +1,4 @@
+from django.db.models import Case, When, Value, IntegerField
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import numpy as np
 from functools import lru_cache
@@ -22,11 +23,46 @@ from .utils import fetch_data, calculate_poisson_probs, predict_match_result, ge
 # Create your views here.
 
 
+from django.db.models import Case, When, Value, IntegerField
+
+
+def get_sorted_fixtures(date_value):
+    """
+    Helper to filter and rank fixtures by UEFA coefficient/Priority
+    """
+    priority_map = Case(
+        When(league__iexact='england', then=Value(1)),
+        When(league__iexact='spain', then=Value(2)),
+        When(league__iexact='germany', then=Value(3)),
+        When(league__iexact='italy', then=Value(4)),
+        When(league__iexact='france', then=Value(5)),
+        default=Value(100),
+        output_field=IntegerField(),
+    )
+
+    return Fixture.objects.filter(date__date=date_value).annotate(
+        priority=priority_map
+    ).order_by('priority', 'league', 'home_team')
+
+# --- Updated Home View ---
+
+
 def home(request):
     today = timezone.now().date()
-    fixtures = Fixture.objects.filter(date__date=today)
+    fixtures = get_sorted_fixtures(today)  # Uses the helper
     return render(request, 'home_view.html', {'fixtures': fixtures})
 
+# --- Updated API View ---
+
+
+def get_fixtures_by_date(request):
+    selected_date = request.GET.get('date')
+    if selected_date:
+        fixtures = get_sorted_fixtures(selected_date).values(
+            'fixture_id', 'home_team', 'away_team', 'home_team_score', 'away_team_score', 'league'
+        )
+        return JsonResponse(list(fixtures), safe=False)
+    return JsonResponse({'error': 'No date'}, status=400)
 
 def fixture_details(request, fixture_id):
     fixture = get_object_or_404(Fixture, fixture_id=fixture_id)
