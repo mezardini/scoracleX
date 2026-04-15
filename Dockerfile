@@ -29,9 +29,6 @@ ENV PATH=/root/.local/bin:$PATH
 # Copy the rest of your application code
 COPY . .
 
-# 1. Collect static files
-# Note: Ensure all required env vars for Django are available or handled in settings
-RUN python manage.py collectstatic --noinput
 
 # 2. Create the user
 RUN useradd -m appuser
