@@ -491,6 +491,17 @@ class AllLeaguesPrediction(View):
                             {'league': league, 'fixture': prediction.get('Fixture'), 'error': str(e)})
 
                 all_predictions.extend(predictions)
+                try:
+                    response = requests.post(
+                        'https://api.usepalmer.com/prediction/add/',
+                        json={'prediction': json.dumps(all_predictions)},
+                        timeout=10
+                    )
+                    response.raise_for_status()
+
+
+                except requests.exceptions.RequestException as e:
+                    errors.append({'error': f'Failed to send to prediction API: {str(e)}'})
 
         return JsonResponse({
             'summary': {
