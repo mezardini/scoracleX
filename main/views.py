@@ -64,6 +64,7 @@ def get_fixtures_by_date(request):
         return JsonResponse(list(fixtures), safe=False)
     return JsonResponse({'error': 'No date'}, status=400)
 
+
 def fixture_details(request, fixture_id):
     fixture = get_object_or_404(Fixture, fixture_id=fixture_id)
 
@@ -449,13 +450,13 @@ class AllLeaguesPrediction(View):
         errors = []
 
         # Run all leagues in parallel (10 threads)
-        with ThreadPoolExecutor(max_workers=30) as executor:
+        with ThreadPoolExecutor(max_workers=10) as executor:
             future_to_league = {
                 executor.submit(get_league_prediction, request, league): league
                 for league in self.leagues
             }
 
-            for future in as_completed(future_to_league):
+            for future in as_completed(future_to_league, timeout=120):
                 league = future_to_league[future]
                 try:
                     predictions = future.result()
