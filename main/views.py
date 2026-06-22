@@ -18,10 +18,10 @@ from scipy.stats import poisson
 import math
 import json
 import ast
-from .utils import fetch_data, calculate_poisson_probs, predict_match_result, get_top_probable_scorelines
+from .utils import fetch_data, calculate_poisson_probs, predict_match_result, get_top_probable_scorelines, analyze_fixture
 
 # Create your views here.
-
+from itertools import groupby
 
 from django.db.models import Case, When, Value, IntegerField
 
@@ -47,10 +47,60 @@ def get_sorted_fixtures(date_value):
 # --- Updated Home View ---
 
 
+LEAGUE_DISPLAY_NAMES = {
+    'spain':          'Spain • La Liga',
+    'spain2':         'Spain • Segunda División',
+    'england':        'England • Premier League',
+    'england2':       'England • Championship',
+    'france':         'France • Ligue 1',
+    'france2':        'France • Ligue 2',
+    'germany':        'Germany • Bundesliga',
+    'germany2':       'Germany • 2. Bundesliga',
+    'italy':          'Italy • Serie A',
+    'italy2':         'Italy • Serie B',
+    'portugal':       'Portugal • Primeira Liga',
+    'netherlands':    'Netherlands • Eredivisie',
+    'netherlands2':   'Netherlands • Eerste Divisie',
+    'belgium':        'Belgium • First Division A',
+    'turkey':         'Turkey • Süper Lig',
+    'greece':         'Greece • Super League',
+    'scotland':       'Scotland • Premiership',
+    'russia':         'Russia • Premier League',
+    'ukraine':        'Ukraine • Premier League',
+    'czechrepublic':  'Czech Republic • First League',
+    'austria':        'Austria • Bundesliga',
+    'switzerland':    'Switzerland • Super League',
+    'croatia':        'Croatia • Prva HNL',
+    'denmark':        'Denmark • Superliga',
+    'poland':         'Poland • Ekstraklasa',
+    'norway':         'Norway • Eliteserien',
+    'norway2':        'Norway • First Division',
+    'sweden':         'Sweden • Allsvenskan',
+    'sweden2':        'Sweden • Division 2',
+    'iceland':        'Iceland • Úrvalsdeild',
+    'armenia':        'Armenia • Premier League',
+    'belarus':        'Belarus • Premier League',
+    'brazil':         'Brazil • Série A',
+    'bulgaria':       'Bulgaria • First League',
+    'cyprus':         'Cyprus • First Division',
+    'finland':        'Finland • Veikkausliiga',
+}
+
+
 def home(request):
     today = timezone.now().date()
-    fixtures = get_sorted_fixtures(today)  # Uses the helper
-    return render(request, 'home_view.html', {'fixtures': fixtures})
+    fixtures = get_sorted_fixtures(today)
+
+    # Group fixtures by league, preserving sort order
+    grouped = []
+    for league_key, group in groupby(fixtures, key=lambda f: f.league):
+        grouped.append({
+            'league_key':  league_key,
+            'league_name': LEAGUE_DISPLAY_NAMES.get(league_key, league_key.replace('_', ' ').title()),
+            'fixtures':    list(group),
+        })
+
+    return render(request, 'home_view.html', {'grouped_fixtures': grouped})
 
 # --- Updated API View ---
 
@@ -68,20 +118,18 @@ def get_fixtures_by_date(request):
 def fixture_details(request, fixture_id):
     fixture = get_object_or_404(Fixture, fixture_id=fixture_id)
 
-    scorelines = []
+    print("RAW:", repr(fixture.predicted_scorelines))
+
     try:
-        # Some predicted scorelines may be stored as string representations of lists or tuples
-        parsed = json.loads(fixture.predicted_scorelines)
-        if isinstance(parsed, str):
-            scorelines = ast.literal_eval(parsed)
-        else:
-            scorelines = parsed
-    except Exception:
-        pass
+        scorelines = ast.literal_eval(fixture.predicted_scorelines)
+        print("PARSED:", scorelines)
+    except (ValueError, SyntaxError) as e:
+        print("PARSE ERROR:", e)
+        scorelines = []
 
     return render(request, 'fixture-details.html', {
         'fixture': fixture,
-        'scorelines': scorelines
+        'scorelines': scorelines,
     })
 
 
@@ -234,6 +282,9 @@ class LeaguePredictionX(View):
                 probable_scorelines = get_top_probable_scorelines(
                     lambda_home, lambda_away, n=5)
 
+                # 2. Call the new function to get overall win/draw percentages
+                match_odds = analyze_fixture(lambda_home, lambda_away)
+
                 prediction_data = {
                     'fixture': f"{first_item} vs {second_item}",
                     'predicted_score': f"{most_likely_outcome[0]} - {most_likely_outcome[1]}",
@@ -245,7 +296,10 @@ class LeaguePredictionX(View):
                     'over_1_5_probability': round(twomatch_goals_probability, 2),
                     'league': league,
                     'top_scorelines': probable_scorelines,
-                    'most_likely_probability': round(most_likely_prob_percent, 2)
+                    'most_likely_probability': round(most_likely_prob_percent, 2),
+                    'home_win_probability': match_odds['home_win'],
+                    'away_win_probability': match_odds['away_win'],
+                    'draw_probability': match_odds['draw']
                 }
                 predictions_list.append(prediction_data)
 
@@ -413,8 +467,10 @@ def get_league_prediction(request, league):
             probs = [score_probs[0][i] * score_probs[1][j]
                      for i, j in outcomes]
             most_likely_outcome = outcomes[probs.index(max(probs))]
+            most_likely_prob_percent = max(probs) * 100
             probable_scorelines = get_top_probable_scorelines(
                 Home_goal, Away_goal, n=5)
+            match_odds = analyze_fixture(Home_goal, Away_goal, n=5)
 
             predictions_list.append({
                 'Fixture': f"{first_item} {most_likely_outcome[0]} vs {second_item} {most_likely_outcome[1]}",
@@ -426,6 +482,10 @@ def get_league_prediction(request, league):
                 'Over 1.5 Goals Probability': f"{twomatch_goals_probability:.2f}%",
                 'League': league,
                 'Top Scorelines': str(probable_scorelines),
+                # 'most_likely_probability': round(most_likely_prob_percent, 2),
+                'home_win_probability': match_odds['probabilities']['home_win'],
+                'away_win_probability': match_odds['probabilities']['away_win'],
+                'draw_probability': match_odds['probabilities']['draw']
             })
 
         return predictions_list
@@ -442,7 +502,7 @@ class AllLeaguesPrediction(View):
         'netherlands2', 'russia', 'belgium', 'turkey', 'ukraine',
         'czechrepublic', 'austria', 'switzerland', 'greece', 'scotland', 'croatia',
         'denmark', 'poland', 'spain2', 'england2', 'italy2', 'france2', 'armenia',
-        'belarus', 'brazil', 'bulgaria', 'cyprus', 'finland']
+        'belarus', 'brazil', 'bulgaria', 'cyprus', 'finland', 'ireland']
 
     def get(self, request):
         all_predictions = []
@@ -456,7 +516,7 @@ class AllLeaguesPrediction(View):
                 for league in self.leagues
             }
 
-            for future in as_completed(future_to_league, timeout=120):
+            for future in as_completed(future_to_league):
                 league = future_to_league[future]
                 try:
                     predictions = future.result()
@@ -483,6 +543,9 @@ class AllLeaguesPrediction(View):
                                 'predicted_scorelines': prediction['Top Scorelines'],
                                 'over_3_goals_probability': float(prediction['Over 2.5 Goals Probability'].strip('%')),
                                 'over_2_goals_probability': float(prediction['Over 1.5 Goals Probability'].strip('%')),
+                                'home_win_probability': prediction.get('home_win_probability'),
+                                'away_win_probability': prediction.get('away_win_probability'),
+                                'draw_probability': prediction.get('draw_probability'),
                             }
                         )
                         total_created += 1 if created else 0
@@ -491,17 +554,16 @@ class AllLeaguesPrediction(View):
                             {'league': league, 'fixture': prediction.get('Fixture'), 'error': str(e)})
 
                 all_predictions.extend(predictions)
-                try:
-                    response = requests.post(
-                        'https://api.usepalmer.com/prediction/add/',
-                        json={'prediction': json.dumps(all_predictions)},
-                        timeout=10
-                    )
-                    response.raise_for_status()
+                # try:
+                #     response = requests.post(
+                #         'https://api.usepalmer.com/prediction/add/',
+                #         json={'prediction': json.dumps(all_predictions)},
+                #         timeout=10
+                #     )
+                #     response.raise_for_status()
 
-
-                except requests.exceptions.RequestException as e:
-                    errors.append({'error': f'Failed to send to prediction API: {str(e)}'})
+                # except requests.exceptions.RequestException as e:
+                #     errors.append({'error': f'Failed to send to prediction API: {str(e)}'})
 
         return JsonResponse({
             'summary': {

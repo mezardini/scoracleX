@@ -6,96 +6,156 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Scoracle - AI Powered Football Predictor</title>
     <meta name="description" content="Scoracle - AI Powered Football Predictor." />
-    
-    <link href="https://fonts.googleapis.com/css?family=K2D:300,400,500,700,800" rel="stylesheet" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous" />
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet" />
-    <link rel="stylesheet" href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/scoracle/2.css" />
-    <link rel="stylesheet" href="css/fontawesome.css" />
-    <link rel="stylesheet" href="css/fontawesome.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
-    <link rel="stylesheet" href="2.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
 
     <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #e8f4fb;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ── Nav ── */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 2rem;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .brand-icon {
+            width: 32px;
+            height: 32px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .btn-try {
+            background: #1a1a1a;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        .btn-try:hover {
+            opacity: 0.85;
+        }
+
+        /* ── Main ── */
+        main {
+            flex: 1;
+            padding: 1.5rem 1rem 3rem;
+        }
+
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        /* ── Filter bar ── */
         .filter-bar {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             align-items: center;
         }
 
         .search-wrapper {
             flex: 1;
-            min-width: 180px;
+            min-width: 200px;
             position: relative;
         }
 
-        .search-wrapper .search-icon {
+        .search-icon {
             position: absolute;
             left: 12px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.55);
-            font-size: 13px;
+            color: #999;
             pointer-events: none;
         }
 
         .search-wrapper input[type="text"] {
             width: 100%;
-            padding: 8px 12px 8px 34px;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #fff;
-            border-radius: 6px;
-            font-family: 'K2D', sans-serif;
+            padding: 9px 12px 9px 36px;
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            color: #1a1a1a;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
             font-size: 14px;
             outline: none;
-            transition: background 0.2s, border-color 0.2s;
             height: 38px;
         }
 
         .search-wrapper input[type="text"]::placeholder {
-            color: rgba(14, 1, 1, 0.5);
+            color: #aaa;
         }
 
         .search-wrapper input[type="text"]:focus {
-            background: rgba(255, 255, 255, 0.18);
-            border-color: rgba(255, 255, 255, 0.5);
+            border-color: rgba(0, 0, 0, 0.3);
         }
 
+        /* ── Date pills ── */
         .date-pill-group {
             display: flex;
             align-items: stretch;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 6px;
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
             overflow: hidden;
-            flex-shrink: 0;
             height: 38px;
+            flex-shrink: 0;
         }
 
         .date-pill {
             padding: 0 14px;
-            font-family: 'K2D', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
-            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            color: #555;
             cursor: pointer;
             border: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            border-right: 0.5px solid rgba(0, 0, 0, 0.1);
             background: transparent;
             white-space: nowrap;
             transition: background 0.15s, color 0.15s;
-            user-select: none;
             display: flex;
             align-items: center;
         }
@@ -105,429 +165,609 @@
         }
 
         .date-pill:hover {
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
+            background: #f5f5f5;
+            color: #1a1a1a;
         }
 
         .date-pill.active {
-            background: rgba(255, 255, 255, 0.22);
+            background: #1a1a1a;
             color: #fff;
-            font-weight: 600;
         }
 
         .date-pill.cal-btn {
             padding: 0 12px;
-            font-size: 16px;
+            font-size: 15px;
+            position: relative;
+            overflow: hidden;
         }
 
         #calendarInput {
             position: absolute;
             opacity: 0;
-            width: 0;
-            height: 0;
-            pointer-events: none; /* Prevents it from blocking other clicks */
-        }
-
-        .date-pill.cal-btn {
-            position: relative;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        #no-results {
-            display: none;
-            color: rgba(255, 255, 255, 0.65);
-            text-align: center;
-            padding: 1rem 0;
-            font-family: 'K2D', sans-serif;
-            font-size: 14px;
-        }
-        .date-pill.cal-btn.active {
-            background: #212529; /* Dark background when a date is picked */
-            color: #fff !important;
-        }
-
-        /* Make the calendar text look clean */
-        .date-pill.cal-btn span {
-            font-family: 'K2D', sans-serif;
-            font-weight: 600;
-        }
-    </style>
-    <style>
-        .filter-bar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 1.5rem;
-            align-items: center;
-            background: #ffffff;
-            /* Pure white background */
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            /* Adds depth */
-        }
-    
-        .search-wrapper {
-            flex: 1;
-            min-width: 220px;
-            position: relative;
-        }
-    
-        .search-wrapper .search-icon {
-            position: absolute;
-            left: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6c757d;
-            /* Darker icon for white BG */
-            font-size: 14px;
-            pointer-events: none;
-        }
-    
-        .search-wrapper input[type="text"] {
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 10px 12px 10px 40px;
-            background: #f8f9fa;
-            /* Light grey input */
-            border: 2px solid #e9ecef;
-            color: #212529;
-            /* Dark text */
-            border-radius: 8px;
-            font-family: 'K2D', sans-serif;
-            font-size: 15px;
-            outline: none;
-            transition: all 0.2s ease;
-            height: 42px;
-        }
-    
-        .search-wrapper input[type="text"]:focus {
-            background: #fff;
-            border-color: #007bff;
-            /* Highlight color on focus */
-            box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.1);
-        }
-    
-        .date-pill-group {
-            display: flex;
-            align-items: stretch;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            overflow: hidden;
-            height: 42px;
-        }
-    
-        .date-pill {
-            padding: 0 16px;
-            font-family: 'K2D', sans-serif;
-            font-size: 14px;
-            color: #495057;
-            /* High contrast text */
+            height: 100%;
             cursor: pointer;
-            border: none;
-            border-right: 2px solid #e9ecef;
-            background: transparent;
-            white-space: nowrap;
-            transition: all 0.2s;
+            z-index: 2;
+        }
+
+        /* ── League group ── */
+        .league-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .league-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .league-header {
             display: flex;
             align-items: center;
-            font-weight: 500;
+            gap: 8px;
+            margin-bottom: 6px;
+            padding: 0 2px;
         }
-    
-        .date-pill:last-child {
-            border-right: none;
+
+        .league-name {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: #555;
         }
-    
-        .date-pill:hover {
-            background: #e9ecef;
-            color: #000;
+
+        .league-count {
+            font-size: 11px;
+            color: #aaa;
         }
-    
-        .date-pill.active {
-            background: #212529;
-            /* Dark active state for pop */
-            color: #ffffff !important;
+
+        .league-divider {
+            flex: 1;
+            height: 0.5px;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        /* ── Fixture card ── */
+        .fixture-card {
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .fixture-item {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr auto;
+            align-items: center;
+            padding: 13px 20px;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.07);
+            color: #1a1a1a;
+            transition: background 0.12s;
+        }
+
+        .fixture-item:last-child {
+            border-bottom: none;
+        }
+
+        .fixture-item:hover {
+            background: #fafafa;
+        }
+
+        .fixture-home {
+            font-size: 14px;
+        }
+
+        .fixture-home.winner,
+        .fixture-away.winner {
             font-weight: 600;
         }
-    
-        .date-pill.cal-btn {
-            padding: 0 15px;
-            font-size: 18px;
-            filter: grayscale(1);
-            /* Keeps the emoji looking professional */
+
+        .fixture-score {
+            font-size: 17px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 0 22px;
         }
-    
+
+        .fixture-away {
+            font-size: 14px;
+        }
+
+        .fixture-status {
+            font-size: 11px;
+            color: #aaa;
+            padding-left: 14px;
+            min-width: 28px;
+            text-align: right;
+        }
+
+        /* ── No results ── */
         #no-results {
             display: none;
-            color: #495057;
+            color: #888;
             text-align: center;
-            padding: 2rem 0;
-            font-family: 'K2D', sans-serif;
+            padding: 2.5rem 1rem;
+            font-size: 14px;
+            background: #fff;
+            border-radius: 12px;
+        }
+
+        /* ── Modal fix (overrides any BS4 stylesheet conflict) ── */
+        .modal {
+            display: none !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            z-index: 1055 !important;
+            overflow-x: hidden !important;
+            overflow-y: auto !important;
+        }
+
+        .modal.show {
+            display: block !important;
+        }
+
+        .modal-dialog {
+            position: relative;
+            margin: 1.75rem auto;
+            max-width: 500px;
+        }
+
+        .modal-dialog.modal-lg {
+            max-width: 800px;
+        }
+
+        .modal-content {
+            position: relative;
             background: #fff;
             border-radius: 8px;
-            margin-top: 10px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
+        }
+
+        .modal-backdrop {
+            display: none !important;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1050;
+        }
+
+        .modal-backdrop.show {
+            display: block !important;
+        }
+
+        /* ── Modal interior styling ── */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.25rem;
+            border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-header.bg-warning {
+            background: #ffc107 !important;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin: 0;
+            color: #1a1a1a;
+        }
+
+        .btn-close {
+            appearance: none;
+            background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E") center/12px no-repeat;
+            border: none;
+            width: 24px;
+            height: 24px;
+            opacity: 0.5;
+            cursor: pointer;
+            padding: 0;
+            flex-shrink: 0;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 1.25rem;
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .modal-body h6 {
+            font-size: 13px;
+            font-weight: 600;
+            margin: 1rem 0 0.25rem;
+            color: #1a1a1a;
+        }
+
+        .modal-body h6:first-child {
+            margin-top: 0;
+        }
+
+        .modal-body p {
+            margin: 0 0 0.5rem;
+        }
+
+        .modal-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0.75rem 1.25rem;
+            border-top: 0.5px solid rgba(0, 0, 0, 0.1);
+            gap: 8px;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: #f5f5f5;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-links {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: #888;
+            margin: 0 10px;
+        }
+
+        .footer-links a:hover {
+            color: #1a1a1a;
+        }
+
+        .footer-copy {
+            font-size: 12px;
+            color: #aaa;
+            margin-bottom: 4px;
+        }
+
+        .footer-gamble {
+            font-size: 11px;
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 540px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .date-pill-group {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .fixture-item {
+                grid-template-columns: 1fr auto 1fr;
+            }
+
+            .fixture-status {
+                display: none;
+            }
         }
     </style>
 </head>
 
 <body>
-    <section class="bg-gradient pt-5 pb-6">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 d-flex flex-row align-items-center justify-content-between">
-                    <div class="heading-brand">Scoracle</div>
-                    <a href="" class="btn btn-dark">Try It</a>
-                </div>
-            </div>
 
-            <div class="row mt-5" style="margin-top: 5%">
-                <div class="col-md-9 mx-auto">
-
-                    <div class="filter-bar">
-                        <div class="search-wrapper">
-                            <i class="fas fa-search search-icon"></i>
-                            <input type="text" id="searchInput" placeholder="Search teams or league..."
-                                autocomplete="off" />
-                        </div>
-                        <div class="date-pill-group" id="datePillGroup"></div>
-                        <input type="date" id="calendarInput" />
-                    </div>
-
-                    <div class="code-window">
-                        <ul class="list-group" style="margin: 0;" id="fixtureList">
-                            {% for fixture in fixtures %}
-                            <a href="{% url 'fixture_details' fixture.fixture_id %}"
-                                class="list-group-item list-group-item-action text-dark text-left fixture-item"
-                                data-date="{{ fixture.date|date:'Y-m-d' }}"
-                                data-search="{{ fixture.home_team }} {{ fixture.away_team }} {{ fixture.league }}">
-                        
-                                <div class="row align-items-center">
-                                    <div class="col-12 col-sm-8 font-weight-bold mb-1 mb-sm-0">
-                                        {{ fixture.home_team }} {{ fixture.home_team_score }} vs {{ fixture.away_team }} {{ fixture.away_team_score }}
-                                        
-                                    </div>
-                                    <div class="col-12 col-sm-4 text-sm-right text-muted">{{ fixture.league }}</div>
-                                </div>
-                            </a>
-                            {% endfor %}
-                        </ul>
-                        <div id="no-results">No fixtures match your filters.</div>
-                    </div>
-
-                </div>
-            </div>
+    <nav class="navbar">
+        <div class="navbar-brand">
+            <div class="brand-icon">⚽</div>
+            Scoracle
         </div>
-    </section>
+        <a href="" class="btn-try">Try It</a>
+    </nav>
 
-    <footer class="py-5 bg-light">
+    <main>
         <div class="container">
-            <div class="row">
-                <div class="col-md-12 text-center">
-                    <div class="mb-3">
-                        <a href="#" class="text-muted mx-2" data-toggle="modal" data-target="#termsModal">Terms of Use</a>
-                        <a href="#" class="text-muted mx-2" data-toggle="modal" data-target="#privacyModal">Privacy
-                            Policy</a>
-                        <a href="#" class="text-muted mx-2" data-toggle="modal"
-                            data-target="#disclaimerModal">Disclaimer</a>
-                    </div>
-                    <p class="text-muted small-xl">&copy; 2026 Scoracle - All Rights Reserved</p>
-                    <p class="text-danger" style="font-size: 11px; font-weight: bold;">
-                        18+ | Please Gamble Responsibly
-                    </p>
+
+            <div class="filter-bar">
+                <div class="search-wrapper">
+                    <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        aria-hidden="true">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input type="text" id="searchInput" placeholder="Search teams or league..." autocomplete="off" />
                 </div>
+                <div class="date-pill-group" id="datePillGroup"></div>
+                <input type="date" id="calendarInput" />
             </div>
+
+            <!-- Server-rendered grouped fixtures (initial page load) -->
+            <div id="fixturesRoot">
+                {% if grouped_fixtures %}
+                {% for group in grouped_fixtures %}
+                <div class="league-group" data-league="{{ group.league_key }}">
+                    <div class="league-header">
+                        <span class="league-name">{{ group.league_name }}</span>
+                        <span class="league-count">{{ group.fixtures|length }} result{{ group.fixtures|length|pluralize}}</span>
+                        <div class="league-divider"></div>
+                    </div>
+                    <div class="fixture-card">
+                        {% for fixture in group.fixtures %}
+                        <a href="{% url 'fixture_details' fixture.fixture_id %}" class="fixture-item"
+                            data-search="{{ fixture.home_team }} {{ fixture.away_team }} {{ group.league_name }}">
+                            <span
+                                class="fixture-home {% if fixture.home_team_score > fixture.away_team_score %}winner{% endif %}">
+                                {{ fixture.home_team }}
+                            </span>
+                            <span class="fixture-score">
+                                {{ fixture.home_team_score }} – {{ fixture.away_team_score }}
+                            </span>
+                            <span
+                                class="fixture-away {% if fixture.away_team_score > fixture.home_team_score %}winner{% endif %}">
+                                {{ fixture.away_team }}
+                            </span>
+                            <span class="fixture-status">FT</span>
+                        </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div id="no-results">No fixtures found.</div>
+            </div>
+
         </div>
+    </main>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms of use</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy policy</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#disclaimerModal">Disclaimer</a>
+        </div>
+        <p class="footer-copy">&copy; 2026 Scoracle — All Rights Reserved</p>
+        <p class="footer-gamble">18+ | Please Gamble Responsibly</p>
     </footer>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
     {% include 'modals/legals.html' %}
 
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Explicitly init modals with BS5 so any inherited BS4 JS cannot interfere
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (trigger) {
+                trigger.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(trigger.getAttribute('data-bs-target'));
+                    if (target) new bootstrap.Modal(target).show();
+                });
+            });
+        });
+    </script>
 
     <script>
         // ── Date helpers ──────────────────────────────────────────
         function toYMD(d) {
-            const y = d.getFullYear();
-            const m = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return y + '-' + m + '-' + day;
+            return d.getFullYear() + '-' +
+                String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                String(d.getDate()).padStart(2, '0');
         }
 
         function labelForDate(ymd) {
-            const now = new Date();
-            const today = toYMD(now);
-            const yesterday = toYMD(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+            const today = toYMD(new Date());
+            const yesterday = toYMD(new Date(new Date().setDate(new Date().getDate() - 1)));
             if (ymd === today) return 'Today';
             if (ymd === yesterday) return 'Yesterday';
-            const d = new Date(ymd + 'T00:00:00');
-            return d.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+            return new Date(ymd + 'T00:00:00')
+                .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
         }
 
         // ── State ─────────────────────────────────────────────────
         const todayYMD = toYMD(new Date());
-        let activeDate = todayYMD;
-        let searchQuery = '';
-
-        // ── Elements ──────────────────────────────────────────────
-        const pillGroup = document.getElementById('datePillGroup');
-        const calInput = document.getElementById('calendarInput');
-        const searchInput = document.getElementById('searchInput');
         const pillEls = {};
 
-        // 1. Set max date to today so future dates are disabled
+        // ── Build date pills ──────────────────────────────────────
+        const pillGroup = document.getElementById('datePillGroup');
+        const calInput = document.getElementById('calendarInput');
         calInput.max = todayYMD;
 
-        // 2. Build 3-day pill dates: [2 days ago, yesterday, today]
-        const pillDates = [];
         for (let i = 2; i >= 0; i--) {
             const d = new Date();
             d.setDate(d.getDate() - i);
-            pillDates.push(toYMD(d));
-        }
-
-        pillDates.forEach(function (ymd) {
+            const ymd = toYMD(d);
             const btn = document.createElement('button');
-            btn.className = 'date-pill' + (ymd === activeDate ? ' active' : '');
+            btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
             btn.textContent = labelForDate(ymd);
-            btn.dataset.date = ymd;
-            btn.addEventListener('click', function () { setActiveDate(ymd, false); });
+            btn.addEventListener('click', () => setActiveDate(ymd, false));
             pillGroup.appendChild(btn);
             pillEls[ymd] = btn;
-        });
+        }
 
-        // 3. Setup Calendar Button
         const calBtn = document.createElement('button');
         calBtn.className = 'date-pill cal-btn';
-        calBtn.title = 'Pick an earlier date';
+        calBtn.title = 'Pick a date';
         calBtn.innerHTML = '&#128197;';
-
-        calBtn.addEventListener('click', function () {
-            // Modern browsers support showPicker()
-            if ('showPicker' in calInput) {
-                calInput.showPicker();
-            } else {
-                calInput.click();
-            }
-        });
+        // Move the hidden date input inside the button so tapping
+        // the button is a direct tap on the input — works on iOS Safari
+        calBtn.appendChild(calInput);
         pillGroup.appendChild(calBtn);
 
-        // 4. Handle Calendar Selection
         calInput.addEventListener('change', function () {
-            if (this.value) {
-                setActiveDate(this.value, true);
-            }
+            if (this.value) setActiveDate(this.value, true);
         });
 
-        // ── Set active date & Fetch ───────────────────────────────
+        // ── Fetch & render grouped fixtures ───────────────────────
         function setActiveDate(ymd, fromCal) {
-            activeDate = ymd;
-
-            // Reset UI Highlights
             document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
             calBtn.innerHTML = '&#128197;';
 
             if (fromCal) {
                 calBtn.classList.add('active');
-                const shortDate = new Date(ymd).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                calBtn.innerHTML = `&#128197; <span style="font-size:12px; margin-left:4px; font-weight:bold;">${shortDate}</span>`;
+                const label = new Date(ymd + 'T00:00:00')
+                    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
             } else if (pillEls[ymd]) {
                 pillEls[ymd].classList.add('active');
             }
 
-            // AJAX Fetch from your refactored Django View
             fetch(`/api/fixtures/?date=${ymd}`)
-                .then(response => response.json())
-                .then(data => {
-                    const listGroup = document.getElementById('fixtureList');
-                    listGroup.innerHTML = '';
-
-                    if (data.length === 0) {
-                        document.getElementById('no-results').style.display = 'block';
-                        return;
-                    }
-
-                    document.getElementById('no-results').style.display = 'none';
-
-                    data.forEach(fixture => {
-                        const item = `
-                            <a href="/fixture/${fixture.fixture_id}/" 
-                               class="list-group-item list-group-item-action text-dark text-left fixture-item"
-                               data-search="${fixture.home_team} ${fixture.away_team} ${fixture.league}">
-                                <div class="row align-items-center">
-                                    <div class="col-12 col-sm-8 font-weight-bold">
-                                        ${fixture.home_team} ${fixture.home_team_score ?? ''} vs 
-                                        ${fixture.away_team} ${fixture.away_team_score ?? ''}
-                                    </div>
-                                    <div class="col-12 col-sm-4 text-sm-right text-muted" style="text-transform: uppercase; font-size: 0.8rem;">
-                                        ${fixture.league}
-                                    </div>
-                                </div>
-                            </a>`;
-                        listGroup.innerHTML += item;
-                    });
-
-                    applyFilters();
-                })
-                .catch(err => console.error('Error fetching fixtures:', err));
+                .then(r => r.json())
+                .then(renderGrouped)
+                .catch(err => console.error('Fixture fetch error:', err));
         }
 
-        // ── Search & Filter ───────────────────────────────────────
-        searchInput.addEventListener('input', function () {
-            applyFilters();
-        });
+        // League display name map (keep in sync with views.py)
+        const LEAGUE_NAMES = {
+            spain: 'Spain • La Liga',
+            spain2: 'Spain • Segunda División',
+            england: 'England • Premier League',
+            england2: 'England • Championship',
+            france: 'France • Ligue 1',
+            france2: 'France • Ligue 2',
+            germany: 'Germany • Bundesliga',
+            germany2: 'Germany • 2. Bundesliga',
+            italy: 'Italy • Serie A',
+            italy2: 'Italy • Serie B',
+            portugal: 'Portugal • Primeira Liga',
+            netherlands: 'Netherlands • Eredivisie',
+            netherlands2: 'Netherlands • Eerste Divisie',
+            belgium: 'Belgium • First Division A',
+            turkey: 'Turkey • Süper Lig',
+            greece: 'Greece • Super League',
+            scotland: 'Scotland • Premiership',
+            russia: 'Russia • Premier League',
+            ukraine: 'Ukraine • Premier League',
+            czechrepublic: 'Czech Republic • First League',
+            austria: 'Austria • Bundesliga',
+            switzerland: 'Switzerland • Super League',
+            croatia: 'Croatia • Prva HNL',
+            denmark: 'Denmark • Superliga',
+            poland: 'Poland • Ekstraklasa',
+            norway: 'Norway • Eliteserien',
+            norway2: 'Norway • First Division',
+            sweden: 'Sweden • Allsvenskan',
+            sweden2: 'Sweden • Division 2',
+            iceland: 'Iceland • Úrvalsdeild',
+            armenia: 'Armenia • Premier League',
+            belarus: 'Belarus • Premier League',
+            brazil: 'Brazil • Série A',
+            bulgaria: 'Bulgaria • First League',
+            cyprus: 'Cyprus • First Division',
+            finland: 'Finland • Veikkausliiga',
+            ireland: 'Ireland • Premier Division'
+        };
 
-        function applyFilters() {
-            const query = searchInput.value.toLowerCase().trim();
-            const items = document.querySelectorAll('.fixture-item');
-            let visible = 0;
-
-            items.forEach(function (item) {
-                const itemSearch = (item.getAttribute('data-search') || '').toLowerCase();
-                if (!query || itemSearch.includes(query)) {
-                    item.style.display = '';
-                    visible++;
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-
-            document.getElementById('no-results').style.display = (visible === 0) ? 'block' : 'none';
+        function leagueLabel(key) {
+            const k = (key || '').toLowerCase().replace(/\s+/g, '');
+            return LEAGUE_NAMES[k] || key;
         }
 
-        // Initialize the view
-        applyFilters();
-    </script>
+        function renderGrouped(data) {
+            const root = document.getElementById('fixturesRoot');
+            const noRes = document.getElementById('no-results');
 
-    <script>
-        var resultData = JSON.parse(localStorage.getItem('resultData'));
-        if (resultData && resultData.length > 0) {
-            var listBody = document.getElementById('resultData');
-            if (listBody) {
-                listBody.innerHTML = '';
-                resultData.forEach(function (prediction) {
-                    var li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-center text-dark text-left';
-                    var over25 = prediction['over_2.5_prob'] || prediction.over_2_5_prob || prediction.over25 || '';
-                    var over15 = prediction['over_1.5_prob'] || prediction.over_1_5_prob || prediction.over15 || '';
-                    li.innerHTML = prediction.prediction + ' <div>' +
-                        (over15 ? '<span class="badge badge-info badge-pill mr-1">O 1.5: ' + over15 + '</span>' : '') +
-                        (over25 ? '<span class="badge badge-success badge-pill">O 2.5: ' + over25 + '</span>' : '') +
-                        '</div>';
-                    listBody.appendChild(li);
-                });
+            // Remove previous dynamic groups (keep #no-results)
+            root.querySelectorAll('.league-group').forEach(el => el.remove());
+
+            if (!data.length) {
+                noRes.style.display = 'block';
+                return;
             }
-        } else {
-            var lb = document.getElementById('resultData');
-            if (lb) lb.innerHTML = '<li class="list-group-item text-center text-dark">No predictions available</li>';
+            noRes.style.display = 'none';
+
+            // Group by league key
+            const groups = {};
+            const order = [];
+            data.forEach(f => {
+                if (!groups[f.league]) { groups[f.league] = []; order.push(f.league); }
+                groups[f.league].push(f);
+            });
+
+            order.forEach(leagueKey => {
+                const fixtures = groups[leagueKey];
+                const name = leagueLabel(leagueKey);
+                const plural = fixtures.length !== 1 ? 's' : '';
+
+                const group = document.createElement('div');
+                group.className = 'league-group';
+                group.dataset.league = leagueKey;
+
+                const rows = fixtures.map(f => {
+                    const hs = f.home_team_score ?? '';
+                    const as_ = f.away_team_score ?? '';
+                    const score = (hs !== '' && as_ !== '') ? `${hs} – ${as_}` : 'vs';
+                    const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
+                    const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
+                    return `
+                        <a href="/fixture/${f.fixture_id}/"
+                            class="fixture-item"
+                            data-search="${f.home_team} ${f.away_team} ${name}">
+                            <span class="fixture-home${homeW ? ' winner' : ''}">${f.home_team}</span>
+                            <span class="fixture-score">${score}</span>
+                            <span class="fixture-away${awayW ? ' winner' : ''}">${f.away_team}</span>
+                            <span class="fixture-status">FT</span>
+                        </a>`;
+                }).join('');
+
+                group.innerHTML = `
+                    <div class="league-header">
+                        <span class="league-name">${name}</span>
+                        <span class="league-count">${fixtures.length} result${plural}</span>
+                        <div class="league-divider"></div>
+                    </div>
+                    <div class="fixture-card">${rows}</div>`;
+
+                root.insertBefore(group, noRes);
+            });
+
+            applySearch();
         }
 
-        // Ensure this is at the bottom of your first <script> tag
-            document.addEventListener('DOMContentLoaded', function () {
-                applyFilters();
+        // ── Search filter ─────────────────────────────────────────
+        document.getElementById('searchInput').addEventListener('input', applySearch);
+
+        function applySearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase().trim();
+
+            document.querySelectorAll('.league-group').forEach(group => {
+                const items = group.querySelectorAll('.fixture-item');
+                let visible = 0;
+
+                items.forEach(item => {
+                    const match = !q || (item.dataset.search || '').toLowerCase().includes(q);
+                    item.style.display = match ? '' : 'none';
+                    if (match) visible++;
+                });
+
+                // Hide the whole group if none of its fixtures match
+                group.style.display = visible === 0 ? 'none' : '';
             });
+
+            const anyVisible = [...document.querySelectorAll('.league-group')]
+                .some(g => g.style.display !== 'none');
+            document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', applySearch);
     </script>
 
 </body>

@@ -73,6 +73,9 @@ class Fixture(models.Model):
     predicted_scorelines = models.TextField()
     over_3_goals_probability = models.FloatField()
     over_2_goals_probability = models.FloatField()
+    home_win_probability = models.FloatField(null=True, blank=True)
+    away_win_probability = models.FloatField(null=True, blank=True)
+    draw_probability = models.FloatField(null=True, blank=True)
     fixture_id = models.CharField(max_length=40, unique=True, primary_key=True)
 
     def __str__(self):
