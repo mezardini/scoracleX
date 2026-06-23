@@ -18,11 +18,12 @@ jobs:
         env:
           HETZNER_IP: ${{ secrets.HETZNER_IP }}
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H $HETZNER_IP >> ~/.ssh/known_hosts
+          ssh-keyscan -H ${{ secrets.HETZNER_IP }} >> ~/.ssh/known_hosts
 
           docker save scoracle:latest | ssh django@$HETZNER_IP "docker load"
 
