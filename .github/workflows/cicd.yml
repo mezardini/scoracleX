@@ -23,11 +23,11 @@ jobs:
 
       - name: Copy Image to Hetzner
         run: |
-          docker save scoracle:latest | ssh django@${{ secrets.HETZNER_IP }} "docker load"
+          docker save scoracle:latest | ssh -i ~/.ssh/id_rsa django@${{ secrets.HETZNER_IP }} "docker load"
 
       - name: Deploy on Hetzner
         run: |
-          ssh django@${{ secrets.HETZNER_IP }} "
+          ssh -i ~/.ssh/id_rsa django@${{ secrets.HETZNER_IP }} "
             docker stop scoracle || true
             docker rm scoracle || true
             docker run -d \
