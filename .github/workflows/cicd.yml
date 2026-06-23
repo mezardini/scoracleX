@@ -17,13 +17,15 @@ jobs:
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.HETZNER_IP }} >> ~/.ssh/known_hosts
+          # Debug: show fingerprint of key being used
+          ssh-keygen -l -f ~/.ssh/id_rsa
 
       - name: Build Docker Image
         run: docker build -t scoracle:latest .
 
       - name: Copy Image to Hetzner
         run: |
-          docker save scoracle:latest | ssh -i ~/.ssh/id_rsa django@${{ secrets.HETZNER_IP }} "docker load"
+          docker save scoracle:latest | ssh -i ~/.ssh/id_rsa -v django@${{ secrets.HETZNER_IP }} "docker load"
 
       - name: Deploy on Hetzner
         run: |
