@@ -2,7 +2,7 @@ name: Deploy to Hetzner
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
@@ -11,13 +11,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Build Docker Image
-        run: docker build -t scoracle:latest .
-
-      - name: Save & Copy Image to Hetzner
-        env:
-          HETZNER_IP: ${{ secrets.HETZNER_IP }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Set up SSH
         run: |
           mkdir -p ~/.ssh
@@ -25,14 +18,16 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.HETZNER_IP }} >> ~/.ssh/known_hosts
 
-          docker save scoracle:latest | ssh django@$HETZNER_IP "docker load"
+      - name: Build Docker Image
+        run: docker build -t scoracle:latest .
+
+      - name: Copy Image to Hetzner
+        run: |
+          docker save scoracle:latest | ssh django@${{ secrets.HETZNER_IP }} "docker load"
 
       - name: Deploy on Hetzner
-        env:
-          HETZNER_IP: ${{ secrets.HETZNER_IP }}
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          ssh django@$HETZNER_IP "
+          ssh django@${{ secrets.HETZNER_IP }} "
             docker stop scoracle || true
             docker rm scoracle || true
             docker run -d \
