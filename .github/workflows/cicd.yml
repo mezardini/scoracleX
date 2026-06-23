@@ -1,31 +1,43 @@
-name: Build and Push to ECR
+name: Deploy to Hetzner
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  build-and-push:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+      - name: Build Docker Image
+        run: docker build -t scoracle:latest .
 
-      - name: Login to Amazon ECR
-        id: login-ecr
-        uses: aws-actions/amazon-ecr-login@v2
-
-      - name: Build and Push Image
+      - name: Save & Copy Image to Hetzner
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
+          HETZNER_IP: ${{ secrets.HETZNER_IP }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
-          docker build -t $ECR_REGISTRY/scoracle:latest .
-          docker push $ECR_REGISTRY/scoracle:latest
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H $HETZNER_IP >> ~/.ssh/known_hosts
+
+          docker save scoracle:latest | ssh django@$HETZNER_IP "docker load"
+
+      - name: Deploy on Hetzner
+        env:
+          HETZNER_IP: ${{ secrets.HETZNER_IP }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          ssh django@$HETZNER_IP "
+            docker stop scoracle || true
+            docker rm scoracle || true
+            docker run -d \
+              --name scoracle \
+              --restart always \
+              -p 8000:8000 \
+              --env-file /home/django/.env \
+              scoracle:latest
+          "
