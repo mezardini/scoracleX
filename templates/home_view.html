@@ -87,6 +87,147 @@
             margin: 0 auto;
         }
 
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            padding: 2.5rem 1rem 1.5rem;
+        }
+
+        .hero-eyebrow {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 0.75rem;
+        }
+
+        .hero-heading {
+            font-size: clamp(28px, 5vw, 42px);
+            font-weight: 600;
+            line-height: 1.15;
+            color: #1a1a1a;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-highlight {
+            display: inline-block;
+            background: #b9f54d;
+            border-radius: 10px;
+            padding: 2px 14px;
+            color: #1a1a1a;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: #777;
+            margin: 0.75rem auto 1.75rem;
+            max-width: 420px;
+            line-height: 1.6;
+        }
+
+        /* ── Chat search box ── */
+        .chat-search-wrap {
+            position: relative;
+            max-width: 560px;
+            margin: 0 auto 1rem;
+        }
+
+        .chat-search-wrap .chat-icon {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #bbb;
+            pointer-events: none;
+        }
+
+        .chat-search-input {
+            width: 100%;
+            padding: 16px 60px 16px 48px;
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 50px;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            color: #1a1a1a;
+            outline: none;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .chat-search-input::placeholder {
+            color: #bbb;
+        }
+
+        .chat-search-input:focus {
+            border-color: rgba(0, 0, 0, 0.25);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-send-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 36px;
+            height: 36px;
+            background: #1a1a1a;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.15s;
+        }
+
+        .chat-send-btn:hover {
+            opacity: 0.75;
+        }
+
+        /* ── Quick tags ── */
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .quick-tag {
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #444;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .quick-tag:hover {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        .quick-tag.stat-tag {
+            border-color: #b9f54d;
+            color: #3a6600;
+            background: #f4ffe0;
+        }
+
+        .quick-tag.stat-tag:hover {
+            background: #b9f54d;
+            color: #1a1a1a;
+            border-color: #b9f54d;
+        }
+
         /* ── Filter bar ── */
         .filter-bar {
             display: flex;
@@ -485,7 +626,49 @@
     <main>
         <div class="container">
 
-            <div class="filter-bar">
+            <!-- Hero -->
+            <div class="hero">
+                <p class="hero-eyebrow">AI-powered football predictions</p>
+                <h1 class="hero-heading">
+                    Know what the<br>
+                    <span class="hero-highlight">match predicts.</span>
+                </h1>
+                <p class="hero-sub">Fixtures, scorelines and goal probabilities across 36 leagues — updated daily.</p>
+
+                <div class="chat-search-wrap">
+                    <svg class="chat-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8" />
+                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                    <input class="chat-search-input" id="heroSearch"
+                        placeholder='Try: "Over 2.5 in Bundesliga" or "Spain home wins"' autocomplete="off" />
+                    <button class="chat-send-btn" onclick="triggerHeroSearch()" aria-label="Search">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12" />
+                            <polyline points="12 5 19 12 12 19" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="quick-tags">
+                    <button class="quick-tag" onclick="tagSearch('Premier League')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier
+                        League</button>
+                    <button class="quick-tag" onclick="tagSearch('La Liga')">🇪🇸 La Liga</button>
+                    <button class="quick-tag" onclick="tagSearch('Bundesliga')">🇩🇪 Bundesliga</button>
+                    <button class="quick-tag" onclick="tagSearch('Serie A')">🇮🇹 Serie A</button>
+                    <button class="quick-tag" onclick="tagSearch('Ligue 1')">🇫🇷 Ligue 1</button>
+                    <button class="quick-tag" onclick="tagSearch('Eredivisie')">🇳🇱 Eredivisie</button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 1.5')">Over 1.5</button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 2.5')">Over 2.5</button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Home Win')">Home Win</button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Away Win')">Away Win</button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Draw')">Draw</button>
+                </div>
+            </div>
+
+            <!-- <div class="filter-bar">
                 <div class="search-wrapper">
                     <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -497,7 +680,7 @@
                 </div>
                 <div class="date-pill-group" id="datePillGroup"></div>
                 <input type="date" id="calendarInput" />
-            </div>
+            </div> -->
 
             <!-- Server-rendered grouped fixtures (initial page load) -->
             <div id="fixturesRoot">
@@ -506,24 +689,27 @@
                 <div class="league-group" data-league="{{ group.league_key }}">
                     <div class="league-header">
                         <span class="league-name">{{ group.league_name }}</span>
-                        <span class="league-count">{{ group.fixtures|length }} result{{ group.fixtures|length|pluralize}}</span>
+                        <span class="league-count">{{ group.fixtures|length }} result(s)</span>
                         <div class="league-divider"></div>
                     </div>
+                
                     <div class="fixture-card">
-                        {% for fixture in group.fixtures %}
-                        <a href="{% url 'fixture_details' fixture.fixture_id %}" class="fixture-item"
-                            data-search="{{ fixture.home_team }} {{ fixture.away_team }} {{ group.league_name }}">
-                            <span
-                                class="fixture-home {% if fixture.home_team_score > fixture.away_team_score %}winner{% endif %}">
-                                {{ fixture.home_team }}
-                            </span>
+                        {% for f in group.fixtures %}
+                        <a href="/fixture/{{ f.fixture_id }}/" class="fixture-item"
+                            data-search="{{ f.home_team }} {{ f.away_team }} {{ group.league_name }}"
+                            data-p-o15="{{ f.over_2_goals_probability|default:0 }}"
+                            data-p-o25="{{ f.over_3_goals_probability|default:0 }}" data-p-home="{{ f.home_win_probability|default:0 }}"
+                            data-p-away="{{ f.away_win_probability|default:0 }}" data-p-draw="{{ f.draw_probability|default:0 }}">
+                
+                            <span class="fixture-home">{{ f.home_team }}</span>
                             <span class="fixture-score">
-                                {{ fixture.home_team_score }} – {{ fixture.away_team_score }}
+                                {% if f.home_team_score is not None %}
+                                {{ f.home_team_score }} – {{ f.away_team_score }}
+                                {% else %}
+                                vs
+                                {% endif %}
                             </span>
-                            <span
-                                class="fixture-away {% if fixture.away_team_score > fixture.home_team_score %}winner{% endif %}">
-                                {{ fixture.away_team }}
-                            </span>
+                            <span class="fixture-away">{{ f.away_team }}</span>
                             <span class="fixture-status">FT</span>
                         </a>
                         {% endfor %}
@@ -566,169 +752,176 @@
 
     <script>
         // ── Date helpers ──────────────────────────────────────────
-        function toYMD(d) {
-            return d.getFullYear() + '-' +
-                String(d.getMonth() + 1).padStart(2, '0') + '-' +
-                String(d.getDate()).padStart(2, '0');
-        }
-
-        function labelForDate(ymd) {
-            const today = toYMD(new Date());
-            const yesterday = toYMD(new Date(new Date().setDate(new Date().getDate() - 1)));
-            if (ymd === today) return 'Today';
-            if (ymd === yesterday) return 'Yesterday';
-            return new Date(ymd + 'T00:00:00')
-                .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
-        }
-
-        // ── State ─────────────────────────────────────────────────
-        const todayYMD = toYMD(new Date());
-        const pillEls = {};
-
-        // ── Build date pills ──────────────────────────────────────
-        const pillGroup = document.getElementById('datePillGroup');
-        const calInput = document.getElementById('calendarInput');
-        calInput.max = todayYMD;
-
-        for (let i = 2; i >= 0; i--) {
-            const d = new Date();
-            d.setDate(d.getDate() - i);
-            const ymd = toYMD(d);
-            const btn = document.createElement('button');
-            btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
-            btn.textContent = labelForDate(ymd);
-            btn.addEventListener('click', () => setActiveDate(ymd, false));
-            pillGroup.appendChild(btn);
-            pillEls[ymd] = btn;
-        }
-
-        const calBtn = document.createElement('button');
-        calBtn.className = 'date-pill cal-btn';
-        calBtn.title = 'Pick a date';
-        calBtn.innerHTML = '&#128197;';
-        // Move the hidden date input inside the button so tapping
-        // the button is a direct tap on the input — works on iOS Safari
-        calBtn.appendChild(calInput);
-        pillGroup.appendChild(calBtn);
-
-        calInput.addEventListener('change', function () {
-            if (this.value) setActiveDate(this.value, true);
-        });
-
-        // ── Fetch & render grouped fixtures ───────────────────────
-        function setActiveDate(ymd, fromCal) {
-            document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
-            calBtn.innerHTML = '&#128197;';
-
-            if (fromCal) {
-                calBtn.classList.add('active');
-                const label = new Date(ymd + 'T00:00:00')
-                    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
-            } else if (pillEls[ymd]) {
-                pillEls[ymd].classList.add('active');
+            function toYMD(d) {
+                return d.getFullYear() + '-' +
+                    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                    String(d.getDate()).padStart(2, '0');
             }
 
-            fetch(`/api/fixtures/?date=${ymd}`)
-                .then(r => r.json())
-                .then(renderGrouped)
-                .catch(err => console.error('Fixture fetch error:', err));
-        }
-
-        // League display name map (keep in sync with views.py)
-        const LEAGUE_NAMES = {
-            spain: 'Spain • La Liga',
-            spain2: 'Spain • Segunda División',
-            england: 'England • Premier League',
-            england2: 'England • Championship',
-            france: 'France • Ligue 1',
-            france2: 'France • Ligue 2',
-            germany: 'Germany • Bundesliga',
-            germany2: 'Germany • 2. Bundesliga',
-            italy: 'Italy • Serie A',
-            italy2: 'Italy • Serie B',
-            portugal: 'Portugal • Primeira Liga',
-            netherlands: 'Netherlands • Eredivisie',
-            netherlands2: 'Netherlands • Eerste Divisie',
-            belgium: 'Belgium • First Division A',
-            turkey: 'Turkey • Süper Lig',
-            greece: 'Greece • Super League',
-            scotland: 'Scotland • Premiership',
-            russia: 'Russia • Premier League',
-            ukraine: 'Ukraine • Premier League',
-            czechrepublic: 'Czech Republic • First League',
-            austria: 'Austria • Bundesliga',
-            switzerland: 'Switzerland • Super League',
-            croatia: 'Croatia • Prva HNL',
-            denmark: 'Denmark • Superliga',
-            poland: 'Poland • Ekstraklasa',
-            norway: 'Norway • Eliteserien',
-            norway2: 'Norway • First Division',
-            sweden: 'Sweden • Allsvenskan',
-            sweden2: 'Sweden • Division 2',
-            iceland: 'Iceland • Úrvalsdeild',
-            armenia: 'Armenia • Premier League',
-            belarus: 'Belarus • Premier League',
-            brazil: 'Brazil • Série A',
-            bulgaria: 'Bulgaria • First League',
-            cyprus: 'Cyprus • First Division',
-            finland: 'Finland • Veikkausliiga',
-            ireland: 'Ireland • Premier Division'
-        };
-
-        function leagueLabel(key) {
-            const k = (key || '').toLowerCase().replace(/\s+/g, '');
-            return LEAGUE_NAMES[k] || key;
-        }
-
-        function renderGrouped(data) {
-            const root = document.getElementById('fixturesRoot');
-            const noRes = document.getElementById('no-results');
-
-            // Remove previous dynamic groups (keep #no-results)
-            root.querySelectorAll('.league-group').forEach(el => el.remove());
-
-            if (!data.length) {
-                noRes.style.display = 'block';
-                return;
+            function labelForDate(ymd) {
+                const today = toYMD(new Date());
+                const yesterday = toYMD(new Date(new Date().setDate(new Date().getDate() - 1)));
+                if (ymd === today) return 'Today';
+                if (ymd === yesterday) return 'Yesterday';
+                return new Date(ymd + 'T00:00:00')
+                    .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
             }
-            noRes.style.display = 'none';
 
-            // Group by league key
-            const groups = {};
-            const order = [];
-            data.forEach(f => {
-                if (!groups[f.league]) { groups[f.league] = []; order.push(f.league); }
-                groups[f.league].push(f);
-            });
+            // ── State ─────────────────────────────────────────────────
+            const todayYMD = toYMD(new Date());
+            const pillEls = {};
 
-            order.forEach(leagueKey => {
-                const fixtures = groups[leagueKey];
-                const name = leagueLabel(leagueKey);
-                const plural = fixtures.length !== 1 ? 's' : '';
+            // ── Build date pills ──────────────────────────────────────
+            const pillGroup = document.getElementById('datePillGroup');
+            const calInput = document.getElementById('calendarInput');
+            if (calInput) calInput.max = todayYMD;
 
-                const group = document.createElement('div');
-                group.className = 'league-group';
-                group.dataset.league = leagueKey;
+            if (pillGroup) {
+                for (let i = 2; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    const ymd = toYMD(d);
+                    const btn = document.createElement('button');
+                    btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
+                    btn.textContent = labelForDate(ymd);
+                    btn.addEventListener('click', () => setActiveDate(ymd, false));
+                    pillGroup.appendChild(btn);
+                    pillEls[ymd] = btn;
+                }
 
-                const rows = fixtures.map(f => {
-                    const hs = f.home_team_score ?? '';
-                    const as_ = f.away_team_score ?? '';
-                    const score = (hs !== '' && as_ !== '') ? `${hs} – ${as_}` : 'vs';
-                    const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
-                    const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
-                    return `
+                const calBtn = document.createElement('button');
+                calBtn.className = 'date-pill cal-btn';
+                calBtn.title = 'Pick a date';
+                calBtn.innerHTML = '&#128197;';
+                if (calInput) calBtn.appendChild(calInput);
+                pillGroup.appendChild(calBtn);
+            }
+
+            if (calInput) {
+                calInput.addEventListener('change', function () {
+                    if (this.value) setActiveDate(this.value, true);
+                });
+            }
+
+            // ── Fetch & render grouped fixtures ───────────────────────
+            function setActiveDate(ymd, fromCal) {
+                const calBtn = document.querySelector('.cal-btn');
+                document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
+                if (calBtn) calBtn.innerHTML = '&#128197;';
+
+                if (fromCal && calBtn) {
+                    calBtn.classList.add('active');
+                    const label = new Date(ymd + 'T00:00:00')
+                        .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                    calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
+                } else if (pillEls[ymd]) {
+                    pillEls[ymd].classList.add('active');
+                }
+
+                fetch(`/api/fixtures/?date=${ymd}`)
+                    .then(r => r.json())
+                    .then(renderGrouped)
+                    .catch(err => console.error('Fixture fetch error:', err));
+            }
+
+            // League display name map
+            const LEAGUE_NAMES = {
+                spain: 'Spain • La Liga',
+                spain2: 'Spain • Segunda División',
+                england: 'England • Premier League',
+                england2: 'England • Championship',
+                france: 'France • Ligue 1',
+                france2: 'France • Ligue 2',
+                germany: 'Germany • Bundesliga',
+                germany2: 'Germany • 2. Bundesliga',
+                italy: 'Italy • Serie A',
+                italy2: 'Italy • Serie B',
+                portgal: 'Portugal • Primeira Liga',
+                netherlands: 'Netherlands • Eredivisie',
+                netherlands2: 'Netherlands • Eerste Divisie',
+                belgium: 'Belgium • First Division A',
+                turkey: 'Turkey • Süper Lig',
+                greece: 'Greece • Super League',
+                scotland: 'Scotland • Premiership',
+                russia: 'Russia • Premier League',
+                ukraine: 'Ukraine • Premier League',
+                czechrepublic: 'Czech Republic • First League',
+                austria: 'Austria • Bundesliga',
+                switzerland: 'Switzerland • Super League',
+                croatia: 'Croatia • Prva HNL',
+                denmark: 'Denmark • Superliga',
+                poland: 'Poland • Ekstraklasa',
+                norway: 'Norway • Eliteserien',
+                norway2: 'Norway • First Division',
+                sweden: 'Sweden • Allsvenskan',
+                sweden2: 'Sweden • Division 2',
+                iceland: 'Iceland • Úrvalsdeild',
+                armenia: 'Armenia • Premier League',
+                belarus: 'Belarus • Premier League',
+                brazil: 'Brazil • Série A',
+                bulgaria: 'Bulgaria • First League',
+                cyprus: 'Cyprus • First Division',
+                finland: 'Finland • Veikkausliiga',
+            };
+
+            function leagueLabel(key) {
+                const k = (key || '').toLowerCase().replace(/\s+/g, '');
+                return LEAGUE_NAMES[k] || key;
+            }
+
+            function renderGrouped(data) {
+                const root = document.getElementById('fixturesRoot');
+                const noRes = document.getElementById('no-results');
+
+                root.querySelectorAll('.league-group').forEach(el => el.remove());
+
+                if (!data.length) {
+                    if (noRes) noRes.style.display = 'block';
+                    return;
+                }
+                if (noRes) noRes.style.display = 'none';
+
+                const groups = {};
+                const order = [];
+                data.forEach(f => {
+                    if (!groups[f.league]) { groups[f.league] = []; order.push(f.league); }
+                    groups[f.league].push(f);
+                });
+
+                order.forEach(leagueKey => {
+                    const fixtures = groups[leagueKey];
+                    const name = leagueLabel(leagueKey);
+                    const plural = fixtures.length !== 1 ? 's' : '';
+
+                    const group = document.createElement('div');
+                    group.className = 'league-group';
+                    group.dataset.league = leagueKey;
+
+                    const rows = fixtures.map(f => {
+                        const hs = f.home_team_score ?? '';
+                        const as_ = f.away_team_score ?? '';
+                        const score = (hs !== '' && as_ !== '') ? `${hs} – ${as_}` : 'vs';
+                        const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
+                        const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
+
+                        // Added metrics data bindings into elements to drive strict probability sorting logic
+                        return `
                         <a href="/fixture/${f.fixture_id}/"
                             class="fixture-item"
-                            data-search="${f.home_team} ${f.away_team} ${name}">
+                            data-search="${f.home_team} ${f.away_team} ${name}"
+                            data-p-o15="${f.over_1_5_probability || 0}"
+                            data-p-o25="${f.over_2_5_probability || 0}"
+                            data-p-home="${f.home_win_probability || 0}"
+                            data-p-away="${f.away_win_probability || 0}"
+                            data-p-draw="${f.draw_probability || 0}">
                             <span class="fixture-home${homeW ? ' winner' : ''}">${f.home_team}</span>
                             <span class="fixture-score">${score}</span>
                             <span class="fixture-away${awayW ? ' winner' : ''}">${f.away_team}</span>
                             <span class="fixture-status">FT</span>
                         </a>`;
-                }).join('');
+                    }).join('');
 
-                group.innerHTML = `
+                    group.innerHTML = `
                     <div class="league-header">
                         <span class="league-name">${name}</span>
                         <span class="league-count">${fixtures.length} result${plural}</span>
@@ -736,38 +929,104 @@
                     </div>
                     <div class="fixture-card">${rows}</div>`;
 
-                root.insertBefore(group, noRes);
-            });
-
-            applySearch();
-        }
-
-        // ── Search filter ─────────────────────────────────────────
-        document.getElementById('searchInput').addEventListener('input', applySearch);
-
-        function applySearch() {
-            const q = document.getElementById('searchInput').value.toLowerCase().trim();
-
-            document.querySelectorAll('.league-group').forEach(group => {
-                const items = group.querySelectorAll('.fixture-item');
-                let visible = 0;
-
-                items.forEach(item => {
-                    const match = !q || (item.dataset.search || '').toLowerCase().includes(q);
-                    item.style.display = match ? '' : 'none';
-                    if (match) visible++;
+                    if (noRes) {
+                        root.insertBefore(group, noRes);
+                    } else {
+                        root.appendChild(group);
+                    }
                 });
 
-                // Hide the whole group if none of its fixtures match
-                group.style.display = visible === 0 ? 'none' : '';
-            });
+                applySearch();
+            }
 
-            const anyVisible = [...document.querySelectorAll('.league-group')]
-                .some(g => g.style.display !== 'none');
-            document.getElementById('no-results').style.display = anyVisible ? 'none' : 'block';
-        }
+           function applySearch() {
+                const heroInput = document.getElementById('heroSearch');
+                let q = (heroInput ? heroInput.value : '').toLowerCase().trim();
+                const noRes = document.getElementById('no-results');
 
-        document.addEventListener('DOMContentLoaded', applySearch);
+                // 1. Define active conditional rules
+                const rules = {
+                    'over 1.5': (el) => parseFloat(el.dataset.pO15) >= 60,
+                    'over 2.5': (el) => parseFloat(el.dataset.pO25) >= 60,
+                    'home win': (el) => parseFloat(el.dataset.pHome) >= 60,
+                    'away win': (el) => parseFloat(el.dataset.pAway) >= 60,
+                    'draw': (el) => parseFloat(el.dataset.pDraw) >= 60
+                };
+
+                // 2. Extract any metric filters found inside the query string
+                let activeFilters = [];
+                Object.keys(rules).forEach(key => {
+                    if (q.includes(key)) {
+                        activeFilters.push(rules[key]);
+                        // Strip the metric keyword out of the string so only team/league names remain
+                        q = q.replace(key, '').replace(/\s+/g, ' ').trim();
+                    }
+                });
+
+                // Clean up filler conversational words if searching phrases like "matches with..."
+                q = q.replace(/\b(matches|with|games|in|and|shows?)\b/g, '').replace(/\s+/g, ' ').trim();
+
+                // 3. Evaluate every fixture row cumulatively
+                document.querySelectorAll('.league-group').forEach(group => {
+                    const items = group.querySelectorAll('.fixture-item');
+                    let visible = 0;
+
+                    items.forEach(item => {
+                        // Rule A: It must pass ALL metric threshold filters found in the string
+                        const passesMetrics = activeFilters.every(filterFn => filterFn(item));
+
+                        // Rule B: It must match any remaining team/league textual strings
+                        const passesText = !q || (item.dataset.search || '').toLowerCase().includes(q);
+
+                        const isMatch = passesMetrics && passesText;
+
+                        item.style.display = isMatch ? '' : 'none';
+                        if (isMatch) visible++;
+                    });
+
+                    // Hide empty league sections gracefully
+                    group.style.display = visible === 0 ? 'none' : '';
+                });
+
+                const anyVisible = [...document.querySelectorAll('.league-group')]
+                    .some(g => g.style.display !== 'none');
+
+                if (noRes) noRes.style.display = anyVisible ? 'none' : 'block';
+            }
+                // ── Hero search wiring ─────────────────────────────────
+            function triggerHeroSearch() {
+                applySearch();
+                const fixturesRoot = document.getElementById('fixturesRoot');
+                if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+
+            function tagSearch(tag) {
+                    const heroInput = document.getElementById('heroSearch');
+                    if (!heroInput) return;
+
+                    const currentVal = heroInput.value.trim();
+
+                    if (currentVal === '' || currentVal.toLowerCase().includes(tag.toLowerCase())) {
+                        // If input is empty or tag is already present, set/keep it isolated
+                        heroInput.value = tag;
+                    } else {
+                        // Stack them together cleanly with a trailing space
+                        heroInput.value = `${currentVal} ${tag}`;
+                    }
+
+                    applySearch();
+                    const fixturesRoot = document.getElementById('fixturesRoot');
+                    if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            const heroSearchEl = document.getElementById('heroSearch');
+            if (heroSearchEl) {
+                heroSearchEl.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') triggerHeroSearch();
+                });
+                heroSearchEl.addEventListener('input', applySearch);
+            }
+
+            document.addEventListener('DOMContentLoaded', applySearch);
     </script>
 
 </body>
