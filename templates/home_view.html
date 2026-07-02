@@ -11,6 +11,136 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
 
     <style>
+        /* ── Active Highlight States ── */
+
+/* Standard League Tag Active Highlight */
+.quick-tag.active {
+    background: #4f46e5 !important; /* Premium Indigo */
+    border-color: #4f46e5 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+/* Stat Filter Metric Tag Active Highlight */
+.quick-tag.stat-tag.active {
+    background: #06b6d4 !important; /* Premium Cyan / Teal Accent */
+    border-color: #06b6d4 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+}
+
+/* ── Smart Visibility for the Badge ── */
+/* Keep the layout clean by hiding the remove dot badge until the user hovers over an active tag */
+.quick-tag .tag-remove {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.quick-tag.active .tag-remove {
+    opacity: 1;
+    pointer-events: auto;
+}
+        /* ── The Main Search Capsule Container ── */
+.chat-search-wrap {
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 24px; /* Perfectly rounded outer pill capsule */
+    padding: 6px 8px 6px 18px; /* Balanced interior breathing room */
+    max-width: 620px;
+    margin: 0 auto 1.5rem;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
+                0 8px 10px -6px rgba(0, 0, 0, 0.03);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+/* Subtle outer focus ring instead of an inner outline split */
+.chat-search-wrap:focus-within {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1), 
+                0 10px 25px -5px rgba(79, 70, 229, 0.05);
+}
+
+/* ── Magnifying Glass Icon ── */
+.chat-icon {
+    color: #94a3b8;
+    flex-shrink: 0;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+}
+
+/* ── Seamless Input Field (No Outlines or Inner Borders) ── */
+.chat-search-input {
+    border: none !important;
+    outline: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    width: 100%;
+    padding: 10px 36px 10px 0; /* Extra right padding so text never overlaps the X badge */
+    font-size: 0.95rem;
+    color: #0f172a;
+    font-weight: 400;
+}
+
+.chat-search-input::placeholder {
+    color: #94a3b8;
+}
+
+/* ── Clean Inline Red Remove Badge ── */
+.chat-clear-btn {
+    position: absolute;
+    right: 54px; /* Anchored nicely right before the arrow button block */
+    top: 50%;
+    transform: translateY(-50%);
+    
+    background: #ef4444; 
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.15s ease;
+    z-index: 2;
+    user-select: none;
+}
+
+.chat-clear-btn:hover {
+    background: #dc2626;
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* ── Far-Right Send Button ── */
+.chat-send-btn {
+    flex-shrink: 0;
+    border: none;
+    background: #0f172a;
+    color: #ffffff;
+    width: 36px;
+    height: 36px;
+    border-radius: 14px; /* Soft square-round aesthetic matching image_afffc1.png */
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    margin-left: auto; /* Pushes cleanly to the edge */
+}
+
+.chat-send-btn:hover {
+    background: #4f46e5;
+    transform: translateY(-1px);
+}
         *,
         *::before,
         *::after {
@@ -144,7 +274,7 @@
 
         .chat-search-input {
             width: 100%;
-            padding: 16px 60px 16px 48px;
+            padding: 16px 100px 16px 48px;
             background: #fff;
             border: 0.5px solid rgba(0, 0, 0, 0.15);
             border-radius: 50px;
@@ -193,39 +323,120 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 8px;
-            max-width: 600px;
-            margin: 0 auto 2rem;
+            max-width: 720px;
+            margin: 0 auto 2.5rem;
         }
 
         .quick-tag {
-            background: #fff;
-            border: 0.5px solid rgba(0, 0, 0, 0.15);
-            border-radius: 20px;
-            padding: 6px 14px;
-            font-size: 13px;
+            background: #f8f8f8;
+            border: 0.5px solid #e5e5e5;
+            border-radius: 22px;
+            padding: 10px 14px;
+            font-size: 14px;
             font-weight: 500;
-            color: #444;
+            color: #333;
             cursor: pointer;
-            transition: background 0.15s, border-color 0.15s;
+            transition: all 0.2s ease;
             font-family: 'Inter', sans-serif;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: none;
+            position: relative;
         }
 
         .quick-tag:hover {
-            background: #1a1a1a;
-            color: #fff;
-            border-color: #1a1a1a;
+            background: #efefef;
+            border-color: #d0d0d0;
+            transform: translateY(-1px);
         }
 
         .quick-tag.stat-tag {
-            border-color: #b9f54d;
-            color: #3a6600;
-            background: #f4ffe0;
+            border: none;
+            border-color: transparent;
+            color: #4a6600;
+            background: linear-gradient(135deg, #f0f9e8 0%, #e8f7d8 100%);
+            box-shadow: 0 2px 8px rgba(179, 230, 50, 0.12);
         }
 
         .quick-tag.stat-tag:hover {
+            background: linear-gradient(135deg, #e8f7d8 0%, #dff4c8 100%);
+            box-shadow: 0 4px 12px rgba(179, 230, 50, 0.18);
+            transform: translateY(-1px);
+        }
+
+        .quick-tag.active {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+            box-shadow: 0 4px 16px rgba(26, 26, 26, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .quick-tag.active:hover {
+            background: #0f0f0f;
+            border-color: #0f0f0f;
+            box-shadow: 0 6px 20px rgba(26, 26, 26, 0.35);
+            transform: translateY(-3px);
+        }
+
+        .quick-tag.active.stat-tag {
             background: #b9f54d;
-            color: #1a1a1a;
+            color: #2d3d00;
             border-color: #b9f54d;
+            box-shadow: 0 4px 16px rgba(185, 245, 77, 0.35);
+        }
+
+        .quick-tag.active.stat-tag:hover {
+            background: #a8ed33;
+            border-color: #a8ed33;
+            box-shadow: 0 6px 20px rgba(168, 237, 51, 0.4);
+            transform: translateY(-3px);
+        }
+
+        .quick-tag .tag-remove {
+            display: none;
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            width: 20px;
+            height: 20px;
+            background: #dc2626;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            padding: 0;
+            font-size: 12px;
+            font-weight: 700;
+            transition: all 0.15s ease;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            line-height: 1;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
+        }
+
+        .quick-tag.active .tag-remove {
+            display: flex;
+        }
+
+        .quick-tag.active .tag-remove:hover {
+            background: #b91c1c;
+            box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
+            transform: scale(1.1);
+        }
+
+        .quick-tag.active.stat-tag .tag-remove {
+            background: #dc2626;
+            border-color: #b9f54d;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+        }
+
+        .quick-tag.active.stat-tag .tag-remove:hover {
+            background: #b91c1c;
+            box-shadow: 0 3px 8px rgba(220, 38, 38, 0.5);
+            transform: scale(1.1);
         }
 
         /* ── Filter bar ── */
@@ -635,36 +846,235 @@
                 </h1>
                 <p class="hero-sub">Fixtures, scorelines and goal probabilities across 36 leagues — updated daily.</p>
 
+                <!-- Main Search Input Element Wrapper Block -->
                 <div class="chat-search-wrap">
-                    <svg class="chat-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="11" cy="11" r="8" />
-                        <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                    </svg>
-                    <input class="chat-search-input" id="heroSearch"
-                        placeholder='Try: "Over 2.5 in Bundesliga" or "Spain home wins"' autocomplete="off" />
+                    <!-- Left Aligned Lens Icon -->
+                    <span class="chat-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8" />
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                        </svg>
+                    </span>
+                
+                    <!-- Seamless Input Core Field -->
+                    <input class="chat-search-input" id="heroSearch" placeholder='Try: "belarus over 1.5" or "home win bundesliga"'
+                        autocomplete="off" />
+                
+                    <!-- Floating Red Clear Badge -->
+                    <span class="chat-clear-btn" id="clearSearchBtn" title="Clear search" onclick="clearSearch()">✕</span>
+                
+                    <!-- Right Aligned Arrow Button -->
                     <button class="chat-send-btn" onclick="triggerHeroSearch()" aria-label="Search">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                            stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12" />
                             <polyline points="12 5 19 12 12 19" />
                         </svg>
                     </button>
                 </div>
 
+                <div class="active-filters hidden" id="activeFiltersPills"></div>
+                <style>
+                    /* ── Base Tag Styling ── */
+                    .quick-tag {
+                        position: relative;
+                        /* Essential for containing the absolute badge */
+                        display: inline-flex;
+                        align-items: center;
+                        border: 1px solid #e2e8f0;
+                        background: #ffffff;
+                        color: #334155;
+                        font-size: 0.85rem;
+                        font-weight: 500;
+                        padding: 6px 16px;
+                        /* Balanced padding */
+                        border-radius: 20px;
+                        cursor: pointer;
+                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                        white-space: nowrap;
+                        margin-top: 6px;
+                        /* Prevents overlapping when tags wrap */
+                        margin-right: 6px;
+                    }
+
+                    .quick-tag:hover {
+                        background: #f8fafc;
+                        border-color: #cbd5e1;
+                        color: #0f172a;
+                    }
+
+                    /* Alternate theme style rule variant specifically targeted to statistical criteria metrics */
+                    .quick-tag.stat-tag {
+                        background: #f8fafc;
+                        border-color: #e2e8f0;
+                        color: #4f46e5;
+                    }
+
+                    .quick-tag.stat-tag:hover {
+                        background: #eef2ff;
+                        border-color: #c7d2fe;
+                    }
+
+                    /* ── Absolute Corner Badge (The "Remove" Button) ── */
+                    .tag-remove {
+                        position: absolute;
+                        top: 0;
+                        left: 100%;
+                        transform: translate(-50%, -50%);
+                        /* Shifts center point precisely onto the corner */
+
+                        border: 1px solid #ffffff;
+                        /* White ring breakout border */
+                        background: #ef4444;
+                        /* High-visibility alert red */
+                        color: #ffffff;
+                        /* Crisp white X icon */
+
+                        font-size: 0.75rem;
+                        font-weight: 700;
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: all 0.15s ease;
+                        padding: 0;
+                        z-index: 2;
+                    }
+
+                    .tag-remove:hover {
+                        background: #dc2626;
+                        /* Darker red on hover */
+                        transform: translate(-50%, -50%) scale(1.1);
+                        /* Slight micro-pop animation */
+                    }
+
+                    /* Update the search input wrapper to make absolute positioning stable */
+                    .chat-search-wrap {
+                        display: flex;
+                        align-items: center;
+                        background: #ffffff;
+                        border: 1px solid #e2e8f0;
+                        border-radius: 16px;
+                        padding: 6px 44px 6px 16px;
+                        /* Increased right padding to prevent text overlapping the floating badge */
+                        max-width: 620px;
+                        margin: 0 auto 1.5rem;
+                        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05),
+                            0 8px 10px -6px rgba(0, 0, 0, 0.03);
+                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+                        position: relative;
+                        /* Crucial positioning context anchor */
+                    }
+
+                    /* Redesigned Search Bar Clear Button Badge */
+                    .chat-clear-btn {
+                        position: absolute;
+                        top: 50%;
+                        right: 52px;
+                        /* Placed cleanly right next to the send button arrow */
+                        transform: translateY(-50%);
+
+                        border: 1px solid #ffffff;
+                        background: #ef4444;
+                        /* High-visibility alert red matching tag badges */
+                        color: #ffffff;
+
+                        font-size: 0.7rem;
+                        font-weight: 700;
+                        width: 18px;
+                        height: 18px;
+                        border-radius: 50%;
+
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                        transition: all 0.15s ease;
+                        padding: 0;
+                        z-index: 2;
+                    }
+
+                    .chat-clear-btn:hover {
+                        background: #dc2626;
+                        transform: translateY(-50%) scale(1.1);
+                    }
+
+                    /* Make sure the send button stays properly anchored on the far right */
+                    .chat-send-btn {
+                        position: absolute;
+                        top: 50%;
+                        right: 8px;
+                        transform: translateY(-50%);
+                        border: none;
+                        background: #0f172a;
+                        color: #ffffff;
+                        width: 36px;
+                        height: 36px;
+                        border-radius: 12px;
+                        cursor: pointer;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        transition: all 0.2s;
+                        z-index: 2;
+                    }
+
+                    .chat-send-btn:hover {
+                        background: #4f46e5;
+                    }
+                </style>
                 <div class="quick-tags">
-                    <button class="quick-tag" onclick="tagSearch('Premier League')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier
-                        League</button>
-                    <button class="quick-tag" onclick="tagSearch('La Liga')">🇪🇸 La Liga</button>
-                    <button class="quick-tag" onclick="tagSearch('Bundesliga')">🇩🇪 Bundesliga</button>
-                    <button class="quick-tag" onclick="tagSearch('Serie A')">🇮🇹 Serie A</button>
-                    <button class="quick-tag" onclick="tagSearch('Ligue 1')">🇫🇷 Ligue 1</button>
-                    <button class="quick-tag" onclick="tagSearch('Eredivisie')">🇳🇱 Eredivisie</button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 1.5')">Over 1.5</button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 2.5')">Over 2.5</button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Home Win')">Home Win</button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Away Win')">Away Win</button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Draw')">Draw</button>
+                    <button class="quick-tag" onclick="tagSearch('Premier League')" data-tag="premier league">
+                        🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
+                        <span class="tag-remove" onclick="removeTag(event, 'premier league')">×</span>
+                    </button>
+                    <button class="quick-tag" onclick="tagSearch('La Liga')" data-tag="la liga">
+                        🇪🇸 La Liga
+                        <span class="tag-remove" onclick="removeTag(event, 'la liga')">×</span>
+                    </button>
+                    <button class="quick-tag" onclick="tagSearch('Bundesliga')" data-tag="bundesliga">
+                        🇩🇪 Bundesliga
+                        <span class="tag-remove" onclick="removeTag(event, 'bundesliga')">×</span>
+                    </button>
+                    <button class="quick-tag" onclick="tagSearch('Serie A')" data-tag="serie a">
+                        🇮🇹 Serie A
+                        <span class="tag-remove" onclick="removeTag(event, 'serie a')">×</span>
+                    </button>
+                    <button class="quick-tag" onclick="tagSearch('Ligue 1')" data-tag="ligue 1">
+                        🇫🇷 Ligue 1
+                        <span class="tag-remove" onclick="removeTag(event, 'ligue 1')">×</span>
+                    </button>
+                    <button class="quick-tag" onclick="tagSearch('Eredivisie')" data-tag="eredivisie">
+                        🇳🇱 Eredivisie
+                        <span class="tag-remove" onclick="removeTag(event, 'eredivisie')">×</span>
+                    </button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 1.5')" data-tag="over 1.5">
+                        Over 1.5
+                        <span class="tag-remove" onclick="removeTag(event, 'over 1.5')">×</span>
+                    </button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 2.5')" data-tag="over 2.5">
+                        Over 2.5
+                        <span class="tag-remove" onclick="removeTag(event, 'over 2.5')">×</span>
+                    </button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Home Win')" data-tag="home win">
+                        Home Win
+                        <span class="tag-remove" onclick="removeTag(event, 'home win')">×</span>
+                    </button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Away Win')" data-tag="away win">
+                        Away Win
+                        <span class="tag-remove" onclick="removeTag(event, 'away win')">×</span>
+                    </button>
+                    <button class="quick-tag stat-tag" onclick="tagSearch('Draw')" data-tag="draw">
+                        Draw
+                        <span class="tag-remove" onclick="removeTag(event, 'draw')">×</span>
+                    </button>
                 </div>
             </div>
 
@@ -692,15 +1102,17 @@
                         <span class="league-count">{{ group.fixtures|length }} result(s)</span>
                         <div class="league-divider"></div>
                     </div>
-                
+
                     <div class="fixture-card">
                         {% for f in group.fixtures %}
                         <a href="/fixture/{{ f.fixture_id }}/" class="fixture-item"
                             data-search="{{ f.home_team }} {{ f.away_team }} {{ group.league_name }}"
                             data-p-o15="{{ f.over_2_goals_probability|default:0 }}"
-                            data-p-o25="{{ f.over_3_goals_probability|default:0 }}" data-p-home="{{ f.home_win_probability|default:0 }}"
-                            data-p-away="{{ f.away_win_probability|default:0 }}" data-p-draw="{{ f.draw_probability|default:0 }}">
-                
+                            data-p-o25="{{ f.over_3_goals_probability|default:0 }}"
+                            data-p-home="{{ f.home_win_probability|default:0 }}"
+                            data-p-away="{{ f.away_win_probability|default:0 }}"
+                            data-p-draw="{{ f.draw_probability|default:0 }}">
+
                             <span class="fixture-home">{{ f.home_team }}</span>
                             <span class="fixture-score">
                                 {% if f.home_team_score is not None %}
@@ -752,160 +1164,160 @@
 
     <script>
         // ── Date helpers ──────────────────────────────────────────
-            function toYMD(d) {
-                return d.getFullYear() + '-' +
-                    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-                    String(d.getDate()).padStart(2, '0');
+        function toYMD(d) {
+            return d.getFullYear() + '-' +
+                String(d.getMonth() + 1).padStart(2, '0') + '-' +
+                String(d.getDate()).padStart(2, '0');
+        }
+
+        function labelForDate(ymd) {
+            const today = toYMD(new Date());
+            const yesterday = toYMD(new Date(new Date().setDate(new Date().getDate() - 1)));
+            if (ymd === today) return 'Today';
+            if (ymd === yesterday) return 'Yesterday';
+            return new Date(ymd + 'T00:00:00')
+                .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+        }
+
+        // ── State ─────────────────────────────────────────────────
+        const todayYMD = toYMD(new Date());
+        const pillEls = {};
+
+        // ── Build date pills ──────────────────────────────────────
+        const pillGroup = document.getElementById('datePillGroup');
+        const calInput = document.getElementById('calendarInput');
+        if (calInput) calInput.max = todayYMD;
+
+        if (pillGroup) {
+            for (let i = 2; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const ymd = toYMD(d);
+                const btn = document.createElement('button');
+                btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
+                btn.textContent = labelForDate(ymd);
+                btn.addEventListener('click', () => setActiveDate(ymd, false));
+                pillGroup.appendChild(btn);
+                pillEls[ymd] = btn;
             }
 
-            function labelForDate(ymd) {
-                const today = toYMD(new Date());
-                const yesterday = toYMD(new Date(new Date().setDate(new Date().getDate() - 1)));
-                if (ymd === today) return 'Today';
-                if (ymd === yesterday) return 'Yesterday';
-                return new Date(ymd + 'T00:00:00')
-                    .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
+            const calBtn = document.createElement('button');
+            calBtn.className = 'date-pill cal-btn';
+            calBtn.title = 'Pick a date';
+            calBtn.innerHTML = '&#128197;';
+            if (calInput) calBtn.appendChild(calInput);
+            pillGroup.appendChild(calBtn);
+        }
+
+        if (calInput) {
+            calInput.addEventListener('change', function () {
+                if (this.value) setActiveDate(this.value, true);
+            });
+        }
+
+        // ── Fetch & render grouped fixtures ───────────────────────
+        function setActiveDate(ymd, fromCal) {
+            const calBtn = document.querySelector('.cal-btn');
+            document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
+            if (calBtn) calBtn.innerHTML = '&#128197;';
+
+            if (fromCal && calBtn) {
+                calBtn.classList.add('active');
+                const label = new Date(ymd + 'T00:00:00')
+                    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
+            } else if (pillEls[ymd]) {
+                pillEls[ymd].classList.add('active');
             }
 
-            // ── State ─────────────────────────────────────────────────
-            const todayYMD = toYMD(new Date());
-            const pillEls = {};
+            fetch(`/api/fixtures/?date=${ymd}`)
+                .then(r => r.json())
+                .then(renderGrouped)
+                .catch(err => console.error('Fixture fetch error:', err));
+        }
 
-            // ── Build date pills ──────────────────────────────────────
-            const pillGroup = document.getElementById('datePillGroup');
-            const calInput = document.getElementById('calendarInput');
-            if (calInput) calInput.max = todayYMD;
+        // League display name map
+        const LEAGUE_NAMES = {
+            spain: 'Spain • La Liga',
+            spain2: 'Spain • Segunda División',
+            england: 'England • Premier League',
+            england2: 'England • Championship',
+            france: 'France • Ligue 1',
+            france2: 'France • Ligue 2',
+            germany: 'Germany • Bundesliga',
+            germany2: 'Germany • 2. Bundesliga',
+            italy: 'Italy • Serie A',
+            italy2: 'Italy • Serie B',
+            portgal: 'Portugal • Primeira Liga',
+            netherlands: 'Netherlands • Eredivisie',
+            netherlands2: 'Netherlands • Eerste Divisie',
+            belgium: 'Belgium • First Division A',
+            turkey: 'Turkey • Süper Lig',
+            greece: 'Greece • Super League',
+            scotland: 'Scotland • Premiership',
+            russia: 'Russia • Premier League',
+            ukraine: 'Ukraine • Premier League',
+            czechrepublic: 'Czech Republic • First League',
+            austria: 'Austria • Bundesliga',
+            switzerland: 'Switzerland • Super League',
+            croatia: 'Croatia • Prva HNL',
+            denmark: 'Denmark • Superliga',
+            poland: 'Poland • Ekstraklasa',
+            norway: 'Norway • Eliteserien',
+            norway2: 'Norway • First Division',
+            sweden: 'Sweden • Allsvenskan',
+            sweden2: 'Sweden • Division 2',
+            iceland: 'Iceland • Úrvalsdeild',
+            armenia: 'Armenia • Premier League',
+            belarus: 'Belarus • Premier League',
+            brazil: 'Brazil • Série A',
+            bulgaria: 'Bulgaria • First League',
+            cyprus: 'Cyprus • First Division',
+            finland: 'Finland • Veikkausliiga',
+        };
 
-            if (pillGroup) {
-                for (let i = 2; i >= 0; i--) {
-                    const d = new Date();
-                    d.setDate(d.getDate() - i);
-                    const ymd = toYMD(d);
-                    const btn = document.createElement('button');
-                    btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
-                    btn.textContent = labelForDate(ymd);
-                    btn.addEventListener('click', () => setActiveDate(ymd, false));
-                    pillGroup.appendChild(btn);
-                    pillEls[ymd] = btn;
-                }
+        function leagueLabel(key) {
+            const k = (key || '').toLowerCase().replace(/\s+/g, '');
+            return LEAGUE_NAMES[k] || key;
+        }
 
-                const calBtn = document.createElement('button');
-                calBtn.className = 'date-pill cal-btn';
-                calBtn.title = 'Pick a date';
-                calBtn.innerHTML = '&#128197;';
-                if (calInput) calBtn.appendChild(calInput);
-                pillGroup.appendChild(calBtn);
+        function renderGrouped(data) {
+            const root = document.getElementById('fixturesRoot');
+            const noRes = document.getElementById('no-results');
+
+            root.querySelectorAll('.league-group').forEach(el => el.remove());
+
+            if (!data.length) {
+                if (noRes) noRes.style.display = 'block';
+                return;
             }
+            if (noRes) noRes.style.display = 'none';
 
-            if (calInput) {
-                calInput.addEventListener('change', function () {
-                    if (this.value) setActiveDate(this.value, true);
-                });
-            }
+            const groups = {};
+            const order = [];
+            data.forEach(f => {
+                if (!groups[f.league]) { groups[f.league] = []; order.push(f.league); }
+                groups[f.league].push(f);
+            });
 
-            // ── Fetch & render grouped fixtures ───────────────────────
-            function setActiveDate(ymd, fromCal) {
-                const calBtn = document.querySelector('.cal-btn');
-                document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
-                if (calBtn) calBtn.innerHTML = '&#128197;';
+            order.forEach(leagueKey => {
+                const fixtures = groups[leagueKey];
+                const name = leagueLabel(leagueKey);
+                const plural = fixtures.length !== 1 ? 's' : '';
 
-                if (fromCal && calBtn) {
-                    calBtn.classList.add('active');
-                    const label = new Date(ymd + 'T00:00:00')
-                        .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                    calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
-                } else if (pillEls[ymd]) {
-                    pillEls[ymd].classList.add('active');
-                }
+                const group = document.createElement('div');
+                group.className = 'league-group';
+                group.dataset.league = leagueKey;
 
-                fetch(`/api/fixtures/?date=${ymd}`)
-                    .then(r => r.json())
-                    .then(renderGrouped)
-                    .catch(err => console.error('Fixture fetch error:', err));
-            }
+                const rows = fixtures.map(f => {
+                    const hs = f.home_team_score ?? '';
+                    const as_ = f.away_team_score ?? '';
+                    const score = (hs !== '' && as_ !== '') ? `${hs} – ${as_}` : 'vs';
+                    const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
+                    const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
 
-            // League display name map
-            const LEAGUE_NAMES = {
-                spain: 'Spain • La Liga',
-                spain2: 'Spain • Segunda División',
-                england: 'England • Premier League',
-                england2: 'England • Championship',
-                france: 'France • Ligue 1',
-                france2: 'France • Ligue 2',
-                germany: 'Germany • Bundesliga',
-                germany2: 'Germany • 2. Bundesliga',
-                italy: 'Italy • Serie A',
-                italy2: 'Italy • Serie B',
-                portgal: 'Portugal • Primeira Liga',
-                netherlands: 'Netherlands • Eredivisie',
-                netherlands2: 'Netherlands • Eerste Divisie',
-                belgium: 'Belgium • First Division A',
-                turkey: 'Turkey • Süper Lig',
-                greece: 'Greece • Super League',
-                scotland: 'Scotland • Premiership',
-                russia: 'Russia • Premier League',
-                ukraine: 'Ukraine • Premier League',
-                czechrepublic: 'Czech Republic • First League',
-                austria: 'Austria • Bundesliga',
-                switzerland: 'Switzerland • Super League',
-                croatia: 'Croatia • Prva HNL',
-                denmark: 'Denmark • Superliga',
-                poland: 'Poland • Ekstraklasa',
-                norway: 'Norway • Eliteserien',
-                norway2: 'Norway • First Division',
-                sweden: 'Sweden • Allsvenskan',
-                sweden2: 'Sweden • Division 2',
-                iceland: 'Iceland • Úrvalsdeild',
-                armenia: 'Armenia • Premier League',
-                belarus: 'Belarus • Premier League',
-                brazil: 'Brazil • Série A',
-                bulgaria: 'Bulgaria • First League',
-                cyprus: 'Cyprus • First Division',
-                finland: 'Finland • Veikkausliiga',
-            };
-
-            function leagueLabel(key) {
-                const k = (key || '').toLowerCase().replace(/\s+/g, '');
-                return LEAGUE_NAMES[k] || key;
-            }
-
-            function renderGrouped(data) {
-                const root = document.getElementById('fixturesRoot');
-                const noRes = document.getElementById('no-results');
-
-                root.querySelectorAll('.league-group').forEach(el => el.remove());
-
-                if (!data.length) {
-                    if (noRes) noRes.style.display = 'block';
-                    return;
-                }
-                if (noRes) noRes.style.display = 'none';
-
-                const groups = {};
-                const order = [];
-                data.forEach(f => {
-                    if (!groups[f.league]) { groups[f.league] = []; order.push(f.league); }
-                    groups[f.league].push(f);
-                });
-
-                order.forEach(leagueKey => {
-                    const fixtures = groups[leagueKey];
-                    const name = leagueLabel(leagueKey);
-                    const plural = fixtures.length !== 1 ? 's' : '';
-
-                    const group = document.createElement('div');
-                    group.className = 'league-group';
-                    group.dataset.league = leagueKey;
-
-                    const rows = fixtures.map(f => {
-                        const hs = f.home_team_score ?? '';
-                        const as_ = f.away_team_score ?? '';
-                        const score = (hs !== '' && as_ !== '') ? `${hs} – ${as_}` : 'vs';
-                        const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
-                        const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
-
-                        // Added metrics data bindings into elements to drive strict probability sorting logic
-                        return `
+                    // Added metrics data bindings into elements to drive strict probability sorting logic
+                    return `
                         <a href="/fixture/${f.fixture_id}/"
                             class="fixture-item"
                             data-search="${f.home_team} ${f.away_team} ${name}"
@@ -919,9 +1331,9 @@
                             <span class="fixture-away${awayW ? ' winner' : ''}">${f.away_team}</span>
                             <span class="fixture-status">FT</span>
                         </a>`;
-                    }).join('');
+                }).join('');
 
-                    group.innerHTML = `
+                group.innerHTML = `
                     <div class="league-header">
                         <span class="league-name">${name}</span>
                         <span class="league-count">${fixtures.length} result${plural}</span>
@@ -929,104 +1341,265 @@
                     </div>
                     <div class="fixture-card">${rows}</div>`;
 
-                    if (noRes) {
-                        root.insertBefore(group, noRes);
-                    } else {
-                        root.appendChild(group);
-                    }
-                });
-
-                applySearch();
-            }
-
-           function applySearch() {
-                const heroInput = document.getElementById('heroSearch');
-                let q = (heroInput ? heroInput.value : '').toLowerCase().trim();
-                const noRes = document.getElementById('no-results');
-
-                // 1. Define active conditional rules
-                const rules = {
-                    'over 1.5': (el) => parseFloat(el.dataset.pO15) >= 60,
-                    'over 2.5': (el) => parseFloat(el.dataset.pO25) >= 60,
-                    'home win': (el) => parseFloat(el.dataset.pHome) >= 60,
-                    'away win': (el) => parseFloat(el.dataset.pAway) >= 60,
-                    'draw': (el) => parseFloat(el.dataset.pDraw) >= 60
-                };
-
-                // 2. Extract any metric filters found inside the query string
-                let activeFilters = [];
-                Object.keys(rules).forEach(key => {
-                    if (q.includes(key)) {
-                        activeFilters.push(rules[key]);
-                        // Strip the metric keyword out of the string so only team/league names remain
-                        q = q.replace(key, '').replace(/\s+/g, ' ').trim();
-                    }
-                });
-
-                // Clean up filler conversational words if searching phrases like "matches with..."
-                q = q.replace(/\b(matches|with|games|in|and|shows?)\b/g, '').replace(/\s+/g, ' ').trim();
-
-                // 3. Evaluate every fixture row cumulatively
-                document.querySelectorAll('.league-group').forEach(group => {
-                    const items = group.querySelectorAll('.fixture-item');
-                    let visible = 0;
-
-                    items.forEach(item => {
-                        // Rule A: It must pass ALL metric threshold filters found in the string
-                        const passesMetrics = activeFilters.every(filterFn => filterFn(item));
-
-                        // Rule B: It must match any remaining team/league textual strings
-                        const passesText = !q || (item.dataset.search || '').toLowerCase().includes(q);
-
-                        const isMatch = passesMetrics && passesText;
-
-                        item.style.display = isMatch ? '' : 'none';
-                        if (isMatch) visible++;
-                    });
-
-                    // Hide empty league sections gracefully
-                    group.style.display = visible === 0 ? 'none' : '';
-                });
-
-                const anyVisible = [...document.querySelectorAll('.league-group')]
-                    .some(g => g.style.display !== 'none');
-
-                if (noRes) noRes.style.display = anyVisible ? 'none' : 'block';
-            }
-                // ── Hero search wiring ─────────────────────────────────
-            function triggerHeroSearch() {
-                applySearch();
-                const fixturesRoot = document.getElementById('fixturesRoot');
-                if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-
-            function tagSearch(tag) {
-                    const heroInput = document.getElementById('heroSearch');
-                    if (!heroInput) return;
-
-                    const currentVal = heroInput.value.trim();
-
-                    if (currentVal === '' || currentVal.toLowerCase().includes(tag.toLowerCase())) {
-                        // If input is empty or tag is already present, set/keep it isolated
-                        heroInput.value = tag;
-                    } else {
-                        // Stack them together cleanly with a trailing space
-                        heroInput.value = `${currentVal} ${tag}`;
-                    }
-
-                    applySearch();
-                    const fixturesRoot = document.getElementById('fixturesRoot');
-                    if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if (noRes) {
+                    root.insertBefore(group, noRes);
+                } else {
+                    root.appendChild(group);
                 }
-            const heroSearchEl = document.getElementById('heroSearch');
-            if (heroSearchEl) {
-                heroSearchEl.addEventListener('keydown', function (e) {
-                    if (e.key === 'Enter') triggerHeroSearch();
+            });
+
+            applySearch();
+        }
+
+
+        // ── Synonym/variation mapping for natural language understanding ──
+        const METRIC_SYNONYMS = {
+            'over 1.5': [
+                'over 1.5', 'over1.5', 'o1.5', '1.5+',
+                'more than 1.5', 'more than 2 goals', '2+ goals',
+                'two or more goals', 'expect 2 goals',
+                'at least 2 goals', 'above 1.5',
+                'high scoring', 'lots of goals', 'expect goals'
+            ],
+            'over 2.5': [
+                'over 2.5', 'over2.5', 'o2.5', '2.5+',
+                'more than 2.5', 'more than 3 goals', '3+ goals',
+                'three or more goals', 'expect 3 goals',
+                'at least 3 goals', 'above 2.5',
+                'very high scoring', 'lots of goals expected'
+            ],
+            'home win': [
+                'home win', 'home wins', 'home victory',
+                'home team wins', 'home side wins',
+                'hosts win', 'home strong', 'home favorite'
+            ],
+            'away win': [
+                'away win', 'away wins', 'away victory',
+                'away team wins', 'away side wins',
+                'visitors win', 'away strong', 'away upset'
+            ],
+            'draw': [
+                'draw', 'draws', 'tie', 'tied', 'stalemate',
+                'equal score', 'both teams', 'even result'
+            ]
+        };
+
+        // Extract all metric keywords found in query and return their canonical keys
+        function extractMetricKeys(q) {
+            const found = [];
+            Object.entries(METRIC_SYNONYMS).forEach(([canonical, variations]) => {
+                variations.forEach(variant => {
+                    if (q.includes(variant)) {
+                        if (!found.includes(canonical)) found.push(canonical);
+                    }
                 });
-                heroSearchEl.addEventListener('input', applySearch);
+            });
+            return found;
+        }
+
+        // Show/hide clear button based on input
+        function updateClearButtonVisibility() {
+            const input = document.getElementById('heroSearch');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (input.value.trim()) {
+                clearBtn.classList.add('show');
+            } else {
+                clearBtn.classList.remove('show');
+            }
+        }
+
+        // Update active state of quick tag buttons
+        function updateActiveTags() {
+            const input = document.getElementById('heroSearch');
+            const query = input.value.toLowerCase();
+
+            document.querySelectorAll('.quick-tag').forEach(btn => {
+                const tag = btn.dataset.tag || '';
+                const isActive = tag && query.includes(tag);
+
+                if (isActive) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // Remove a tag from search by clicking its X
+        function removeTag(event, tagValue) {
+            event.stopPropagation();
+            const input = document.getElementById('heroSearch');
+            let val = input.value;
+            // Use case-insensitive regex to remove the tag
+            val = val.replace(new RegExp('\\b' + tagValue + '\\b', 'i'), '').replace(/\s+/g, ' ').trim();
+            input.value = val;
+            applySearch();
+        }
+
+        function applySearch() {
+            const heroInput = document.getElementById('heroSearch');
+            let q = (heroInput ? heroInput.value : '').toLowerCase().trim();
+            const noRes = document.getElementById('no-results');
+
+            // 1. Define metric filters (based on canonical keys)
+            const rules = {
+                'over 1.5': (el) => parseFloat(el.dataset.pO15) >= 60,
+                'over 2.5': (el) => parseFloat(el.dataset.pO25) >= 60,
+                'home win': (el) => parseFloat(el.dataset.pHome) >= 60,
+                'away win': (el) => parseFloat(el.dataset.pAway) >= 60,
+                'draw': (el) => parseFloat(el.dataset.pDraw) >= 60
+            };
+
+            // 2. Extract metric filters using synonym matching
+            const extractedMetrics = extractMetricKeys(q);
+            const activeFilters = extractedMetrics.map(key => rules[key]).filter(Boolean);
+
+            // 3. Remove metric keywords from query (both canonical and synonym forms)
+            let cleanQ = q;
+            Object.values(METRIC_SYNONYMS).forEach(variations => {
+                variations.forEach(variant => {
+                    cleanQ = cleanQ.replace(variant, '');
+                });
+            });
+
+            // 4. Clean conversational filler words
+            cleanQ = cleanQ.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // 5. Evaluate fixtures
+            document.querySelectorAll('.league-group').forEach(group => {
+                const items = group.querySelectorAll('.fixture-item');
+                let visible = 0;
+
+                items.forEach(item => {
+                    const passesMetrics = activeFilters.every(fn => fn(item));
+                    const passesText = !cleanQ || (item.dataset.search || '').toLowerCase().includes(cleanQ);
+                    const isMatch = passesMetrics && passesText;
+
+                    item.style.display = isMatch ? '' : 'none';
+                    if (isMatch) visible++;
+                });
+
+                group.style.display = visible === 0 ? 'none' : '';
+            });
+
+            const anyVisible = [...document.querySelectorAll('.league-group')]
+                .some(g => g.style.display !== 'none');
+
+            if (noRes) noRes.style.display = anyVisible ? 'none' : 'block';
+
+            // 6. Update UI elements
+            updateActiveFiltersPills(extractedMetrics);
+            updateClearButtonVisibility();
+            updateActiveTags();
+        }
+
+    function updateActiveFiltersPills(metrics) {
+        // Keep the container node references safe, but completely empty and hide it
+        const container = document.getElementById('activeFiltersPills');
+        if (container) {
+            container.innerHTML = '';
+            container.classList.add('hidden');
+        }
+    }
+
+    function updateActiveTags() {
+        const heroInput = document.getElementById('heroSearch');
+        if (!heroInput) return;
+
+        const fullQuery = heroInput.value.toLowerCase().trim();
+
+        // Re-extract metrics to match current state
+        const currentMetrics = typeof extractMetricKeys === 'function' ? extractMetricKeys(fullQuery) : [];
+
+        // Strip the metrics to get the raw textual search value (teams/leagues)
+        let textQuery = fullQuery;
+        if (typeof METRIC_SYNONYMS !== 'undefined') {
+            Object.values(METRIC_SYNONYMS).forEach(variations => {
+                variations.forEach(variant => {
+                    textQuery = textQuery.replace(variant, '');
+                });
+            });
+        }
+        textQuery = textQuery.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+        // Loop through all quick tags and highlight them if they are part of the query
+        document.querySelectorAll('.quick-tags .quick-tag').forEach(tagBtn => {
+            const tagAttr = (tagBtn.dataset.tag || '').toLowerCase().trim();
+
+            // A tag is active if its canonical name is in the metrics array,
+            // OR if its text value exists inside the remaining textual string query
+            const isMetricActive = currentMetrics.includes(tagAttr);
+            const isTextActive = textQuery.length > 0 && textQuery.includes(tagAttr);
+
+            if (isMetricActive || isTextActive) {
+                tagBtn.classList.add('active');
+            } else {
+                tagBtn.classList.remove('active');
+            }
+        });
+    }
+        function removeFilter(metric) {
+            const input = document.getElementById('heroSearch');
+            let val = input.value.toLowerCase();
+            val = val.replace(metric, '').replace(/\s+/g, ' ').trim();
+            input.value = val;
+            applySearch();
+        }
+
+        function clearSearch() {
+            const input = document.getElementById('heroSearch');
+            input.value = '';
+            document.getElementById('clearSearchBtn').classList.remove('show');
+            document.getElementById('activeFiltersPills').classList.add('hidden');
+            document.querySelectorAll('.quick-tag').forEach(btn => btn.classList.remove('active'));
+            applySearch();
+            input.focus();
+        }
+
+        function triggerHeroSearch() {
+            applySearch();
+            const fixturesRoot = document.getElementById('fixturesRoot');
+            if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function tagSearch(tag) {
+            const input = document.getElementById('heroSearch');
+            const tagLower = tag.toLowerCase();
+            const current = input.value.trim();
+
+            // If tag is already in the search, remove it; otherwise add it
+            if (current.toLowerCase().includes(tagLower)) {
+                input.value = current.toLowerCase().replace(tagLower, '').replace(/\s+/g, ' ').trim();
+            } else if (!current) {
+                input.value = tag;
+            } else {
+                input.value = current + ' ' + tag;
             }
 
-            document.addEventListener('DOMContentLoaded', applySearch);
+            applySearch();
+        }
+
+        const heroSearchEl = document.getElementById('heroSearch');
+        if (heroSearchEl) {
+            heroSearchEl.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') triggerHeroSearch();
+            });
+            heroSearchEl.addEventListener('input', function () {
+                applySearch();
+                updateClearButtonVisibility();
+                updateActiveTags();
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            applySearch();
+            updateClearButtonVisibility();
+            updateActiveTags();
+        });
     </script>
 
 </body>
