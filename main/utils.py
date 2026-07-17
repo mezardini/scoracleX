@@ -3,6 +3,30 @@ from scipy.stats import poisson
 from bs4 import BeautifulSoup
 
 
+def save_google_profile(backend, user, response, *args, **kwargs):
+    if backend.name != 'google-oauth2' or user is None:
+        return
+
+    user.auth_provider = 'google'
+    user.google_id = response.get('sub') or response.get('id') or user.google_id
+    user.email_verified = response.get('email_verified', user.email_verified)
+    user.avatar_url = response.get('picture') or user.avatar_url
+    user.first_name = response.get('given_name') or user.first_name
+    user.last_name = response.get('family_name') or user.last_name
+    if not user.username:
+        user.username = response.get('name') or user.email.split('@')[0]
+    user.save(update_fields=[
+        'auth_provider',
+        'google_id',
+        'email_verified',
+        'avatar_url',
+        'first_name',
+        'last_name',
+        'username',
+        'updated_at',
+    ])
+
+
 def fetch_data(url):
     try:
         session = requests.Session()

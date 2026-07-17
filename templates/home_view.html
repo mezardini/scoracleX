@@ -206,6 +206,53 @@
             opacity: 0.85;
         }
 
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-auth {
+            background: #fff;
+            color: #1a1a1a;
+            border: 0.5px solid rgba(0, 0, 0, 0.15);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .guest-limit {
+            background: #fff;
+            border: 0.5px solid rgba(0, 0, 0, 0.12);
+            border-radius: 12px;
+            padding: 22px;
+            margin-top: 1.25rem;
+            text-align: center;
+            box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        .guest-limit h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 0.45rem;
+        }
+
+        .guest-limit p {
+            color: #777;
+            font-size: 14px;
+            line-height: 1.55;
+            margin: 0 auto 1rem;
+            max-width: 440px;
+        }
+
+        .guest-limit-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
         /* ── Main ── */
         main {
             flex: 1;
@@ -831,7 +878,15 @@
             <div class="brand-icon">⚽</div>
             Scoracle
         </div>
-        <a href="" class="btn-try">Try It</a>
+        <div class="nav-actions">
+            {% if request.user.is_authenticated %}
+            <span class="btn-auth">{{ request.user.email }}</span>
+            <a href="{% url 'logout' %}" class="btn-try">Logout</a>
+            {% else %}
+            <a href="{% url 'login' %}" class="btn-auth">Login</a>
+            <a href="{% url 'register' %}" class="btn-try">Register</a>
+            {% endif %}
+        </div>
     </nav>
 
     <main>
@@ -1128,6 +1183,16 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% endif %}
+                {% if is_guest_limited %}
+                <div class="guest-limit">
+                    <h2>Unlock every fixture on today's board.</h2>
+                    <p>You are previewing {{ guest_fixture_limit }} games. Sign in or create an account with Google to see the full set of Scoracle predictions.</p>
+                    <div class="guest-limit-actions">
+                        <a href="{% url 'login' %}" class="btn-auth">Login</a>
+                        <a href="{% url 'register' %}" class="btn-try">Register</a>
+                    </div>
+                </div>
                 {% endif %}
                 <div id="no-results">No fixtures found.</div>
             </div>

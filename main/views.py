@@ -6,11 +6,14 @@ from django.db import transaction
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 # import aiohttp
 import asyncio
-from django.shortcuts import render, get_object_or_404
+from django.contrib import messages
+from django.contrib.auth import login, logout
+from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 from .models import Fixture
+from .forms import LoginForm, RegisterForm
 from bs4 import BeautifulSoup
 from uuid import uuid4
 import requests
@@ -24,6 +27,9 @@ from .utils import fetch_data, calculate_poisson_probs, predict_match_result, ge
 from itertools import groupby
 
 from django.db.models import Case, When, Value, IntegerField
+
+
+GUEST_FIXTURE_LIMIT = 10
 
 
 def get_sorted_fixtures(date_value):
@@ -89,7 +95,10 @@ LEAGUE_DISPLAY_NAMES = {
 
 def home(request):
     today = timezone.now().date()
-    fixtures = get_sorted_fixtures(today)
+    fixtures = get_unique_fixtures(get_sorted_fixtures(today))
+    is_limited = not request.user.is_authenticated
+    if is_limited:
+        fixtures = fixtures[:GUEST_FIXTURE_LIMIT]
 
     # Group fixtures by league, preserving sort order
     grouped = []
@@ -100,7 +109,79 @@ def home(request):
             'fixtures':    list(group),
         })
 
-    return render(request, 'home_view.html', {'grouped_fixtures': grouped})
+    return render(request, 'home_view.html', {
+        'grouped_fixtures': grouped,
+        'guest_fixture_limit': GUEST_FIXTURE_LIMIT,
+        'is_guest_limited': is_limited,
+    })
+
+
+def get_unique_fixtures(fixtures):
+    unique_fixtures = []
+    seen = set()
+
+    for fixture in fixtures:
+        key = (
+            fixture.league,
+            fixture.home_team.strip().lower(),
+            fixture.away_team.strip().lower(),
+            fixture.date.date(),
+        )
+        if key in seen:
+            continue
+        seen.add(key)
+        unique_fixtures.append(fixture)
+
+    return unique_fixtures
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0].strip()
+    return request.META.get('REMOTE_ADDR')
+
+
+def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save(signup_ip=get_client_ip(request))
+            login(request, user)
+            messages.success(request, 'Your account is ready.')
+            return redirect('home')
+    else:
+        form = RegisterForm()
+
+    return render(request, 'registration/register.html', {'form': form})
+
+
+def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('home')
+
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.user
+            user.last_login_ip = get_client_ip(request)
+            user.save(update_fields=['last_login_ip', 'updated_at'])
+            login(request, user)
+            messages.success(request, 'Welcome back.')
+            return redirect(request.GET.get('next') or 'home')
+    else:
+        form = LoginForm(request)
+
+    return render(request, 'registration/login.html', {'form': form})
+
+
+def logout_user(request):
+    logout(request)
+    messages.success(request, 'You have been signed out.')
+    return redirect('home')
 
 # --- Updated API View ---
 
@@ -108,10 +189,27 @@ def home(request):
 def get_fixtures_by_date(request):
     selected_date = request.GET.get('date')
     if selected_date:
-        fixtures = get_sorted_fixtures(selected_date).values(
-            'fixture_id', 'home_team', 'away_team', 'home_team_score', 'away_team_score', 'league'
-        )
-        return JsonResponse(list(fixtures), safe=False)
+        fixtures = get_unique_fixtures(get_sorted_fixtures(selected_date))
+        if not request.user.is_authenticated:
+            fixtures = fixtures[:GUEST_FIXTURE_LIMIT]
+        return JsonResponse([
+            {
+                'fixture_id': fixture.fixture_id,
+                'home_team': fixture.home_team,
+                'away_team': fixture.away_team,
+                'home_team_score': fixture.home_team_score,
+                'away_team_score': fixture.away_team_score,
+                'league': fixture.league,
+                'over_2_goals_probability': fixture.over_2_goals_probability,
+                'over_3_goals_probability': fixture.over_3_goals_probability,
+                'over_1_5_probability': fixture.over_2_goals_probability,
+                'over_2_5_probability': fixture.over_3_goals_probability,
+                'home_win_probability': fixture.home_win_probability,
+                'away_win_probability': fixture.away_win_probability,
+                'draw_probability': fixture.draw_probability,
+            }
+            for fixture in fixtures
+        ], safe=False)
     return JsonResponse({'error': 'No date'}, status=400)
 
 
