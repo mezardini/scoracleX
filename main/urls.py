@@ -5,6 +5,9 @@ from .views import AllLeaguesPrediction
 
 urlpatterns = [
     path('', views.home, name="home"),
+    path('register/', views.register_user, name="register"),
+    path('login/', views.login_user, name="login"),
+    path('logout/', views.logout_user, name="logout"),
     path('api/fixtures/', views.get_fixtures_by_date,
          name='get_fixtures_by_date'),
     path('fixture/<str:fixture_id>/', views.fixture_details, name="fixture_details"),
