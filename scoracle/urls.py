@@ -22,3 +22,8 @@ urlpatterns = [
     path("oauth/", include("social_django.urls", namespace="social")),
     path('', include('main.urls')),
 ]
+
+handler400 = 'main.views.bad_request'
+handler403 = 'main.views.permission_denied'
+handler404 = 'main.views.page_not_found'
+handler500 = 'main.views.server_error'
