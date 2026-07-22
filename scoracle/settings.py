@@ -32,12 +32,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'scoracle.usepalmer.com',
+    'usepalmer.com',
     'localhost',
     '127.0.0.1',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     'https://scoracle.usepalmer.com',
+    'https://usepalmer.com'
 ]
 
 CSRF_COOKIE_SECURE = True
