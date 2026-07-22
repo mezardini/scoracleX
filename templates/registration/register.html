@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Create account - Scoracle</title>
+    <title>Create account - Palmer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -167,14 +167,14 @@
     <nav class="navbar">
         <a href="{% url 'home' %}" class="navbar-brand">
             <span class="brand-icon">S</span>
-            Scoracle
+            Palmer
         </a>
     </nav>
 
     <main class="auth-shell">
         <p class="auth-eyebrow">Create account</p>
         <h1>See the full prediction board.</h1>
-        <p class="auth-sub">Create a Scoracle account with Google, or register with your email and password.</p>
+        <p class="auth-sub">Create a Palmer account with Google, or register with your email and password.</p>
 
         <a class="google-btn" href="{% url 'social:begin' 'google-oauth2' %}">
             <svg class="google-icon" viewBox="0 0 18 18" aria-hidden="true">
@@ -186,7 +186,7 @@
             Continue with Google
         </a>
 
-        <div class="divider">or</div>
+        <!-- <div class="divider">or</div>
 
         <form method="post" novalidate>
             {% csrf_token %}
@@ -224,7 +224,7 @@
                 {{ form.password2.errors }}
             </div>
             <button class="submit-btn" type="submit">Create account</button>
-        </form>
+        </form> -->
 
         <p class="auth-switch">Already registered? <a href="{% url 'login' %}">Sign in</a></p>
     </main>

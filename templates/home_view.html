@@ -4,8 +4,15 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Scoracle - AI Powered Football Predictor</title>
-    <meta name="description" content="Scoracle - AI Powered Football Predictor." />
+    <title>Palmer - AI Powered Football Analysis</title>
+    <meta name="description" content="Palmer - AI Powered Football  Analysis." />
+    <meta property="og:image" content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:type" content="image/png">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
@@ -876,7 +883,7 @@
     <nav class="navbar">
         <div class="navbar-brand">
            <!-- <div class="brand-icon">⚽</div>  -->
-            Scoracle
+            Palmer
         </div>
         <div class="nav-actions">
             {% if request.user.is_authenticated %}
@@ -894,10 +901,10 @@
 
             <!-- Hero -->
             <div class="hero">
-                <p class="hero-eyebrow">AI-powered football predictions</p>
+                <p class="hero-eyebrow">AI-powered football analysis</p>
                 <h1 class="hero-heading">
                     Know what the<br>
-                    <span class="hero-highlight">match predicts.</span>
+                    <span class="hero-highlight">numbers show.</span>
                 </h1>
                 <p class="hero-sub">Fixtures, scorelines and goal probabilities across 36 leagues — updated daily.</p>
 
@@ -1187,7 +1194,7 @@
                 {% if is_guest_limited %}
                 <div class="guest-limit">
                     <h2>Unlock every fixture on today's board.</h2>
-                    <p>You are previewing {{ guest_fixture_limit }} games. Sign in or create an account with Google to see the full set of Scoracle predictions.</p>
+                    <p>You are previewing {{ guest_fixture_limit }} games. Sign in or create an account with Google to see the full set of Palmer predictions.</p>
                     <div class="guest-limit-actions">
                         <a href="{% url 'login' %}" class="btn-auth">Login</a>
                         <a href="{% url 'register' %}" class="btn-try">Register</a>
@@ -1206,7 +1213,7 @@
             <a href="#" data-bs-toggle="modal" data-bs-target="#privacyModal">Privacy policy</a>
             <a href="#" data-bs-toggle="modal" data-bs-target="#disclaimerModal">Disclaimer</a>
         </div>
-        <p class="footer-copy">&copy; 2026 Scoracle — All Rights Reserved</p>
+        <p class="footer-copy">&copy; 2026 Palmer — All Rights Reserved</p>
         <p class="footer-gamble">18+ | Please Gamble Responsibly</p>
     </footer>
 
