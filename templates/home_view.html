@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Palmer - AI Powered Football Analysis</title>
     <meta name="description" content="Palmer - AI Powered Football  Analysis." />
-    <meta property="og:image" content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
+    <meta property="og:image"
+        content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:type" content="image/png">
-    
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
 
-    <link rel="icon" type="image/png" href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/palmer-favicon.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image"
+        content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
+
+    <link rel="icon" type="image/png"
+        href="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/palmer-favicon.png">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
@@ -30,141 +33,44 @@
 
     <style>
         /* ── Active Highlight States ── */
-    .btn-auth-avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    object-fit: cover;
-}
+        .btn-auth-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
 
-/* Standard League Tag Active Highlight */
-.quick-tag.active {
-    background: #4f46e5 !important; /* Premium Indigo */
-    border-color: #4f46e5 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-}
+        /* Standard League Tag Active Highlight */
+        .quick-tag.active {
+            background: #4f46e5 !important;
+            /* Premium Indigo */
+            border-color: #4f46e5 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
 
-/* Stat Filter Metric Tag Active Highlight */
-.quick-tag.stat-tag.active {
-    background: #06b6d4 !important; /* Premium Cyan / Teal Accent */
-    border-color: #06b6d4 !important;
-    color: #ffffff !important;
-    box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-}
+        /* Stat Filter Metric Tag Active Highlight */
+        .quick-tag.stat-tag.active {
+            background: #06b6d4 !important;
+            /* Premium Cyan / Teal Accent */
+            border-color: #06b6d4 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
+        }
 
-/* ── Smart Visibility for the Badge ── */
-/* Keep the layout clean by hiding the remove dot badge until the user hovers over an active tag */
-.quick-tag .tag-remove {
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-}
+        /* ── Smart Visibility for the Badge ── */
+        /* Keep the layout clean by hiding the remove dot badge until the user hovers over an active tag */
+        .quick-tag .tag-remove {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
 
-.quick-tag.active .tag-remove {
-    opacity: 1;
-    pointer-events: auto;
-}
-        /* ── The Main Search Capsule Container ── */
-.chat-search-wrap {
-    display: flex;
-    align-items: center;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 24px; /* Perfectly rounded outer pill capsule */
-    padding: 6px 8px 6px 18px; /* Balanced interior breathing room */
-    max-width: 620px;
-    margin: 0 auto 1.5rem;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
-                0 8px 10px -6px rgba(0, 0, 0, 0.03);
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-}
+        .quick-tag.active .tag-remove {
+            opacity: 1;
+            pointer-events: auto;
+        }
 
-/* Subtle outer focus ring instead of an inner outline split */
-.chat-search-wrap:focus-within {
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1), 
-                0 10px 25px -5px rgba(79, 70, 229, 0.05);
-}
-
-/* ── Magnifying Glass Icon ── */
-.chat-icon {
-    color: #94a3b8;
-    flex-shrink: 0;
-    margin-right: 12px;
-    display: flex;
-    align-items: center;
-}
-
-/* ── Seamless Input Field (No Outlines or Inner Borders) ── */
-.chat-search-input {
-    border: none !important;
-    outline: none !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    width: 100%;
-    padding: 10px 36px 10px 0; /* Extra right padding so text never overlaps the X badge */
-    font-size: 0.95rem;
-    color: #0f172a;
-    font-weight: 400;
-}
-
-.chat-search-input::placeholder {
-    color: #94a3b8;
-}
-
-/* ── Clean Inline Red Remove Badge ── */
-.chat-clear-btn {
-    position: absolute;
-    right: 54px; /* Anchored nicely right before the arrow button block */
-    top: 50%;
-    transform: translateY(-50%);
-    
-    background: #ef4444; 
-    color: #ffffff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: all 0.15s ease;
-    z-index: 2;
-    user-select: none;
-}
-
-.chat-clear-btn:hover {
-    background: #dc2626;
-    transform: translateY(-50%) scale(1.1);
-}
-
-/* ── Far-Right Send Button ── */
-.chat-send-btn {
-    flex-shrink: 0;
-    border: none;
-    background: #0f172a;
-    color: #ffffff;
-    width: 36px;
-    height: 36px;
-    border-radius: 14px; /* Soft square-round aesthetic matching image_afffc1.png */
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-    margin-left: auto; /* Pushes cleanly to the edge */
-}
-
-.chat-send-btn:hover {
-    background: #4f46e5;
-    transform: translateY(-1px);
-}
         *,
         *::before,
         *::after {
@@ -325,67 +231,6 @@
             margin: 0.75rem auto 1.75rem;
             max-width: 420px;
             line-height: 1.6;
-        }
-
-        /* ── Chat search box ── */
-        .chat-search-wrap {
-            position: relative;
-            max-width: 560px;
-            margin: 0 auto 1rem;
-        }
-
-        .chat-search-wrap .chat-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #bbb;
-            pointer-events: none;
-        }
-
-        .chat-search-input {
-            width: 100%;
-            padding: 16px 100px 16px 48px;
-            background: #fff;
-            border: 0.5px solid rgba(0, 0, 0, 0.15);
-            border-radius: 50px;
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            color: #1a1a1a;
-            outline: none;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            transition: box-shadow 0.2s, border-color 0.2s;
-        }
-
-        .chat-search-input::placeholder {
-            color: #bbb;
-        }
-
-        .chat-search-input:focus {
-            border-color: rgba(0, 0, 0, 0.25);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .chat-send-btn {
-            position: absolute;
-            right: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 36px;
-            height: 36px;
-            background: #1a1a1a;
-            border: none;
-            border-radius: 50%;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.15s;
-        }
-
-        .chat-send-btn:hover {
-            opacity: 0.75;
         }
 
         /* ── Quick tags ── */
@@ -899,7 +744,7 @@
 
     <nav class="navbar">
         <div class="navbar-brand">
-           <!-- <div class="brand-icon">⚽</div>  -->
+            <!-- <div class="brand-icon">⚽</div>  -->
             Palmer
         </div>
         <div class="nav-actions">
@@ -928,240 +773,89 @@
                     <span class="hero-highlight">numbers show.</span>
                 </h1>
                 <p class="hero-sub">Fixtures, scorelines and goal probabilities across 36 leagues — updated daily.</p>
-
-                <!-- Main Search Input Element Wrapper Block -->
-                <div class="chat-search-wrap">
-                    <!-- Left Aligned Lens Icon -->
-                    <span class="chat-icon">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="11" cy="11" r="8" />
-                            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                        </svg>
-                    </span>
-                
-                    <!-- Seamless Input Core Field -->
-                    <input class="chat-search-input" id="heroSearch" placeholder='Try: "belarus over 1.5" or "home win bundesliga"'
-                        autocomplete="off" />
-                
-                    <!-- Floating Red Clear Badge -->
-                    <span class="chat-clear-btn" id="clearSearchBtn" title="Clear search" onclick="clearSearch()">✕</span>
-                
-                    <!-- Right Aligned Arrow Button -->
-                    <button class="chat-send-btn" onclick="triggerHeroSearch()" aria-label="Search">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                            stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12" />
-                            <polyline points="12 5 19 12 12 19" />
-                        </svg>
-                    </button>
-                </div>
-
-                <div class="active-filters hidden" id="activeFiltersPills"></div>
-                <style>
-                    /* ── Base Tag Styling ── */
-                    .quick-tag {
-                        position: relative;
-                        /* Essential for containing the absolute badge */
-                        display: inline-flex;
-                        align-items: center;
-                        border: 1px solid #e2e8f0;
-                        background: #ffffff;
-                        color: #334155;
-                        font-size: 0.85rem;
-                        font-weight: 500;
-                        padding: 6px 16px;
-                        /* Balanced padding */
-                        border-radius: 20px;
-                        cursor: pointer;
-                        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-                        white-space: nowrap;
-                        margin-top: 6px;
-                        /* Prevents overlapping when tags wrap */
-                        margin-right: 6px;
-                    }
-
-                    .quick-tag:hover {
-                        background: #f8fafc;
-                        border-color: #cbd5e1;
-                        color: #0f172a;
-                    }
-
-                    /* Alternate theme style rule variant specifically targeted to statistical criteria metrics */
-                    .quick-tag.stat-tag {
-                        background: #f8fafc;
-                        border-color: #e2e8f0;
-                        color: #4f46e5;
-                    }
-
-                    .quick-tag.stat-tag:hover {
-                        background: #eef2ff;
-                        border-color: #c7d2fe;
-                    }
-
-                    /* ── Absolute Corner Badge (The "Remove" Button) ── */
-                    .tag-remove {
-                        position: absolute;
-                        top: 0;
-                        left: 100%;
-                        transform: translate(-50%, -50%);
-                        /* Shifts center point precisely onto the corner */
-
-                        border: 1px solid #ffffff;
-                        /* White ring breakout border */
-                        background: #ef4444;
-                        /* High-visibility alert red */
-                        color: #ffffff;
-                        /* Crisp white X icon */
-
-                        font-size: 0.75rem;
-                        font-weight: 700;
-                        width: 18px;
-                        height: 18px;
-                        border-radius: 50%;
-
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        transition: all 0.15s ease;
-                        padding: 0;
-                        z-index: 2;
-                    }
-
-                    .tag-remove:hover {
-                        background: #dc2626;
-                        /* Darker red on hover */
-                        transform: translate(-50%, -50%) scale(1.1);
-                        /* Slight micro-pop animation */
-                    }
-
-                    /* Update the search input wrapper to make absolute positioning stable */
-                    .chat-search-wrap {
-                        display: flex;
-                        align-items: center;
-                        background: #ffffff;
-                        border: 1px solid #e2e8f0;
-                        border-radius: 16px;
-                        padding: 6px 44px 6px 16px;
-                        /* Increased right padding to prevent text overlapping the floating badge */
-                        max-width: 620px;
-                        margin: 0 auto 1.5rem;
-                        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05),
-                            0 8px 10px -6px rgba(0, 0, 0, 0.03);
-                        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-                        position: relative;
-                        /* Crucial positioning context anchor */
-                    }
-
-                    /* Redesigned Search Bar Clear Button Badge */
-                    .chat-clear-btn {
-                        position: absolute;
-                        top: 50%;
-                        right: 52px;
-                        /* Placed cleanly right next to the send button arrow */
-                        transform: translateY(-50%);
-
-                        border: 1px solid #ffffff;
-                        background: #ef4444;
-                        /* High-visibility alert red matching tag badges */
-                        color: #ffffff;
-
-                        font-size: 0.7rem;
-                        font-weight: 700;
-                        width: 18px;
-                        height: 18px;
-                        border-radius: 50%;
-
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        cursor: pointer;
-                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                        transition: all 0.15s ease;
-                        padding: 0;
-                        z-index: 2;
-                    }
-
-                    .chat-clear-btn:hover {
-                        background: #dc2626;
-                        transform: translateY(-50%) scale(1.1);
-                    }
-
-                    /* Make sure the send button stays properly anchored on the far right */
-                    .chat-send-btn {
-                        position: absolute;
-                        top: 50%;
-                        right: 8px;
-                        transform: translateY(-50%);
-                        border: none;
-                        background: #0f172a;
-                        color: #ffffff;
-                        width: 36px;
-                        height: 36px;
-                        border-radius: 12px;
-                        cursor: pointer;
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        transition: all 0.2s;
-                        z-index: 2;
-                    }
-
-                    .chat-send-btn:hover {
-                        background: #4f46e5;
-                    }
-                </style>
-                <div class="quick-tags">
-                    <button class="quick-tag" onclick="tagSearch('Premier League')" data-tag="premier league">
-                        🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
-                        <span class="tag-remove" onclick="removeTag(event, 'premier league')">×</span>
-                    </button>
-                    <button class="quick-tag" onclick="tagSearch('La Liga')" data-tag="la liga">
-                        🇪🇸 La Liga
-                        <span class="tag-remove" onclick="removeTag(event, 'la liga')">×</span>
-                    </button>
-                    <button class="quick-tag" onclick="tagSearch('Bundesliga')" data-tag="bundesliga">
-                        🇩🇪 Bundesliga
-                        <span class="tag-remove" onclick="removeTag(event, 'bundesliga')">×</span>
-                    </button>
-                    <button class="quick-tag" onclick="tagSearch('Serie A')" data-tag="serie a">
-                        🇮🇹 Serie A
-                        <span class="tag-remove" onclick="removeTag(event, 'serie a')">×</span>
-                    </button>
-                    <button class="quick-tag" onclick="tagSearch('Ligue 1')" data-tag="ligue 1">
-                        🇫🇷 Ligue 1
-                        <span class="tag-remove" onclick="removeTag(event, 'ligue 1')">×</span>
-                    </button>
-                    <button class="quick-tag" onclick="tagSearch('Eredivisie')" data-tag="eredivisie">
-                        🇳🇱 Eredivisie
-                        <span class="tag-remove" onclick="removeTag(event, 'eredivisie')">×</span>
-                    </button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 1.5')" data-tag="over 1.5">
-                        Over 1.5
-                        <span class="tag-remove" onclick="removeTag(event, 'over 1.5')">×</span>
-                    </button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Over 2.5')" data-tag="over 2.5">
-                        Over 2.5
-                        <span class="tag-remove" onclick="removeTag(event, 'over 2.5')">×</span>
-                    </button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Home Win')" data-tag="home win">
-                        Home Win
-                        <span class="tag-remove" onclick="removeTag(event, 'home win')">×</span>
-                    </button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Away Win')" data-tag="away win">
-                        Away Win
-                        <span class="tag-remove" onclick="removeTag(event, 'away win')">×</span>
-                    </button>
-                    <button class="quick-tag stat-tag" onclick="tagSearch('Draw')" data-tag="draw">
-                        Draw
-                        <span class="tag-remove" onclick="removeTag(event, 'draw')">×</span>
-                    </button>
-                </div>
             </div>
 
-            <!-- <div class="filter-bar">
+            <style>
+                /* ── Base Tag Styling ── */
+                .quick-tag {
+                    position: relative;
+                    /* Essential for containing the absolute badge */
+                    display: inline-flex;
+                    align-items: center;
+                    border: 1px solid #e2e8f0;
+                    background: #ffffff;
+                    color: #334155;
+                    font-size: 0.85rem;
+                    font-weight: 500;
+                    padding: 6px 16px;
+                    /* Balanced padding */
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                    white-space: nowrap;
+                    margin-top: 6px;
+                    /* Prevents overlapping when tags wrap */
+                    margin-right: 6px;
+                }
+
+                .quick-tag:hover {
+                    background: #f8fafc;
+                    border-color: #cbd5e1;
+                    color: #0f172a;
+                }
+
+                /* Alternate theme style rule variant specifically targeted to statistical criteria metrics */
+                .quick-tag.stat-tag {
+                    background: #f8fafc;
+                    border-color: #e2e8f0;
+                    color: #4f46e5;
+                }
+
+                .quick-tag.stat-tag:hover {
+                    background: #eef2ff;
+                    border-color: #c7d2fe;
+                }
+
+                /* ── Absolute Corner Badge (The "Remove" Button) ── */
+                .tag-remove {
+                    position: absolute;
+                    top: 0;
+                    left: 100%;
+                    transform: translate(-50%, -50%);
+                    /* Shifts center point precisely onto the corner */
+
+                    border: 1px solid #ffffff;
+                    /* White ring breakout border */
+                    background: #ef4444;
+                    /* High-visibility alert red */
+                    color: #ffffff;
+                    /* Crisp white X icon */
+
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    transition: all 0.15s ease;
+                    padding: 0;
+                    z-index: 2;
+                }
+
+                .tag-remove:hover {
+                    background: #dc2626;
+                    /* Darker red on hover */
+                    transform: translate(-50%, -50%) scale(1.1);
+                    /* Slight micro-pop animation */
+                }
+            </style>
+
+            <div class="filter-bar">
                 <div class="search-wrapper">
                     <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -1169,11 +863,61 @@
                         <circle cx="11" cy="11" r="8" />
                         <line x1="21" y1="21" x2="16.65" y2="16.65" />
                     </svg>
-                    <input type="text" id="searchInput" placeholder="Search teams or league..." autocomplete="off" />
+                    <input type="text" id="searchInput"
+                        placeholder='Search teams, leagues — or try "over 1.5", "home win bundesliga"'
+                        autocomplete="off" />
                 </div>
                 <div class="date-pill-group" id="datePillGroup"></div>
                 <input type="date" id="calendarInput" />
-            </div> -->
+            </div>
+
+            <div class="active-filters hidden" id="activeFiltersPills"></div>
+            <div class="quick-tags">
+                <button class="quick-tag" onclick="tagSearch('Premier League')" data-tag="premier league">
+                    🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
+                    <span class="tag-remove" onclick="removeTag(event, 'premier league')">×</span>
+                </button>
+                <button class="quick-tag" onclick="tagSearch('La Liga')" data-tag="la liga">
+                    🇪🇸 La Liga
+                    <span class="tag-remove" onclick="removeTag(event, 'la liga')">×</span>
+                </button>
+                <button class="quick-tag" onclick="tagSearch('Bundesliga')" data-tag="bundesliga">
+                    🇩🇪 Bundesliga
+                    <span class="tag-remove" onclick="removeTag(event, 'bundesliga')">×</span>
+                </button>
+                <button class="quick-tag" onclick="tagSearch('Serie A')" data-tag="serie a">
+                    🇮🇹 Serie A
+                    <span class="tag-remove" onclick="removeTag(event, 'serie a')">×</span>
+                </button>
+                <button class="quick-tag" onclick="tagSearch('Ligue 1')" data-tag="ligue 1">
+                    🇫🇷 Ligue 1
+                    <span class="tag-remove" onclick="removeTag(event, 'ligue 1')">×</span>
+                </button>
+                <button class="quick-tag" onclick="tagSearch('Eredivisie')" data-tag="eredivisie">
+                    🇳🇱 Eredivisie
+                    <span class="tag-remove" onclick="removeTag(event, 'eredivisie')">×</span>
+                </button>
+                <button class="quick-tag stat-tag" onclick="tagSearch('Over 1.5')" data-tag="over 1.5">
+                    Over 1.5
+                    <span class="tag-remove" onclick="removeTag(event, 'over 1.5')">×</span>
+                </button>
+                <button class="quick-tag stat-tag" onclick="tagSearch('Over 2.5')" data-tag="over 2.5">
+                    Over 2.5
+                    <span class="tag-remove" onclick="removeTag(event, 'over 2.5')">×</span>
+                </button>
+                <button class="quick-tag stat-tag" onclick="tagSearch('Home Win')" data-tag="home win">
+                    Home Win
+                    <span class="tag-remove" onclick="removeTag(event, 'home win')">×</span>
+                </button>
+                <button class="quick-tag stat-tag" onclick="tagSearch('Away Win')" data-tag="away win">
+                    Away Win
+                    <span class="tag-remove" onclick="removeTag(event, 'away win')">×</span>
+                </button>
+                <button class="quick-tag stat-tag" onclick="tagSearch('Draw')" data-tag="draw">
+                    Draw
+                    <span class="tag-remove" onclick="removeTag(event, 'draw')">×</span>
+                </button>
+            </div>
 
             <!-- Server-rendered grouped fixtures (initial page load) -->
             <div id="fixturesRoot">
@@ -1215,7 +959,8 @@
                 {% if is_guest_limited %}
                 <div class="guest-limit">
                     <h2>Unlock every fixture on today's board.</h2>
-                    <p>You are previewing {{ guest_fixture_limit }} games. Sign in or create an account with Google to see the full set of Palmer predictions.</p>
+                    <p>You are previewing {{ guest_fixture_limit }} games. Sign in or create an account with Google to
+                        see the full set of Palmer predictions.</p>
                     <div class="guest-limit-actions">
                         <a href="{% url 'login' %}" class="btn-auth">Login</a>
                         <a href="{% url 'register' %}" class="btn-try">Register</a>
@@ -1490,10 +1235,11 @@
             return found;
         }
 
-        // Show/hide clear button based on input
+        // Show/hide clear button based on input (no-op if the filter-bar has no clear badge)
         function updateClearButtonVisibility() {
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
             const clearBtn = document.getElementById('clearSearchBtn');
+            if (!input || !clearBtn) return;
             if (input.value.trim()) {
                 clearBtn.classList.add('show');
             } else {
@@ -1503,7 +1249,7 @@
 
         // Update active state of quick tag buttons
         function updateActiveTags() {
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
             const query = input.value.toLowerCase();
 
             document.querySelectorAll('.quick-tag').forEach(btn => {
@@ -1521,7 +1267,7 @@
         // Remove a tag from search by clicking its X
         function removeTag(event, tagValue) {
             event.stopPropagation();
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
             let val = input.value;
             // Use case-insensitive regex to remove the tag
             val = val.replace(new RegExp('\\b' + tagValue + '\\b', 'i'), '').replace(/\s+/g, ' ').trim();
@@ -1530,8 +1276,8 @@
         }
 
         function applySearch() {
-            const heroInput = document.getElementById('heroSearch');
-            let q = (heroInput ? heroInput.value : '').toLowerCase().trim();
+            const searchEl2 = document.getElementById('searchInput');
+            let q = (searchEl2 ? searchEl2.value : '').toLowerCase().trim();
             const noRes = document.getElementById('no-results');
 
             // 1. Define metric filters (based on canonical keys)
@@ -1588,55 +1334,55 @@
             updateActiveTags();
         }
 
-    function updateActiveFiltersPills(metrics) {
-        // Keep the container node references safe, but completely empty and hide it
-        const container = document.getElementById('activeFiltersPills');
-        if (container) {
-            container.innerHTML = '';
-            container.classList.add('hidden');
+        function updateActiveFiltersPills(metrics) {
+            // Keep the container node references safe, but completely empty and hide it
+            const container = document.getElementById('activeFiltersPills');
+            if (container) {
+                container.innerHTML = '';
+                container.classList.add('hidden');
+            }
         }
-    }
 
-    function updateActiveTags() {
-        const heroInput = document.getElementById('heroSearch');
-        if (!heroInput) return;
+        function updateActiveTags() {
+            const searchEl2 = document.getElementById('searchInput');
+            if (!searchEl2) return;
 
-        const fullQuery = heroInput.value.toLowerCase().trim();
+            const fullQuery = searchEl2.value.toLowerCase().trim();
 
-        // Re-extract metrics to match current state
-        const currentMetrics = typeof extractMetricKeys === 'function' ? extractMetricKeys(fullQuery) : [];
+            // Re-extract metrics to match current state
+            const currentMetrics = typeof extractMetricKeys === 'function' ? extractMetricKeys(fullQuery) : [];
 
-        // Strip the metrics to get the raw textual search value (teams/leagues)
-        let textQuery = fullQuery;
-        if (typeof METRIC_SYNONYMS !== 'undefined') {
-            Object.values(METRIC_SYNONYMS).forEach(variations => {
-                variations.forEach(variant => {
-                    textQuery = textQuery.replace(variant, '');
+            // Strip the metrics to get the raw textual search value (teams/leagues)
+            let textQuery = fullQuery;
+            if (typeof METRIC_SYNONYMS !== 'undefined') {
+                Object.values(METRIC_SYNONYMS).forEach(variations => {
+                    variations.forEach(variant => {
+                        textQuery = textQuery.replace(variant, '');
+                    });
                 });
+            }
+            textQuery = textQuery.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+
+            // Loop through all quick tags and highlight them if they are part of the query
+            document.querySelectorAll('.quick-tags .quick-tag').forEach(tagBtn => {
+                const tagAttr = (tagBtn.dataset.tag || '').toLowerCase().trim();
+
+                // A tag is active if its canonical name is in the metrics array,
+                // OR if its text value exists inside the remaining textual string query
+                const isMetricActive = currentMetrics.includes(tagAttr);
+                const isTextActive = textQuery.length > 0 && textQuery.includes(tagAttr);
+
+                if (isMetricActive || isTextActive) {
+                    tagBtn.classList.add('active');
+                } else {
+                    tagBtn.classList.remove('active');
+                }
             });
         }
-        textQuery = textQuery.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
-
-        // Loop through all quick tags and highlight them if they are part of the query
-        document.querySelectorAll('.quick-tags .quick-tag').forEach(tagBtn => {
-            const tagAttr = (tagBtn.dataset.tag || '').toLowerCase().trim();
-
-            // A tag is active if its canonical name is in the metrics array,
-            // OR if its text value exists inside the remaining textual string query
-            const isMetricActive = currentMetrics.includes(tagAttr);
-            const isTextActive = textQuery.length > 0 && textQuery.includes(tagAttr);
-
-            if (isMetricActive || isTextActive) {
-                tagBtn.classList.add('active');
-            } else {
-                tagBtn.classList.remove('active');
-            }
-        });
-    }
         function removeFilter(metric) {
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
             let val = input.value.toLowerCase();
             val = val.replace(metric, '').replace(/\s+/g, ' ').trim();
             input.value = val;
@@ -1644,10 +1390,13 @@
         }
 
         function clearSearch() {
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
+            if (!input) return;
             input.value = '';
-            document.getElementById('clearSearchBtn').classList.remove('show');
-            document.getElementById('activeFiltersPills').classList.add('hidden');
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (clearBtn) clearBtn.classList.remove('show');
+            const pills = document.getElementById('activeFiltersPills');
+            if (pills) pills.classList.add('hidden');
             document.querySelectorAll('.quick-tag').forEach(btn => btn.classList.remove('active'));
             applySearch();
             input.focus();
@@ -1660,7 +1409,7 @@
         }
 
         function tagSearch(tag) {
-            const input = document.getElementById('heroSearch');
+            const input = document.getElementById('searchInput');
             const tagLower = tag.toLowerCase();
             const current = input.value.trim();
 
@@ -1676,12 +1425,12 @@
             applySearch();
         }
 
-        const heroSearchEl = document.getElementById('heroSearch');
-        if (heroSearchEl) {
-            heroSearchEl.addEventListener('keydown', function (e) {
+        const searchEl = document.getElementById('searchInput');
+        if (searchEl) {
+            searchEl.addEventListener('keydown', function (e) {
                 if (e.key === 'Enter') triggerHeroSearch();
             });
-            heroSearchEl.addEventListener('input', function () {
+            searchEl.addEventListener('input', function () {
                 applySearch();
                 updateClearButtonVisibility();
                 updateActiveTags();
