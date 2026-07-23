@@ -94,8 +94,19 @@ LEAGUE_DISPLAY_NAMES = {
 
 
 def home(request):
-    today = timezone.now().date()
-    fixtures = get_unique_fixtures(get_sorted_fixtures(today))
+    # Check if a date parameter is provided in the URL query string[cite: 1]
+    date_param = request.GET.get('date')
+    if date_param:
+        try:
+            # Validate format or parse date
+            target_date = timezone.datetime.strptime(
+                date_param, '%Y-%m-%d').date()
+        except ValueError:
+            target_date = timezone.now().date()
+    else:
+        target_date = timezone.now().date()
+
+    fixtures = get_unique_fixtures(get_sorted_fixtures(target_date))
     is_limited = not request.user.is_authenticated
     if is_limited:
         fixtures = fixtures[:GUEST_FIXTURE_LIMIT]
@@ -114,7 +125,6 @@ def home(request):
         'guest_fixture_limit': GUEST_FIXTURE_LIMIT,
         'is_guest_limited': is_limited,
     })
-
 
 def get_unique_fixtures(fixtures):
     unique_fixtures = []
