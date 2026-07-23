@@ -904,8 +904,8 @@
         </div>
         <div class="nav-actions">
             {% if request.user.is_authenticated %}
-            {% if request.user.profile.avatar_url %}
-            <img src="{{ request.user.profile.avatar_url }}" alt="{{ request.user.email }}" class="btn-auth-avatar">
+            {% if request.user.avatar_url %}
+            <img src="{{ request.user.avatar_url }}" alt="{{ request.user.email }}" class="btn-auth-avatar">
             {% else %}
             <span class="btn-auth">{{ request.user.email }}</span>
             {% endif %}
