@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Palmer - AI Powered Football Analysis</title>
-    <meta name="description" content="Palmer - AI Powered Football  Analysis." />
+    <meta name="description" content="Palmer - AI Powered Football Analysis." />
     <meta property="og:image"
         content="https://wkbydktzsevkmxelefxd.supabase.co/storage/v1/object/public/Palmer-AI/og-image-plm.png">
     <meta property="og:image:width" content="1200">
@@ -32,45 +32,6 @@
     {% endif %}
 
     <style>
-        /* ── Active Highlight States ── */
-        .btn-auth-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        /* Standard League Tag Active Highlight */
-        .quick-tag.active {
-            background: #4f46e5 !important;
-            /* Premium Indigo */
-            border-color: #4f46e5 !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-        }
-
-        /* Stat Filter Metric Tag Active Highlight */
-        .quick-tag.stat-tag.active {
-            background: #06b6d4 !important;
-            /* Premium Cyan / Teal Accent */
-            border-color: #06b6d4 !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.25);
-        }
-
-        /* ── Smart Visibility for the Badge ── */
-        /* Keep the layout clean by hiding the remove dot badge until the user hovers over an active tag */
-        .quick-tag .tag-remove {
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-        }
-
-        .quick-tag.active .tag-remove {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
         *,
         *::before,
         *::after {
@@ -109,17 +70,6 @@
             font-weight: 500;
         }
 
-        .brand-icon {
-            width: 32px;
-            height: 32px;
-            background: #1a1a1a;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-        }
-
         .btn-try {
             background: #1a1a1a;
             color: #fff;
@@ -150,6 +100,13 @@
             padding: 8px 16px;
             font-size: 14px;
             font-weight: 500;
+        }
+
+        .btn-auth-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
         }
 
         .guest-limit {
@@ -257,7 +214,6 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            box-shadow: none;
             position: relative;
         }
 
@@ -268,17 +224,9 @@
         }
 
         .quick-tag.stat-tag {
-            border: none;
-            border-color: transparent;
             color: #4a6600;
             background: linear-gradient(135deg, #f0f9e8 0%, #e8f7d8 100%);
             box-shadow: 0 2px 8px rgba(179, 230, 50, 0.12);
-        }
-
-        .quick-tag.stat-tag:hover {
-            background: linear-gradient(135deg, #e8f7d8 0%, #dff4c8 100%);
-            box-shadow: 0 4px 12px rgba(179, 230, 50, 0.18);
-            transform: translateY(-1px);
         }
 
         .quick-tag.active {
@@ -289,25 +237,11 @@
             transform: translateY(-2px);
         }
 
-        .quick-tag.active:hover {
-            background: #0f0f0f;
-            border-color: #0f0f0f;
-            box-shadow: 0 6px 20px rgba(26, 26, 26, 0.35);
-            transform: translateY(-3px);
-        }
-
         .quick-tag.active.stat-tag {
             background: #b9f54d;
             color: #2d3d00;
             border-color: #b9f54d;
             box-shadow: 0 4px 16px rgba(185, 245, 77, 0.35);
-        }
-
-        .quick-tag.active.stat-tag:hover {
-            background: #a8ed33;
-            border-color: #a8ed33;
-            box-shadow: 0 6px 20px rgba(168, 237, 51, 0.4);
-            transform: translateY(-3px);
         }
 
         .quick-tag .tag-remove {
@@ -322,37 +256,16 @@
             border-radius: 50%;
             color: #fff;
             cursor: pointer;
-            padding: 0;
             font-size: 12px;
             font-weight: 700;
-            transition: all 0.15s ease;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0;
             line-height: 1;
             box-shadow: 0 2px 6px rgba(220, 38, 38, 0.3);
         }
 
         .quick-tag.active .tag-remove {
             display: flex;
-        }
-
-        .quick-tag.active .tag-remove:hover {
-            background: #b91c1c;
-            box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
-            transform: scale(1.1);
-        }
-
-        .quick-tag.active.stat-tag .tag-remove {
-            background: #dc2626;
-            border-color: #b9f54d;
-            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
-        }
-
-        .quick-tag.active.stat-tag .tag-remove:hover {
-            background: #b91c1c;
-            box-shadow: 0 3px 8px rgba(220, 38, 38, 0.5);
-            transform: scale(1.1);
         }
 
         /* ── Filter bar ── */
@@ -392,14 +305,6 @@
             height: 38px;
         }
 
-        .search-wrapper input[type="text"]::placeholder {
-            color: #aaa;
-        }
-
-        .search-wrapper input[type="text"]:focus {
-            border-color: rgba(0, 0, 0, 0.3);
-        }
-
         /* ── Date pills ── */
         .date-pill-group {
             display: flex;
@@ -423,18 +328,12 @@
             border-right: 0.5px solid rgba(0, 0, 0, 0.1);
             background: transparent;
             white-space: nowrap;
-            transition: background 0.15s, color 0.15s;
             display: flex;
             align-items: center;
         }
 
         .date-pill:last-child {
             border-right: none;
-        }
-
-        .date-pill:hover {
-            background: #f5f5f5;
-            color: #1a1a1a;
         }
 
         .date-pill.active {
@@ -449,24 +348,26 @@
             overflow: hidden;
         }
 
+        .cal-icon {
+            pointer-events: none;
+        }
+
         #calendarInput {
             position: absolute;
-            opacity: 0;
+            opacity: 0.01;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            margin: 0;
+            border: none;
             cursor: pointer;
             z-index: 2;
         }
 
-        /* ── League group ── */
+        /* ── League group & Cards ── */
         .league-group {
             margin-bottom: 1.25rem;
-        }
-
-        .league-group:last-child {
-            margin-bottom: 0;
         }
 
         .league-header {
@@ -496,7 +397,6 @@
             background: rgba(0, 0, 0, 0.1);
         }
 
-        /* ── Fixture card ── */
         .fixture-card {
             background: #fff;
             border: 0.5px solid rgba(0, 0, 0, 0.1);
@@ -522,10 +422,6 @@
             background: #fafafa;
         }
 
-        .fixture-home {
-            font-size: 14px;
-        }
-
         .fixture-home.winner,
         .fixture-away.winner {
             font-weight: 600;
@@ -538,10 +434,6 @@
             padding: 0 22px;
         }
 
-        .fixture-away {
-            font-size: 14px;
-        }
-
         .fixture-status {
             font-size: 11px;
             color: #aaa;
@@ -550,7 +442,6 @@
             text-align: right;
         }
 
-        /* ── No results ── */
         #no-results {
             display: none;
             color: #888;
@@ -561,7 +452,7 @@
             border-radius: 12px;
         }
 
-        /* ── Modal fix (overrides any BS4 stylesheet conflict) ── */
+        /* ── Modals & Footer ── */
         .modal {
             display: none !important;
             position: fixed !important;
@@ -570,7 +461,6 @@
             width: 100% !important;
             height: 100% !important;
             z-index: 1055 !important;
-            overflow-x: hidden !important;
             overflow-y: auto !important;
         }
 
@@ -584,33 +474,12 @@
             max-width: 500px;
         }
 
-        .modal-dialog.modal-lg {
-            max-width: 800px;
-        }
-
         .modal-content {
-            position: relative;
             background: #fff;
             border-radius: 8px;
             box-shadow: 0 4px 24px rgba(0, 0, 0, 0.18);
         }
 
-        .modal-backdrop {
-            display: none !important;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1050;
-        }
-
-        .modal-backdrop.show {
-            display: block !important;
-        }
-
-        /* ── Modal interior styling ── */
         .modal-header {
             display: flex;
             align-items: center;
@@ -619,57 +488,16 @@
             border-bottom: 0.5px solid rgba(0, 0, 0, 0.1);
         }
 
-        .modal-header.bg-warning {
-            background: #ffc107 !important;
-        }
-
         .modal-title {
             font-size: 16px;
             font-weight: 500;
             margin: 0;
-            color: #1a1a1a;
-        }
-
-        .btn-close {
-            appearance: none;
-            background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3E%3C/svg%3E") center/12px no-repeat;
-            border: none;
-            width: 24px;
-            height: 24px;
-            opacity: 0.5;
-            cursor: pointer;
-            padding: 0;
-            flex-shrink: 0;
-        }
-
-        .btn-close:hover {
-            opacity: 1;
         }
 
         .modal-body {
             padding: 1.25rem;
             font-size: 14px;
-            color: #333;
             line-height: 1.6;
-        }
-
-        .modal-body h6 {
-            font-size: 13px;
-            font-weight: 600;
-            margin: 1rem 0 0.25rem;
-            color: #1a1a1a;
-        }
-
-        .modal-body h6:first-child {
-            margin-top: 0;
-        }
-
-        .modal-body p {
-            margin: 0 0 0.5rem;
-        }
-
-        .modal-body p:last-child {
-            margin-bottom: 0;
         }
 
         .modal-footer {
@@ -680,25 +508,16 @@
             gap: 8px;
         }
 
-        /* ── Footer ── */
         footer {
             background: #f5f5f5;
             padding: 2rem 1rem;
             text-align: center;
         }
 
-        .footer-links {
-            margin-bottom: 0.5rem;
-        }
-
         .footer-links a {
             font-size: 12px;
             color: #888;
             margin: 0 10px;
-        }
-
-        .footer-links a:hover {
-            color: #1a1a1a;
         }
 
         .footer-copy {
@@ -712,41 +531,13 @@
             color: #e74c3c;
             font-weight: 600;
         }
-
-        /* ── Responsive ── */
-        @media (max-width: 540px) {
-            .navbar {
-                padding: 1rem;
-            }
-
-            .filter-bar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .date-pill-group {
-                width: 100%;
-                justify-content: space-between;
-            }
-
-            .fixture-item {
-                grid-template-columns: 1fr auto 1fr;
-            }
-
-            .fixture-status {
-                display: none;
-            }
-        }
     </style>
 </head>
 
 <body>
 
     <nav class="navbar">
-        <div class="navbar-brand">
-            <!-- <div class="brand-icon">⚽</div>  -->
-            Palmer
-        </div>
+        <div class="navbar-brand">Palmer</div>
         <div class="nav-actions">
             {% if request.user.is_authenticated %}
             {% if request.user.avatar_url %}
@@ -775,86 +566,6 @@
                 <p class="hero-sub">Fixtures, scorelines and goal probabilities across 36 leagues — updated daily.</p>
             </div>
 
-            <style>
-                /* ── Base Tag Styling ── */
-                .quick-tag {
-                    position: relative;
-                    /* Essential for containing the absolute badge */
-                    display: inline-flex;
-                    align-items: center;
-                    border: 1px solid #e2e8f0;
-                    background: #ffffff;
-                    color: #334155;
-                    font-size: 0.85rem;
-                    font-weight: 500;
-                    padding: 6px 16px;
-                    /* Balanced padding */
-                    border-radius: 20px;
-                    cursor: pointer;
-                    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-                    white-space: nowrap;
-                    margin-top: 6px;
-                    /* Prevents overlapping when tags wrap */
-                    margin-right: 6px;
-                }
-
-                .quick-tag:hover {
-                    background: #f8fafc;
-                    border-color: #cbd5e1;
-                    color: #0f172a;
-                }
-
-                /* Alternate theme style rule variant specifically targeted to statistical criteria metrics */
-                .quick-tag.stat-tag {
-                    background: #f8fafc;
-                    border-color: #e2e8f0;
-                    color: #4f46e5;
-                }
-
-                .quick-tag.stat-tag:hover {
-                    background: #eef2ff;
-                    border-color: #c7d2fe;
-                }
-
-                /* ── Absolute Corner Badge (The "Remove" Button) ── */
-                .tag-remove {
-                    position: absolute;
-                    top: 0;
-                    left: 100%;
-                    transform: translate(-50%, -50%);
-                    /* Shifts center point precisely onto the corner */
-
-                    border: 1px solid #ffffff;
-                    /* White ring breakout border */
-                    background: #ef4444;
-                    /* High-visibility alert red */
-                    color: #ffffff;
-                    /* Crisp white X icon */
-
-                    font-size: 0.75rem;
-                    font-weight: 700;
-                    width: 18px;
-                    height: 18px;
-                    border-radius: 50%;
-
-                    display: inline-flex;
-                    align-items: center;
-                    justify-content: center;
-                    cursor: pointer;
-                    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-                    transition: all 0.15s ease;
-                    padding: 0;
-                    z-index: 2;
-                }
-
-                .tag-remove:hover {
-                    background: #dc2626;
-                    /* Darker red on hover */
-                    transform: translate(-50%, -50%) scale(1.1);
-                    /* Slight micro-pop animation */
-                }
-            </style>
-
             <div class="filter-bar">
                 <div class="search-wrapper">
                     <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none"
@@ -871,7 +582,6 @@
                 <input type="date" id="calendarInput" />
             </div>
 
-            <div class="active-filters hidden" id="activeFiltersPills"></div>
             <div class="quick-tags">
                 <button class="quick-tag" onclick="tagSearch('Premier League')" data-tag="premier league">
                     🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League
@@ -956,6 +666,11 @@
                 </div>
                 {% endfor %}
                 {% endif %}
+                <div id="no-results">No fixtures found.</div>
+            </div>
+
+            <!-- Guest limit container kept separate at the bottom root block so API dates won't re-order it to the top -->
+            <div id="guestLimitRoot">
                 {% if is_guest_limited %}
                 <div class="guest-limit">
                     <h2>Unlock every fixture on today's board.</h2>
@@ -967,7 +682,6 @@
                     </div>
                 </div>
                 {% endif %}
-                <div id="no-results">No fixtures found.</div>
             </div>
 
         </div>
@@ -984,11 +698,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-
     {% include 'modals/legals.html' %}
 
     <script>
-        // Explicitly init modals with BS5 so any inherited BS4 JS cannot interfere
+        // Modal & initialization script
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('[data-bs-toggle="modal"]').forEach(function (trigger) {
                 trigger.addEventListener('click', function (e) {
@@ -997,11 +710,10 @@
                     if (target) new bootstrap.Modal(target).show();
                 });
             });
+            applySearch();
         });
-    </script>
 
-    <script>
-        // ── Date helpers ──────────────────────────────────────────
+        // Date Helpers & Navigation
         function toYMD(d) {
             return d.getFullYear() + '-' +
                 String(d.getMonth() + 1).padStart(2, '0') + '-' +
@@ -1017,14 +729,17 @@
                 .toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' });
         }
 
-        // ── State ─────────────────────────────────────────────────
+        const urlParams = new URLSearchParams(window.location.search);
+        const initialDate = urlParams.get('date') || toYMD(new Date());
         const todayYMD = toYMD(new Date());
         const pillEls = {};
 
-        // ── Build date pills ──────────────────────────────────────
         const pillGroup = document.getElementById('datePillGroup');
         const calInput = document.getElementById('calendarInput');
-        if (calInput) calInput.max = todayYMD;
+        if (calInput) {
+            calInput.max = todayYMD;
+            calInput.value = initialDate;
+        }
 
         if (pillGroup) {
             for (let i = 2; i >= 0; i--) {
@@ -1032,17 +747,29 @@
                 d.setDate(d.getDate() - i);
                 const ymd = toYMD(d);
                 const btn = document.createElement('button');
-                btn.className = 'date-pill' + (ymd === todayYMD ? ' active' : '');
+                btn.className = 'date-pill' + (ymd === initialDate ? ' active' : '');
                 btn.textContent = labelForDate(ymd);
                 btn.addEventListener('click', () => setActiveDate(ymd, false));
                 pillGroup.appendChild(btn);
                 pillEls[ymd] = btn;
             }
 
-            const calBtn = document.createElement('button');
-            calBtn.className = 'date-pill cal-btn';
+            const calBtn = document.createElement('span');
+            calBtn.className = 'date-pill cal-btn' + (!pillEls[initialDate] ? ' active' : '');
             calBtn.title = 'Pick a date';
-            calBtn.innerHTML = '&#128197;';
+
+            const calIcon = document.createElement('span');
+            calIcon.className = 'cal-icon';
+
+            if (!pillEls[initialDate] && initialDate !== todayYMD) {
+                const label = new Date(initialDate + 'T00:00:00')
+                    .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                calIcon.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
+            } else {
+                calIcon.innerHTML = '&#128197;';
+            }
+
+            calBtn.appendChild(calIcon);
             if (calInput) calBtn.appendChild(calInput);
             pillGroup.appendChild(calBtn);
         }
@@ -1053,20 +780,24 @@
             });
         }
 
-        // ── Fetch & render grouped fixtures ───────────────────────
         function setActiveDate(ymd, fromCal) {
             const calBtn = document.querySelector('.cal-btn');
+            const calIcon = calBtn ? calBtn.querySelector('.cal-icon') : null;
             document.querySelectorAll('.date-pill').forEach(b => b.classList.remove('active'));
-            if (calBtn) calBtn.innerHTML = '&#128197;';
+            if (calIcon) calIcon.innerHTML = '&#128197;';
 
-            if (fromCal && calBtn) {
+            if ((fromCal || !pillEls[ymd]) && calBtn) {
                 calBtn.classList.add('active');
                 const label = new Date(ymd + 'T00:00:00')
                     .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                calBtn.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
+                if (calIcon) calIcon.innerHTML = `&#128197; <span style="font-size:11px;margin-left:4px;">${label}</span>`;
             } else if (pillEls[ymd]) {
                 pillEls[ymd].classList.add('active');
             }
+
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('date', ymd);
+            window.history.pushState({}, '', newUrl);
 
             fetch(`/api/fixtures/?date=${ymd}`)
                 .then(r => r.json())
@@ -1074,49 +805,31 @@
                 .catch(err => console.error('Fixture fetch error:', err));
         }
 
-        // League display name map
+        // League Display Name Map
         const LEAGUE_NAMES = {
-            spain: 'Spain • La Liga',
-            spain2: 'Spain • Segunda División',
-            england: 'England • Premier League',
-            england2: 'England • Championship',
-            france: 'France • Ligue 1',
-            france2: 'France • Ligue 2',
-            germany: 'Germany • Bundesliga',
-            germany2: 'Germany • 2. Bundesliga',
-            italy: 'Italy • Serie A',
-            italy2: 'Italy • Serie B',
-            portgal: 'Portugal • Primeira Liga',
-            netherlands: 'Netherlands • Eredivisie',
-            netherlands2: 'Netherlands • Eerste Divisie',
-            belgium: 'Belgium • First Division A',
-            turkey: 'Turkey • Süper Lig',
-            greece: 'Greece • Super League',
-            scotland: 'Scotland • Premiership',
-            russia: 'Russia • Premier League',
-            ukraine: 'Ukraine • Premier League',
-            czechrepublic: 'Czech Republic • First League',
-            austria: 'Austria • Bundesliga',
-            switzerland: 'Switzerland • Super League',
-            croatia: 'Croatia • Prva HNL',
-            denmark: 'Denmark • Superliga',
-            poland: 'Poland • Ekstraklasa',
-            norway: 'Norway • Eliteserien',
-            norway2: 'Norway • First Division',
-            sweden: 'Sweden • Allsvenskan',
-            sweden2: 'Sweden • Division 2',
-            iceland: 'Iceland • Úrvalsdeild',
-            armenia: 'Armenia • Premier League',
-            belarus: 'Belarus • Premier League',
-            brazil: 'Brazil • Série A',
-            bulgaria: 'Bulgaria • First League',
-            cyprus: 'Cyprus • First Division',
-            finland: 'Finland • Veikkausliiga',
+            spain: 'Spain • La Liga', spain2: 'Spain • Segunda División',
+            england: 'England • Premier League', england2: 'England • Championship',
+            france: 'France • Ligue 1', france2: 'France • Ligue 2',
+            germany: 'Germany • Bundesliga', germany2: 'Germany • 2. Bundesliga',
+            italy: 'Italy • Serie A', italy2: 'Italy • Serie B',
+            portugal: 'Portugal • Primeira Liga', netherlands: 'Netherlands • Eredivisie',
+            netherlands2: 'Netherlands • Eerste Divisie', belgium: 'Belgium • First Division A',
+            turkey: 'Turkey • Süper Lig', greece: 'Greece • Super League',
+            scotland: 'Scotland • Premiership', russia: 'Russia • Premier League',
+            ukraine: 'Ukraine • Premier League', czechrepublic: 'Czech Republic • First League',
+            austria: 'Austria • Bundesliga', switzerland: 'Switzerland • Super League',
+            croatia: 'Croatia • Prva HNL', denmark: 'Denmark • Superliga',
+            poland: 'Poland • Ekstraklasa', norway: 'Norway • Eliteserien',
+            norway2: 'Norway • First Division', sweden: 'Sweden • Allsvenskan',
+            sweden2: 'Sweden • Division 2', iceland: 'Iceland • Úrvalsdeild',
+            armenia: 'Armenia • Premier League', belarus: 'Belarus • Premier League',
+            brazil: 'Brazil • Série A', bulgaria: 'Bulgaria • First League',
+            cyprus: 'Cyprus • First Division', finland: 'Finland • Veikkausliiga'
         };
 
         function leagueLabel(key) {
-            const k = (key || '').toLowerCase().replace(/\s+/g, '');
-            return LEAGUE_NAMES[k] || key;
+            const k = (key || '').toLowerCase().trim();
+            return LEAGUE_NAMES[k] || k.charAt(0).toUpperCase() + k.slice(1);
         }
 
         function renderGrouped(data) {
@@ -1154,7 +867,6 @@
                     const homeW = hs !== '' && as_ !== '' && Number(hs) > Number(as_);
                     const awayW = hs !== '' && as_ !== '' && Number(as_) > Number(hs);
 
-                    // Added metrics data bindings into elements to drive strict probability sorting logic
                     return `
                         <a href="/fixture/${f.fixture_id}/"
                             class="fixture-item"
@@ -1179,99 +891,57 @@
                     </div>
                     <div class="fixture-card">${rows}</div>`;
 
-                if (noRes) {
-                    root.insertBefore(group, noRes);
-                } else {
-                    root.appendChild(group);
-                }
+                root.insertBefore(group, noRes);
             });
 
             applySearch();
         }
 
-
-        // ── Synonym/variation mapping for natural language understanding ──
+        // Search & Metric Filtering
         const METRIC_SYNONYMS = {
-            'over 1.5': [
-                'over 1.5', 'over1.5', 'o1.5', '1.5+',
-                'more than 1.5', 'more than 2 goals', '2+ goals',
-                'two or more goals', 'expect 2 goals',
-                'at least 2 goals', 'above 1.5',
-                'high scoring', 'lots of goals', 'expect goals'
-            ],
-            'over 2.5': [
-                'over 2.5', 'over2.5', 'o2.5', '2.5+',
-                'more than 2.5', 'more than 3 goals', '3+ goals',
-                'three or more goals', 'expect 3 goals',
-                'at least 3 goals', 'above 2.5',
-                'very high scoring', 'lots of goals expected'
-            ],
-            'home win': [
-                'home win', 'home wins', 'home victory',
-                'home team wins', 'home side wins',
-                'hosts win', 'home strong', 'home favorite'
-            ],
-            'away win': [
-                'away win', 'away wins', 'away victory',
-                'away team wins', 'away side wins',
-                'visitors win', 'away strong', 'away upset'
-            ],
-            'draw': [
-                'draw', 'draws', 'tie', 'tied', 'stalemate',
-                'equal score', 'both teams', 'even result'
-            ]
+            'over 1.5': ['over 1.5', 'over1.5', 'o1.5', '1.5+', 'more than 1.5', 'more than 2 goals', '2+ goals', 'at least 2 goals'],
+            'over 2.5': ['over 2.5', 'over2.5', 'o2.5', '2.5+', 'more than 2.5', 'more than 3 goals', '3+ goals', 'at least 3 goals'],
+            'home win': ['home win', 'home wins', 'home victory', 'home team wins', 'hosts win'],
+            'away win': ['away win', 'away wins', 'away victory', 'away team wins', 'visitors win'],
+            'draw': ['draw', 'draws', 'tie', 'tied', 'stalemate']
         };
 
-        // Extract all metric keywords found in query and return their canonical keys
         function extractMetricKeys(q) {
             const found = [];
             Object.entries(METRIC_SYNONYMS).forEach(([canonical, variations]) => {
                 variations.forEach(variant => {
-                    if (q.includes(variant)) {
-                        if (!found.includes(canonical)) found.push(canonical);
-                    }
+                    if (q.includes(variant) && !found.includes(canonical)) found.push(canonical);
                 });
             });
             return found;
         }
 
-        // Show/hide clear button based on input (no-op if the filter-bar has no clear badge)
-        function updateClearButtonVisibility() {
-            const input = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('clearSearchBtn');
-            if (!input || !clearBtn) return;
-            if (input.value.trim()) {
-                clearBtn.classList.add('show');
-            } else {
-                clearBtn.classList.remove('show');
-            }
-        }
-
-        // Update active state of quick tag buttons
         function updateActiveTags() {
             const input = document.getElementById('searchInput');
-            const query = input.value.toLowerCase();
+            if (!input) return;
+            const fullQuery = input.value.toLowerCase().trim();
+            const currentMetrics = extractMetricKeys(fullQuery);
 
-            document.querySelectorAll('.quick-tag').forEach(btn => {
-                const tag = btn.dataset.tag || '';
-                const isActive = tag && query.includes(tag);
+            let textQuery = fullQuery;
+            Object.values(METRIC_SYNONYMS).forEach(variations => {
+                variations.forEach(variant => { textQuery = textQuery.replace(variant, ''); });
+            });
+            textQuery = textQuery.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '').replace(/\s+/g, ' ').trim();
 
-                if (isActive) {
-                    btn.classList.add('active');
+            document.querySelectorAll('.quick-tags .quick-tag').forEach(tagBtn => {
+                const tagAttr = (tagBtn.dataset.tag || '').toLowerCase().trim();
+                if (currentMetrics.includes(tagAttr) || (textQuery.length > 0 && textQuery.includes(tagAttr))) {
+                    tagBtn.classList.add('active');
                 } else {
-                    btn.classList.remove('active');
+                    tagBtn.classList.remove('active');
                 }
             });
         }
 
-        // Remove a tag from search by clicking its X
         function removeTag(event, tagValue) {
             event.stopPropagation();
             const input = document.getElementById('searchInput');
-            let val = input.value;
-            // Use case-insensitive regex to remove the tag
-            val = val.replace(new RegExp('\\b' + tagValue + '\\b', 'i'), '').replace(/\s+/g, ' ').trim();
-            input.value = val;
+            input.value = input.value.replace(new RegExp('\\b' + tagValue + '\\b', 'i'), '').replace(/\s+/g, ' ').trim();
             applySearch();
         }
 
@@ -1280,7 +950,6 @@
             let q = (searchEl2 ? searchEl2.value : '').toLowerCase().trim();
             const noRes = document.getElementById('no-results');
 
-            // 1. Define metric filters (based on canonical keys)
             const rules = {
                 'over 1.5': (el) => parseFloat(el.dataset.pO15) >= 60,
                 'over 2.5': (el) => parseFloat(el.dataset.pO25) >= 60,
@@ -1289,24 +958,15 @@
                 'draw': (el) => parseFloat(el.dataset.pDraw) >= 60
             };
 
-            // 2. Extract metric filters using synonym matching
             const extractedMetrics = extractMetricKeys(q);
             const activeFilters = extractedMetrics.map(key => rules[key]).filter(Boolean);
 
-            // 3. Remove metric keywords from query (both canonical and synonym forms)
             let cleanQ = q;
             Object.values(METRIC_SYNONYMS).forEach(variations => {
-                variations.forEach(variant => {
-                    cleanQ = cleanQ.replace(variant, '');
-                });
+                variations.forEach(variant => { cleanQ = cleanQ.replace(variant, ''); });
             });
+            cleanQ = cleanQ.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '').replace(/\s+/g, ' ').trim();
 
-            // 4. Clean conversational filler words
-            cleanQ = cleanQ.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            // 5. Evaluate fixtures
             document.querySelectorAll('.league-group').forEach(group => {
                 const items = group.querySelectorAll('.fixture-item');
                 let visible = 0;
@@ -1323,89 +983,10 @@
                 group.style.display = visible === 0 ? 'none' : '';
             });
 
-            const anyVisible = [...document.querySelectorAll('.league-group')]
-                .some(g => g.style.display !== 'none');
-
+            const anyVisible = [...document.querySelectorAll('.league-group')].some(g => g.style.display !== 'none');
             if (noRes) noRes.style.display = anyVisible ? 'none' : 'block';
 
-            // 6. Update UI elements
-            updateActiveFiltersPills(extractedMetrics);
-            updateClearButtonVisibility();
             updateActiveTags();
-        }
-
-        function updateActiveFiltersPills(metrics) {
-            // Keep the container node references safe, but completely empty and hide it
-            const container = document.getElementById('activeFiltersPills');
-            if (container) {
-                container.innerHTML = '';
-                container.classList.add('hidden');
-            }
-        }
-
-        function updateActiveTags() {
-            const searchEl2 = document.getElementById('searchInput');
-            if (!searchEl2) return;
-
-            const fullQuery = searchEl2.value.toLowerCase().trim();
-
-            // Re-extract metrics to match current state
-            const currentMetrics = typeof extractMetricKeys === 'function' ? extractMetricKeys(fullQuery) : [];
-
-            // Strip the metrics to get the raw textual search value (teams/leagues)
-            let textQuery = fullQuery;
-            if (typeof METRIC_SYNONYMS !== 'undefined') {
-                Object.values(METRIC_SYNONYMS).forEach(variations => {
-                    variations.forEach(variant => {
-                        textQuery = textQuery.replace(variant, '');
-                    });
-                });
-            }
-            textQuery = textQuery.replace(/\b(matches|with|games|in|and|shows?|has?|probability|goals?|chances?|expected|more|than|above|least)\b/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-
-            // Loop through all quick tags and highlight them if they are part of the query
-            document.querySelectorAll('.quick-tags .quick-tag').forEach(tagBtn => {
-                const tagAttr = (tagBtn.dataset.tag || '').toLowerCase().trim();
-
-                // A tag is active if its canonical name is in the metrics array,
-                // OR if its text value exists inside the remaining textual string query
-                const isMetricActive = currentMetrics.includes(tagAttr);
-                const isTextActive = textQuery.length > 0 && textQuery.includes(tagAttr);
-
-                if (isMetricActive || isTextActive) {
-                    tagBtn.classList.add('active');
-                } else {
-                    tagBtn.classList.remove('active');
-                }
-            });
-        }
-        function removeFilter(metric) {
-            const input = document.getElementById('searchInput');
-            let val = input.value.toLowerCase();
-            val = val.replace(metric, '').replace(/\s+/g, ' ').trim();
-            input.value = val;
-            applySearch();
-        }
-
-        function clearSearch() {
-            const input = document.getElementById('searchInput');
-            if (!input) return;
-            input.value = '';
-            const clearBtn = document.getElementById('clearSearchBtn');
-            if (clearBtn) clearBtn.classList.remove('show');
-            const pills = document.getElementById('activeFiltersPills');
-            if (pills) pills.classList.add('hidden');
-            document.querySelectorAll('.quick-tag').forEach(btn => btn.classList.remove('active'));
-            applySearch();
-            input.focus();
-        }
-
-        function triggerHeroSearch() {
-            applySearch();
-            const fixturesRoot = document.getElementById('fixturesRoot');
-            if (fixturesRoot) fixturesRoot.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
         function tagSearch(tag) {
@@ -1413,7 +994,6 @@
             const tagLower = tag.toLowerCase();
             const current = input.value.trim();
 
-            // If tag is already in the search, remove it; otherwise add it
             if (current.toLowerCase().includes(tagLower)) {
                 input.value = current.toLowerCase().replace(tagLower, '').replace(/\s+/g, ' ').trim();
             } else if (!current) {
@@ -1421,27 +1001,21 @@
             } else {
                 input.value = current + ' ' + tag;
             }
-
             applySearch();
         }
 
         const searchEl = document.getElementById('searchInput');
         if (searchEl) {
             searchEl.addEventListener('keydown', function (e) {
-                if (e.key === 'Enter') triggerHeroSearch();
+                if (e.key === 'Enter') {
+                    applySearch();
+                    document.getElementById('fixturesRoot').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
             });
             searchEl.addEventListener('input', function () {
                 applySearch();
-                updateClearButtonVisibility();
-                updateActiveTags();
             });
         }
-
-        document.addEventListener('DOMContentLoaded', function () {
-            applySearch();
-            updateClearButtonVisibility();
-            updateActiveTags();
-        });
     </script>
 
 </body>
