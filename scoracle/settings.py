@@ -87,6 +87,7 @@ TEMPLATES = [
                 "django.contrib.messages.context_processors.messages",
                 "social_django.context_processors.backends",
                 "social_django.context_processors.login_redirect",
+                "scoracle.context_processors.google_analytics",
             ],
         },
     },
@@ -198,3 +199,6 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
     'main.utils.save_google_profile',
 )
+
+
+GA_MEASUREMENT_ID = env('GA_MEASUREMENT_ID', default='')

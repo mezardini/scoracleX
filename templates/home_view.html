@@ -18,9 +18,24 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" />
+    {% if GA_MEASUREMENT_ID %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ GA_MEASUREMENT_ID }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', '{{ GA_MEASUREMENT_ID }}');
+    </script>
+    {% endif %}
 
     <style>
         /* ── Active Highlight States ── */
+    .btn-auth-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
 /* Standard League Tag Active Highlight */
 .quick-tag.active {
@@ -889,7 +904,11 @@
         </div>
         <div class="nav-actions">
             {% if request.user.is_authenticated %}
+            {% if request.user.profile.avatar_url %}
+            <img src="{{ request.user.profile.avatar_url }}" alt="{{ request.user.email }}" class="btn-auth-avatar">
+            {% else %}
             <span class="btn-auth">{{ request.user.email }}</span>
+            {% endif %}
             <a href="{% url 'logout' %}" class="btn-try">Logout</a>
             {% else %}
             <a href="{% url 'login' %}" class="btn-auth">Login</a>
